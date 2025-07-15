@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Clock, User, ExternalLink, Briefcase, TrendingUp, Users, Zap } from 'lucide-react';
+import { ArrowRight, Clock, User, ExternalLink, Briefcase, TrendingUp, Users, Zap, MapPin } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -165,43 +165,58 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <Card>
-              <CardContent>
-                <div className="space-y-6">
-                  {latestJobs.map((job, index) => (
-                    <div key={job.id} className={`flex items-center justify-between py-4 ${index !== latestJobs.length - 1 ? 'border-b border-gray-100' : ''}`}>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-lg font-semibold text-gray-900">{job.title}</h3>
-                          <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                            {job.type}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
-                          <span className="font-medium">{job.company}</span>
-                          <span>•</span>
-                          <span>{job.location}</span>
-                          <span>•</span>
-                          <span>{formatRelativeDate(job.postedAt)}</span>
-                        </div>
+          {/* Mobile-first responsive grid layout */}
+          <div className="max-w-6xl mx-auto">
+            {/* Grid layout for job cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {latestJobs.map((job) => (
+                <Card key={job.id} className="h-full flex flex-col overflow-hidden">
+                  <CardContent className="p-6 flex-1 flex flex-col">
+                    {/* Job header */}
+                    <div className="mb-4">
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 flex-1">
+                          {job.title}
+                        </h3>
+                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap flex-shrink-0">
+                          {job.type}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Button variant="outline" size="sm" asChild>
-                          <a href={job.url} target="_blank" rel="noopener noreferrer">
-                            Apply Now
-                            <ExternalLink className="ml-1 h-4 w-4" />
-                          </a>
-                        </Button>
+
+                      {/* Company info */}
+                      <div className="space-y-1 text-sm text-gray-600">
+                        <div className="flex items-center gap-2">
+                          <Briefcase className="h-4 w-4 flex-shrink-0" />
+                          <span className="font-medium truncate">{job.company}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{job.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{formatRelativeDate(job.postedAt)}</span>
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
 
-            <div className="text-center mt-8">
-              <Button variant="outline" size="lg">
+                    {/* Apply button - pushed to bottom */}
+                    <div className="mt-auto">
+                      <Button variant="outline" size="sm" className="w-full" asChild>
+                        <a href={job.url} target="_blank" rel="noopener noreferrer">
+                          Apply Now
+                          <ExternalLink className="ml-1 h-4 w-4" />
+                        </a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* View more button */}
+            <div className="text-center">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto">
                 View More Jobs
                 <ExternalLink className="ml-2 h-5 w-5" />
               </Button>
