@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+// import { Toaster } from "@/components/ui/toaster";
+// import { Toaster as Sonner } from "@/components/ui/sonner";
+// import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
-const inter = Inter({
+const inter = Inter({ 
   subsets: ["latin"],
   variable: "--font-inter",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -16,19 +20,10 @@ export const metadata: Metadata = {
   keywords: ["remote work", "productivity", "work from home", "distributed teams", "remote jobs"],
   authors: [{ name: "Alex Johnson" }],
   creator: "Alex Johnson",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://remotework.com",
-    title: "RemoteWork - Remote work made simple",
-    description: "Your trusted resource for remote work tips, productivity strategies, and the latest opportunities in the distributed work landscape.",
-    siteName: "RemoteWork",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "RemoteWork - Remote work made simple",
-    description: "Your trusted resource for remote work tips, productivity strategies, and the latest opportunities in the distributed work landscape.",
-    creator: "@alexjohnson",
+  publisher: "RemoteWork",
+  metadataBase: new URL('https://remotework.com'),
+  alternates: {
+    canonical: '/',
   },
   robots: {
     index: true,
@@ -36,22 +31,70 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://remotework.com',
+    title: 'RemoteWork - Remote work made simple',
+    description: 'Your trusted resource for remote work tips, productivity strategies, and the latest opportunities in the distributed work landscape.',
+    siteName: 'RemoteWork',
+    images: [
+      {
+        url: '/images/og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'RemoteWork - Remote work made simple',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RemoteWork - Remote work made simple',
+    description: 'Your trusted resource for remote work tips, productivity strategies, and the latest opportunities in the distributed work landscape.',
+    creator: '@alexjohnson',
+    images: ['/images/og-default.jpg'],
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="font-sans antialiased">
-        {children}
+      <head>
+        {/* Preconnect to external domains for performance */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+        {/* Favicon and app icons */}
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Theme color for mobile browsers */}
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="msapplication-TileColor" content="#3b82f6" />
+
+        {/* Viewport optimization */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+        {/* Performance hints */}
+        <link rel="preload" href="/images/hero-remote-work.jpg" as="image" />
+      </head>
+      <body className={`${inter.className} antialiased`}>
+        {/* <TooltipProvider> */}
+          {/* <Toaster /> */}
+          {/* <Sonner /> */}
+          {children}
+        {/* </TooltipProvider> */}
       </body>
     </html>
   );
