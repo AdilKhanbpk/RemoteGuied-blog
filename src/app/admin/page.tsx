@@ -1,58 +1,111 @@
-import React from 'react';
-import { FileText, Eye, MessageCircle, TrendingUp, Plus, Edit } from 'lucide-react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { FileText, Eye, MessageCircle, TrendingUp, Plus, Edit, Loader2, Users } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { blogPosts } from '@/data/blog-posts';
-import { formatDate, formatRelativeDate } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
-import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Admin Dashboard - RemoteWork',
-  description: 'Admin panel for managing RemoteWork blog content',
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
+interface DashboardStats {
+  totalPosts: number;
+  publishedPosts: number;
+  draftPosts: number;
+  totalAuthors: number;
+  recentPosts: any[];
+}
 
 const AdminDashboard: React.FC = () => {
-  const recentPosts = blogPosts.slice(0, 5);
-  const totalPosts = blogPosts.length;
-  const publishedPosts = blogPosts.length;
-  const draftPosts = 0; // In a real app, this would be calculated from actual data
+  const [stats, setStats] = useState<DashboardStats>({
+    totalPosts: 0,
+    publishedPosts: 0,
+    draftPosts: 0,
+    totalAuthors: 0,
+    recentPosts: []
+  });
+  const [loading, setLoading] = useState(true);
 
-  const stats = [
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true);
+
+      // Load posts statistics
+      const [postsResponse, authorsResponse] = await Promise.all([
+        fetch('/api/admin/posts'),
+        fetch('/api/admin/authors')
+      ]);
+
+      if (postsResponse.ok && authorsResponse.ok) {
+        const postsData = await postsResponse.json();
+        const authorsData = await authorsResponse.json();
+
+        const posts = postsData.posts || [];
+        const publishedCount = posts.filter((p: any) => p.status === 'published').length;
+        const draftCount = posts.filter((p: any) => p.status === 'draft').length;
+
+        setStats({
+          totalPosts: posts.length,
+          publishedPosts: publishedCount,
+          draftPosts: draftCount,
+          totalAuthors: authorsData.length,
+          recentPosts: posts.slice(0, 5)
+        });
+      }
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const dashboardStats = [
     {
       name: 'Total Posts',
-      value: totalPosts,
+      value: stats.totalPosts,
       icon: FileText,
       color: 'bg-blue-500',
-      change: '+2 this week'
+      change: `${stats.totalPosts} total`
     },
     {
       name: 'Published',
-      value: publishedPosts,
+      value: stats.publishedPosts,
       icon: Eye,
       color: 'bg-green-500',
-      change: '+1 this week'
+      change: 'Live posts'
     },
     {
       name: 'Drafts',
-      value: draftPosts,
+      value: stats.draftPosts,
       icon: Edit,
       color: 'bg-yellow-500',
-      change: '1 pending'
+      change: 'Pending review'
     },
     {
-      name: 'Comments',
-      value: 24,
-      icon: MessageCircle,
+      name: 'Authors',
+      value: stats.totalAuthors,
+      icon: Users,
       color: 'bg-purple-500',
-      change: '+5 today'
+      change: 'Active writers'
     }
   ];
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600" />
+            <p className="text-gray-600">Loading dashboard...</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>
@@ -73,7 +126,7 @@ const AdminDashboard: React.FC = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat) => (
+          {dashboardStats.map((stat) => (
             <Card key={stat.name}>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -104,34 +157,49 @@ const AdminDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {recentPosts.map((post) => (
-                  <div key={post.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900 text-sm line-clamp-1">
-                        {post.title}
-                      </h3>
-                      <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
-                        <span>{formatDate(post.publishedAt)}</span>
-                        <span>•</span>
-                        <span>{post.category}</span>
-                        <span>•</span>
-                        <span>{post.readingTime} min read</span>
+                {stats.recentPosts.length > 0 ? (
+                  stats.recentPosts.map((post) => (
+                    <div key={post.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900 text-sm line-clamp-1">
+                          {post.title}
+                        </h3>
+                        <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
+                          <span>{formatDate(post.published_at || post.created_at)}</span>
+                          <span>•</span>
+                          <span>{post.category}</span>
+                          <span>•</span>
+                          <span>{post.reading_time} min read</span>
+                          <span>•</span>
+                          <span className={`px-2 py-1 rounded-full ${
+                            post.status === 'published'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {post.status}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" asChild>
+                          <Link href={`/blog/${post.slug}`} target="_blank">
+                            <Eye className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <Button variant="ghost" size="sm" asChild>
+                          <Link href={`/admin/posts/${post.id}`}>
+                            <Edit className="h-4 w-4" />
+                          </Link>
+                        </Button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/blog/${post.slug}`} target="_blank">
-                          <Eye className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/admin/posts/${post.id}`}>
-                          <Edit className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <p>No posts yet. Create your first post!</p>
                   </div>
-                ))}
+                )}
               </div>
             </CardContent>
           </Card>

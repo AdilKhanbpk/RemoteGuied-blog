@@ -6,7 +6,7 @@ import { Save, Eye, ArrowLeft, Upload, X, Trash2 } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { blogPosts, categories } from '@/data/blog-posts';
+// Removed static data import - now using database
 import { generateSlug } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -49,24 +49,32 @@ const EditPostPage: React.FC<EditPostPageProps> = ({ params }) => {
 
   useEffect(() => {
     const loadPost = async () => {
-      const { id } = await params;
-      const foundPost = blogPosts.find(p => p.id === id);
-      
-      if (foundPost) {
-        setPost(foundPost);
-        setFormData({
-          title: foundPost.title,
-          slug: foundPost.slug,
-          excerpt: foundPost.excerpt,
-          content: foundPost.content,
-          category: foundPost.category,
-          tags: foundPost.tags,
-          featuredImage: foundPost.featuredImage,
-          featured: foundPost.featured,
-          status: 'published' // Assuming existing posts are published
-        });
+      try {
+        const { id } = await params;
+        const response = await fetch(`/api/admin/posts/${id}`);
+
+        if (response.ok) {
+          const foundPost = await response.json();
+          setPost(foundPost);
+          setFormData({
+            title: foundPost.title,
+            slug: foundPost.slug,
+            excerpt: foundPost.excerpt,
+            content: foundPost.content,
+            category: foundPost.category,
+            tags: foundPost.tags || [],
+            featuredImage: foundPost.featured_image || '',
+            featured: foundPost.featured,
+            status: foundPost.status
+          });
+        } else {
+          console.error('Post not found');
+        }
+      } catch (error) {
+        console.error('Error loading post:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     loadPost();

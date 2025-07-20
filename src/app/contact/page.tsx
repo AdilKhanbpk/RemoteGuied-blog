@@ -135,7 +135,7 @@ const ContactPage: React.FC = () => {
                           id="name"
                           value={formData.name}
                           onChange={(e) => handleInputChange('name', e.target.value)}
-                          className={`form-input ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                          className={`w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out bg-white text-gray-900 hover:border-gray-400 ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                           placeholder="Your full name"
                         />
                         {errors.name && (
@@ -152,7 +152,7 @@ const ContactPage: React.FC = () => {
                           id="email"
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className={`form-input ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                          className={`w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out bg-white text-gray-900 hover:border-gray-400 ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                           placeholder="your.email@example.com"
                         />
                         {errors.email && (
@@ -168,7 +168,7 @@ const ContactPage: React.FC = () => {
                           id="message"
                           value={formData.message}
                           onChange={(e) => handleInputChange('message', e.target.value)}
-                          className={`form-input form-textarea ${errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                          className={`w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out bg-white text-gray-900 hover:border-gray-400 resize-none min-h-[120px] ${errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                           rows={6}
                           placeholder="Tell me about your remote work challenges, questions, or collaboration ideas..."
                         />

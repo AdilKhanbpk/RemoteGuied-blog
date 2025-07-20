@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal, Loader2 } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { blogPosts, categories } from '@/data/blog-posts';
 import { formatDate } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
@@ -14,9 +13,35 @@ const PostsManagement: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>(['All']);
 
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesSearch = searchQuery === '' || 
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const loadPosts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/admin/posts');
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data.posts || []);
+
+        // Extract unique categories
+        const uniqueCategories = [...new Set(data.posts?.map((p: any) => p.category) || [])];
+        setCategories(['All', ...uniqueCategories.sort()]);
+      }
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = searchQuery === '' ||
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
@@ -47,6 +72,19 @@ const PostsManagement: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600" />
+            <p className="text-gray-600">Loading posts...</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -54,7 +92,7 @@ const PostsManagement: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Posts</h1>
-            <p className="text-gray-600">Manage your blog posts and articles</p>
+            <p className="text-gray-600">Manage your blog posts and articles ({posts.length} total)</p>
           </div>
           <Button asChild>
             <Link href="/admin/posts/new">
@@ -76,7 +114,7 @@ const PostsManagement: React.FC = () => {
                   placeholder="Search posts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="form-input pl-10"
+                  className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out bg-white text-gray-900 hover:border-gray-400"
                 />
               </div>
 
@@ -86,7 +124,7 @@ const PostsManagement: React.FC = () => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="form-input min-w-[150px]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out bg-white text-gray-900 hover:border-gray-400 cursor-pointer min-w-[150px]"
                 >
                   {categories.map((category) => (
                     <option key={category} value={category}>

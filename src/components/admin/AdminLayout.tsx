@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Plus, 
-  Settings, 
-  LogOut, 
-  Menu, 
+import { usePathname, useRouter } from 'next/navigation';
+import {
+  LayoutDashboard,
+  FileText,
+  Plus,
+  Settings,
+  LogOut,
+  Menu,
   X,
   User,
   BarChart3
@@ -31,7 +31,33 @@ const navigation = [
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true);
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        // Redirect to login page
+        router.push('/admin/login');
+        router.refresh();
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -97,9 +123,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <p className="text-xs text-gray-500">Administrator</p>
             </div>
           </div>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-gray-700">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start text-gray-700 hover:text-red-600 hover:bg-red-50"
+            onClick={handleSignOut}
+            disabled={isSigningOut}
+          >
             <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
+            {isSigningOut ? 'Signing Out...' : 'Sign Out'}
           </Button>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next';
-import { blogPosts } from '@/data/blog-posts';
+import { getSitemapData } from '@/lib/database';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://remotework.com';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   
   // Static pages
   const staticPages = [
@@ -44,10 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Blog post pages
+  // Dynamic blog post pages from database
+  const blogPosts = await getSitemapData();
   const blogPages = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.publishedAt),
+    lastModified: new Date(post.updated_at || post.published_at),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));

@@ -55,6 +55,27 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+
+  // ISR and caching configuration
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap',
+      },
+    ];
+  },
+
+  // Redirect configuration for SEO
+  async redirects() {
+    return [
+      {
+        source: '/posts/:slug*',
+        destination: '/blog/:slug*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

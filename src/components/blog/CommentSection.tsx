@@ -1,67 +1,94 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MessageCircle, Reply, User, Calendar } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MessageCircle, Reply, User, Calendar, Send, AlertCircle, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { Comment } from '@/types/blog';
 import { formatRelativeDate } from '@/lib/utils';
+
+interface Comment {
+  id: string;
+  author: string;
+  email: string;
+  content: string;
+  created_at: string;
+  parent_id?: string;
+  replies?: Comment[];
+}
 
 interface CommentSectionProps {
   postId: string;
 }
 
-// Mock comments data - in a real app, this would come from an API
-const mockComments: Comment[] = [
-  {
-    id: '1',
-    postId: '1',
-    author: 'Sarah Johnson',
-    email: 'sarah@example.com',
-    content: 'This is such a comprehensive guide! I especially loved the section about creating a dedicated workspace. It made a huge difference in my productivity.',
-    createdAt: '2024-01-16',
-    replies: [
-      {
-        id: '2',
-        postId: '1',
-        author: 'Mike Chen',
-        email: 'mike@example.com',
-        content: 'I agree! Having a dedicated space really helps with the mental separation between work and personal time.',
-        createdAt: '2024-01-16',
-      }
-    ]
-  },
-  {
-    id: '3',
-    postId: '1',
-    author: 'Emily Rodriguez',
-    email: 'emily@example.com',
-    content: 'The Pomodoro Technique has been a game-changer for me. Thanks for the detailed explanation of how to implement it effectively!',
-    createdAt: '2024-01-17',
-  }
-];
-
 const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
-  const [comments, setComments] = useState<Comment[]>(mockComments.filter(c => c.postId === postId));
-  const [newComment, setNewComment] = useState({ name: '', email: '', content: '' });
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [newComment, setNewComment] = useState({ author: '', email: '', content: '' });
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState('');
+  const [replyForm, setReplyForm] = useState({ author: '', email: '' });
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleSubmitComment = (e: React.FormEvent) => {
+  // Load comments on component mount
+  useEffect(() => {
+    loadComments();
+  }, [postId]);
+
+  const loadComments = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/comments?postId=${postId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+      }
+    } catch (error) {
+      console.error('Error loading comments:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.name || !newComment.email || !newComment.content) return;
+    if (!newComment.author.trim() || !newComment.email.trim() || !newComment.content.trim()) {
+      return;
+    }
 
-    const comment: Comment = {
-      id: Date.now().toString(),
-      postId,
-      author: newComment.name,
-      email: newComment.email,
-      content: newComment.content,
-      createdAt: new Date().toISOString().split('T')[0],
-    };
+    setSubmitting(true);
+    setMessage(null);
 
-    setComments([...comments, comment]);
-    setNewComment({ name: '', email: '', content: '' });
+    try {
+      const response = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId,
+          author: newComment.author,
+          email: newComment.email,
+          content: newComment.content,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage({ type: 'success', text: data.message || 'Comment submitted successfully!' });
+        setNewComment({ author: '', email: '', content: '' });
+        // Reload comments to show the new one (if approved)
+        await loadComments();
+      } else {
+        const errorData = await response.json();
+        setMessage({ type: 'error', text: errorData.error || 'Failed to submit comment' });
+      }
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+      setMessage({ type: 'error', text: 'Network error. Please try again.' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleSubmitReply = (parentId: string) => {

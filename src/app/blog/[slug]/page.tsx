@@ -9,7 +9,8 @@ import Button from '@/components/ui/Button';
 import CommentSection from '@/components/blog/CommentSection';
 import JobSidebar from '@/components/blog/JobSidebar';
 import SocialShareButtons from '@/components/blog/SocialShareButtons';
-import { blogPosts } from '@/data/blog-posts';
+import ViewTracker from '@/components/blog/ViewTracker';
+import { getPostBySlug, getAllPosts } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
 import { generateBlogPostMetadata, generateStructuredData } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -23,11 +24,15 @@ interface BlogPostPageProps {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find(p => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
       title: 'Post Not Found',
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -36,14 +41,18 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
+// Enable ISR (Incremental Static Regeneration)
+export const revalidate = 3600; // Revalidate every hour
+
 const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
   const { slug } = await params;
-  const post = blogPosts.find(p => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -51,8 +60,21 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 
   const shareUrl = `https://remotework.com/blog/${post.slug}`;
 
+  // Get related posts (same category, excluding current post)
+  const allPosts = await getAllPosts();
+  const relatedPosts = allPosts
+    .filter(p => p.category === post.category && p.id !== post.id)
+    .slice(0, 3);
+
   return (
     <Layout>
+      {/* View Tracker */}
+      <ViewTracker
+        postSlug={post.slug}
+        postTitle={post.title}
+        category={post.category}
+      />
+
       {/* Structured Data */}
       <script
         type="application/ld+json"
@@ -74,40 +96,73 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
       </div>
 
       {/* Article Header */}
-      <article className="py-12">
+      <article className="py-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Main Content */}
-            <div className="lg:col-span-3 max-w-4xl">
-            {/* Category and Meta Info */}
-            <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
-                {post.category}
-              </span>
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>{formatDate(post.publishedAt)}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>{post.readingTime} min read</span>
-              </div>
-            </div>
+            <div className="lg:col-span-3">
+              <div className="max-w-4xl mx-auto">
+                {/* Category Badge */}
+                <div className="mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    {post.category}
+                  </span>
+                </div>
 
-            {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              {post.title}
-            </h1>
+                {/* Title - More Professional Size */}
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                  {post.title}
+                </h1>
 
-            {/* Excerpt */}
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              {post.excerpt}
-            </p>
+                {/* Meta Info */}
+                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-6 pb-6 border-b border-gray-200">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                      <User className="h-4 w-4 text-gray-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">{post.author.name}</p>
+                      <p className="text-xs text-gray-500">Author</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-4 w-4" />
+                    <span>{formatDate(post.publishedAt)}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{post.readingTime} min read</span>
+                  </div>
+                  {post.featured && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      Featured
+                    </span>
+                  )}
+                </div>
 
-            {/* Featured Image */}
-            <div className="aspect-video bg-gradient-to-br from-blue-100 to-indigo-200 rounded-xl mb-8 flex items-center justify-center">
-              <Briefcase className="h-16 w-16 text-blue-600" />
-            </div>
+                {/* Excerpt */}
+                <div className="mb-8">
+                  <p className="text-lg text-gray-700 leading-relaxed font-light">
+                    {post.excerpt}
+                  </p>
+                </div>
+
+                {/* Featured Image */}
+                {post.featuredImage ? (
+                  <div className="mb-10">
+                    <div className="relative overflow-hidden rounded-xl shadow-lg">
+                      <img
+                        src={post.featuredImage}
+                        alt={post.title}
+                        className="w-full h-64 md:h-80 object-cover"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="aspect-video bg-gradient-to-br from-blue-100 to-indigo-200 rounded-xl mb-10 flex items-center justify-center">
+                    <Briefcase className="h-16 w-16 text-blue-600" />
+                  </div>
+                )}
 
             {/* Author Info and Social Share */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 p-6 bg-gray-50 rounded-xl">
@@ -170,25 +225,25 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
                   </span>
                 ))}
               </div>
-            </div>
+              </div>
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
-              <JobSidebar />
+              <div className="sticky top-8">
+                <JobSidebar />
+              </div>
             </div>
           </div>
         </div>
       </article>
 
-      {/* Related Posts */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {blogPosts
-                .filter(p => p.id !== post.id && p.category === post.category)
+              {relatedPosts
                 .slice(0, 2)
                 .map((relatedPost) => (
                   <Card key={relatedPost.id}>
@@ -219,7 +274,6 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
         </div>
       </section>
 
-      {/* Comments Section */}
       <CommentSection postId={post.id} />
     </Layout>
   );
