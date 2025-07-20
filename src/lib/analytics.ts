@@ -89,6 +89,77 @@ export const trackSearch = (query: string, resultsCount: number) => {
   trackEvent('search', 'Blog', query, resultsCount);
 };
 
+// Performance monitoring
+export const trackPerformance = () => {
+  if (typeof window === 'undefined' || !window.performance) return;
+
+  // Track Core Web Vitals
+  const observer = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+      if (entry.entryType === 'largest-contentful-paint') {
+        trackEvent('lcp', 'Performance', 'largest_contentful_paint', Math.round(entry.startTime));
+      }
+      if (entry.entryType === 'first-input') {
+        trackEvent('fid', 'Performance', 'first_input_delay', Math.round(entry.processingStart - entry.startTime));
+      }
+      if (entry.entryType === 'layout-shift' && !entry.hadRecentInput) {
+        trackEvent('cls', 'Performance', 'cumulative_layout_shift', Math.round(entry.value * 1000));
+      }
+    }
+  });
+
+  try {
+    observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+  } catch (e) {
+    // Ignore if not supported
+  }
+
+  // Track page load time
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      if (navigation) {
+        const loadTime = navigation.loadEventEnd - navigation.fetchStart;
+        trackEvent('page_load_time', 'Performance', window.location.pathname, Math.round(loadTime));
+      }
+    }, 0);
+  });
+};
+
+// Track user engagement
+export const trackEngagement = () => {
+  let startTime = Date.now();
+  let isActive = true;
+
+  const trackTimeOnPage = () => {
+    if (isActive) {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      if (timeSpent > 0 && timeSpent % 30 === 0) { // Every 30 seconds
+        trackEvent('time_on_page', 'Engagement', window.location.pathname, timeSpent);
+      }
+    }
+  };
+
+  // Track active/inactive states
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      isActive = false;
+    } else {
+      isActive = true;
+      startTime = Date.now(); // Reset timer when user returns
+    }
+  });
+
+  // Track time spent every 30 seconds
+  setInterval(trackTimeOnPage, 30000);
+
+  // Track final time on page before leaving
+  window.addEventListener('beforeunload', () => {
+    const timeSpent = Math.round((Date.now() - startTime) / 1000);
+    trackEvent('session_duration', 'Engagement', window.location.pathname, timeSpent);
+  });
+};
+
 // Performance monitoring utilities
 export function measurePerformance(name: string, fn: () => void) {
   if (typeof window !== 'undefined' && 'performance' in window) {
