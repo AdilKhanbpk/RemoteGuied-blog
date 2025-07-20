@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button';
 import CommentSection from '@/components/blog/CommentSection';
 import JobSidebar from '@/components/blog/JobSidebar';
 import SocialShareButtons from '@/components/blog/SocialShareButtons';
-import ViewTracker from '@/components/blog/ViewTracker';
+// ViewTracker temporarily removed - will add analytics differently
 import { getPostBySlug, getAllPosts } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
 import { generateBlogPostMetadata, generateStructuredData } from '@/lib/seo';
@@ -68,13 +68,6 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 
   return (
     <Layout>
-      {/* View Tracker */}
-      <ViewTracker
-        postSlug={post.slug}
-        postTitle={post.title}
-        category={post.category}
-      />
-
       {/* Structured Data */}
       <script
         type="application/ld+json"
@@ -224,6 +217,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
                     #{tag}
                   </span>
                 ))}
+              </div>
               </div>
               </div>
             </div>
