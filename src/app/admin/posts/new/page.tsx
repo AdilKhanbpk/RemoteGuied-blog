@@ -6,7 +6,8 @@ import { Save, Eye, ArrowLeft, Upload, X, AlertCircle } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import ImageUpload from '@/components/admin/ImageUpload';
+import RichTextEditor from '@/components/editor/RichTextEditor';
+import ImageUpload from '@/components/ui/ImageUpload';
 import { generateSlug } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -310,15 +311,14 @@ const NewPostPage: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-900">Content *</h3>
               </CardHeader>
               <CardContent>
-                <textarea
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out bg-white text-gray-900 hover:border-gray-400 resize-none font-mono text-sm"
-                  rows={20}
-                  placeholder="Write your post content in Markdown format..."
+                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                  placeholder="Write your blog post content here. Use the toolbar to format text, add images, and create links..."
+                  height="500px"
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  You can use Markdown syntax for formatting. Preview will be available after saving.
+                  Images will be automatically uploaded to Cloudinary. Links and formatting are supported.
                 </p>
               </CardContent>
             </Card>
@@ -432,6 +432,7 @@ const NewPostPage: React.FC = () => {
                   onChange={(url) => setFormData(prev => ({ ...prev, featuredImage: url }))}
                   onRemove={() => setFormData(prev => ({ ...prev, featuredImage: '' }))}
                   disabled={isSubmitting}
+                  folder="blog-featured"
                 />
               </CardContent>
             </Card>

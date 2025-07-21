@@ -6,6 +6,8 @@ import { Save, Eye, ArrowLeft, Upload, X, Trash2 } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import RichTextEditor from '@/components/editor/RichTextEditor';
+import ImageUpload from '@/components/ui/ImageUpload';
 // Removed static data import - now using database
 import { generateSlug } from '@/lib/utils';
 import Link from 'next/link';
@@ -283,13 +285,15 @@ const EditPostPage: React.FC<EditPostPageProps> = ({ params }) => {
                 <h3 className="text-lg font-semibold text-gray-900">Content *</h3>
               </CardHeader>
               <CardContent>
-                <textarea
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  className="form-input form-textarea font-mono"
-                  rows={20}
-                  placeholder="Write your post content in Markdown format..."
+                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                  placeholder="Edit your blog post content here. Use the toolbar to format text, add images, and create links..."
+                  height="500px"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Images will be automatically uploaded to Cloudinary. Links and formatting are supported.
+                </p>
               </CardContent>
             </Card>
           </div>
