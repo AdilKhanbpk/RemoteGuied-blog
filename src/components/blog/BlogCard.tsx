@@ -103,8 +103,8 @@ const BlogCard = ({
       <div className={`p-4 sm:p-5 ${featured ? 'lg:p-6 xl:p-8' : 'lg:p-6'}`}>
         <h3 className={`font-semibold text-content-primary group-hover:text-primary transition-colors duration-300 mb-2 sm:mb-3 leading-tight ${
           featured
-            ? 'text-lg sm:text-xl lg:text-2xl xl:text-3xl'
-            : 'text-base sm:text-lg lg:text-xl'
+            ? 'text-base sm:text-lg lg:text-xl xl:text-2xl'
+            : 'text-sm sm:text-base lg:text-lg'
         }`}
             style={{
               display: '-webkit-box',
@@ -117,8 +117,8 @@ const BlogCard = ({
 
         <p className={`text-content-body mb-3 sm:mb-4 leading-relaxed ${
           featured
-            ? 'text-base sm:text-lg lg:text-xl'
-            : 'text-sm sm:text-base'
+            ? 'text-sm sm:text-base lg:text-lg'
+            : 'text-xs sm:text-sm'
         }`}
            style={{
              display: '-webkit-box',
@@ -130,7 +130,7 @@ const BlogCard = ({
         </p>
 
         {/* Meta Information */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-content-caption text-xs sm:text-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-content-caption text-xs">
           <div className="flex items-center space-x-3 sm:space-x-4">
             <div className="flex items-center space-x-1">
               <User className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -141,11 +141,11 @@ const BlogCard = ({
               <span>{readTime}</span>
             </div>
           </div>
-          <span className="text-xs sm:text-sm">{publishDate}</span>
+          <span className="text-xs">{publishDate}</span>
         </div>
 
         {/* Read More CTA */}
-        <div className="flex items-center text-primary font-medium mt-3 sm:mt-4 group-hover:gap-2 transition-all duration-300 text-sm sm:text-base">
+        <div className="flex items-center text-primary font-medium mt-3 sm:mt-4 group-hover:gap-2 transition-all duration-300 text-sm">
           <span>Read Article</span>
           <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </div>

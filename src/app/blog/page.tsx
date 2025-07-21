@@ -45,11 +45,11 @@ const BlogPage = async () => {
       <Layout>
         <div className="container mx-auto px-4 py-8">
           {/* Hero Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Remote Work Blog
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Discover insights, tips, and tools to excel in the world of remote work.
               From productivity hacks to team management strategies.
             </p>
@@ -70,8 +70,8 @@ const BlogPage = async () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {posts.map((post) => (
                     <article key={post.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100">
-                      {/* Featured Image */}
-                      <div className="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center relative overflow-hidden">
+                      {/* Featured Image with Category Badge */}
+                      <div className="relative aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden">
                         {post.featuredImage ? (
                           <img
                             src={post.featuredImage}
@@ -83,28 +83,31 @@ const BlogPage = async () => {
                             <Briefcase className="h-12 w-12 text-blue-400" />
                           </div>
                         )}
-                      </div>
-
-                      <div className="p-6">
-                        {/* Category Badge */}
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {/* Category Badge on Image */}
+                        <div className="absolute top-3 left-3">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-600 text-white shadow-lg">
                             {post.category}
                           </span>
-                          {post.featured && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        </div>
+                        {/* Featured Badge */}
+                        {post.featured && (
+                          <div className="absolute top-3 right-3">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-500 text-white shadow-lg">
                               ⭐ Featured
                             </span>
-                          )}
-                        </div>
+                          </div>
+                        )}
+                      </div>
 
-                        <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 leading-tight hover:text-blue-600 transition-colors">
+                      <div className="p-5">
+
+                        <h2 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 leading-tight hover:text-blue-600 transition-colors">
                           <Link href={`/blog/${post.slug}`}>
                             {post.title}
                           </Link>
                         </h2>
 
-                        <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
+                        <p className="text-gray-600 mb-3 line-clamp-3 text-sm leading-relaxed">
                           {post.excerpt}
                         </p>
 
@@ -155,9 +158,9 @@ const BlogPage = async () => {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <Briefcase className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No articles found</h3>
-                  <p className="text-gray-600 mb-6">
+                  <Briefcase className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                  <h3 className="text-base font-medium text-gray-900 mb-2">No articles found</h3>
+                  <p className="text-gray-600 mb-6 text-sm">
                     It looks like there are no published articles yet.
                   </p>
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-md mx-auto">

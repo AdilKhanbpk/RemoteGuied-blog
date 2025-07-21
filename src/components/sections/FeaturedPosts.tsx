@@ -113,10 +113,10 @@ const FeaturedPosts = () => {
     <section className="section-padding bg-background">
       <div className="container-content">
         <div className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-responsive">
-          <h2 className="font-bold text-content-primary">
+          <h2 className="font-bold text-content-primary text-xl sm:text-2xl lg:text-3xl">
             Featured Articles
           </h2>
-          <p className="lead max-w-2xl mx-auto">
+          <p className="text-content-secondary text-base sm:text-lg max-w-2xl mx-auto font-normal">
             Explore our most popular and impactful remote work insights, carefully curated to help you excel in your remote career.
           </p>
         </div>
