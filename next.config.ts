@@ -57,49 +57,58 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Experimental features for better performance
+  // Next.js 15 features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react'],
     serverComponentsExternalPackages: ['@supabase/supabase-js', 'cloudinary'],
-    // Enable faster builds and runtime
-    turbo: {},
+    // Enable CSS optimization
     optimizeCss: true,
-    // Enable partial prerendering for better performance
+    // Enable Partial Prerendering (PPR) - Now stable in Next.js 15!
     ppr: true,
+    // Enable React Compiler optimizations
+    reactCompiler: true,
+    // Enable faster bundling
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
 
   // Enable SWC minification for faster builds
   swcMinify: true,
 
-  // Bundle analyzer in development
-  ...(process.env.ANALYZE === 'true' && {
-    webpack: (config: any, { isServer }: { isServer: boolean }) => {
-      if (!isServer) {
-        config.resolve.fallback = {
-          fs: false,
-          path: false,
-          os: false,
-          crypto: false,
-          stream: false,
-          buffer: false,
-        };
-      }
+  // Webpack configuration to handle Node.js modules on client side
+  webpack: (config: any, { isServer }: { isServer: boolean }) => {
+    if (!isServer) {
+      // Don't resolve Node.js modules on the client to prevent build errors
+      config.resolve.fallback = {
+        fs: false,
+        path: false,
+        os: false,
+        crypto: false,
+        stream: false,
+        buffer: false,
+      };
+    }
 
-      // Bundle analyzer
-      if (process.env.ANALYZE === 'true') {
-        const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-        config.plugins.push(
-          new BundleAnalyzerPlugin({
-            analyzerMode: 'server',
-            analyzerPort: isServer ? 8888 : 8889,
-            openAnalyzer: true,
-          })
-        );
-      }
+    // Bundle analyzer (only when ANALYZE=true)
+    if (process.env.ANALYZE === 'true') {
+      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerPort: isServer ? 8888 : 8889,
+          openAnalyzer: true,
+        })
+      );
+    }
 
-      return config;
-    },
-  }),
+    return config;
+  },
 
 
 

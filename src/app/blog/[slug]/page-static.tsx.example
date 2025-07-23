@@ -1,0 +1,78 @@
+// Example: Static Generation for Blog Posts (PPR Alternative)
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { getPostBySlug, getAllPosts } from '@/lib/database';
+import BlogPostContent from '@/components/blog/BlogPostContent';
+
+// Generate static params for popular posts
+export async function generateStaticParams() {
+  try {
+    const posts = await getAllPosts();
+    
+    // Pre-generate the most popular/recent posts
+    const popularPosts = posts
+      .sort((a, b) => (b.view_count || 0) - (a.view_count || 0))
+      .slice(0, 50); // Pre-generate top 50 posts
+    
+    return popularPosts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
+}
+
+// This runs at build time for static posts, at request time for others
+export default async function BlogPost({ 
+  params 
+}: { 
+  params: { slug: string } 
+}) {
+  try {
+    const post = await getPostBySlug(params.slug);
+    
+    if (!post) {
+      notFound();
+    }
+
+    return <BlogPostContent post={post} />;
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    notFound();
+  }
+}
+
+// Generate metadata at build time for static posts
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: { slug: string } 
+}): Promise<Metadata> {
+  try {
+    const post = await getPostBySlug(params.slug);
+    
+    if (!post) {
+      return {
+        title: 'Post Not Found',
+      };
+    }
+
+    return {
+      title: post.title,
+      description: post.excerpt,
+      openGraph: {
+        title: post.title,
+        description: post.excerpt,
+        images: post.featured_image ? [post.featured_image] : [],
+      },
+    };
+  } catch (error) {
+    return {
+      title: 'Error Loading Post',
+    };
+  }
+}
+
+// Enable ISR (Incremental Static Regeneration)
+export const revalidate = 3600; // Revalidate every hour

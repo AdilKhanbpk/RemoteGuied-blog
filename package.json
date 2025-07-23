@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:ppr": "next dev --turbopack --experimental-ppr",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "setup-db": "npx ts-node src/scripts/setup-database.ts",
     "type-check": "tsc --noEmit",
-    "analyze": "npm run build:analyze"
+    "analyze": "npm run build:analyze",
+    "upgrade": "npx @next/codemod@latest"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -28,11 +30,11 @@
     "clsx": "^2.1.1",
     "jose": "^5.10.0",
     "lucide-react": "^0.525.0",
-    "next": "15.4.1",
+    "next": "^15.4.3",
     "next-cloudinary": "^6.16.0",
     "postcss": "^8.5.6",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "webpack-bundle-analyzer": "^4.10.2"
   },
