@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import ClientAnalytics from "@/components/analytics/ClientAnalytics";
+import PerformanceOptimizer from "@/components/performance/PerformanceOptimizer";
 // import { Toaster } from "@/components/ui/toaster";
 // import { Toaster as Sonner } from "@/components/ui/sonner";
 // import { TooltipProvider } from "@/components/ui/tooltip";
@@ -119,6 +120,9 @@ export default function RootLayout({
 
         {/* Client-side Analytics */}
         <ClientAnalytics />
+
+        {/* Performance Optimizer */}
+        <PerformanceOptimizer />
 
         {/* <TooltipProvider> */}
           {/* <Toaster /> */}

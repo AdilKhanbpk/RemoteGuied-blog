@@ -5,13 +5,16 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "setup-db": "npx ts-node src/scripts/setup-database.ts",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "analyze": "npm run build:analyze"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
+    "@next/bundle-analyzer": "^15.4.3",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/supabase-js": "^2.51.0",
     "@tiptap/extension-image": "^3.0.7",
@@ -30,7 +33,8 @@
     "postcss": "^8.5.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
