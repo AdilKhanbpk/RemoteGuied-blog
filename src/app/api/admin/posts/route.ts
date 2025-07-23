@@ -127,13 +127,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare post data
+    // Validate featured image is from Cloudinary if provided
+    if (body.featured_image && !body.featured_image.includes('cloudinary.com')) {
+      return NextResponse.json(
+        { error: 'Featured image must be uploaded to Cloudinary for SEO optimization' },
+        { status: 400 }
+      );
+    }
+
+    // Prepare post data with Cloudinary URLs
     const postData = {
       title: body.title.trim(),
       slug,
       excerpt: body.excerpt.trim(),
-      content: body.content.trim(),
-      featured_image: body.featured_image || null,
+      content: body.content.trim(), // Rich HTML content with Cloudinary image URLs
+      featured_image: body.featured_image || null, // Cloudinary URL for SEO
       category: body.category.trim(),
       tags: body.tags || [],
       author_id: body.author_id,

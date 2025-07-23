@@ -78,43 +78,43 @@ const utilityClasses = `
 
 /* Layout Classes */
 .section-padding {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 1.125rem;  /* 18px (was 48px - 30px = 18px) */
+  padding-bottom: 1.125rem;
 }
 
 @media (min-width: 768px) {
   .section-padding {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 2.125rem;  /* 34px (was 64px - 30px = 34px) */
+    padding-bottom: 2.125rem;
   }
 }
 
 @media (min-width: 1024px) {
   .section-padding {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: 4.125rem;  /* 66px (was 96px - 30px = 66px) */
+    padding-bottom: 4.125rem;
   }
 }
 
 .container-content {
   margin-left: auto;
   margin-right: auto;
-  max-width: 75rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  max-width: 82rem;
+  padding-left: 1.125rem;  /* 18px (was 48px - 30px = 18px) */
+  padding-right: 1.125rem;
 }
 
 @media (min-width: 640px) {
   .container-content {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 0.75rem;  /* 12px (was 24px - 12px = 12px) */
+    padding-right: 0.75rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container-content {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1rem;  /* 16px (was 32px - 16px = 16px) */
+    padding-right: 1rem;
   }
 }
 `;

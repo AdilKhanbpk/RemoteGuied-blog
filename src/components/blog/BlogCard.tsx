@@ -2,7 +2,7 @@
 
 import { Clock, User, ArrowRight } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
-import ResponsiveImage from '@/components/ui/ResponsiveImage';
+import CloudinaryImage from '@/components/ui/CloudinaryImage';
 import { useEffect } from 'react';
 
 // Card styles moved from globals.css
@@ -82,13 +82,17 @@ const BlogCard = ({
           ? 'h-48 sm:h-56 md:h-64 lg:h-80'
           : 'h-40 sm:h-48'
       }`}>
-        <ResponsiveImage
+        <CloudinaryImage
           src={imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop'}
-          alt={title}
-          width={600}
-          height={400}
-          variant={featured ? 'hero' : 'content'}
+          alt={`${title} - ${category} blog post cover image`}
+          width={featured ? 800 : 400}
+          height={featured ? 500 : 225}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          priority={featured}
+          sizes={featured
+            ? "(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+            : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+          }
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <Badge
@@ -101,12 +105,11 @@ const BlogCard = ({
 
       {/* Content */}
       <div className={`p-4 sm:p-5 ${featured ? 'lg:p-6 xl:p-8' : 'lg:p-6'}`}>
-        <h3 className={`font-semibold text-content-primary group-hover:text-primary transition-colors duration-300 mb-2 sm:mb-3 leading-tight ${
-          featured
-            ? 'text-base sm:text-lg lg:text-xl xl:text-2xl'
-            : 'text-sm sm:text-base lg:text-lg'
-        }`}
+        <h3 className={`font-semibold text-content-primary group-hover:text-primary transition-colors duration-300 mb-2 sm:mb-3 leading-tight`}
             style={{
+              fontSize: featured
+                ? 'clamp(0.875rem, 2.5vw, 1rem)' // 14px to 16px
+                : 'clamp(0.75rem, 2vw, 0.875rem)', // 12px to 14px
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical' as const,

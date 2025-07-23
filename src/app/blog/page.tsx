@@ -5,6 +5,7 @@ import Layout from '@/components/layout/Layout';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import JobSidebar from '@/components/blog/JobSidebar';
+import CloudinaryImage from '@/components/ui/CloudinaryImage';
 import { getAllPosts, getCategories } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
 import { cn } from '@/lib/utils';
@@ -70,13 +71,16 @@ const BlogPage = async () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {posts.map((post) => (
                     <article key={post.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100">
-                      {/* Featured Image with Category Badge */}
+                      {/* SEO-Optimized Featured Image with Category Badge */}
                       <div className="relative aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden">
                         {post.featuredImage ? (
-                          <img
+                          <CloudinaryImage
                             src={post.featuredImage}
-                            alt={post.title}
+                            alt={`${post.title} - ${post.category} blog post thumbnail`}
+                            width={400}
+                            height={225}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           />
                         ) : (
                           <div className="flex items-center justify-center w-full h-full">

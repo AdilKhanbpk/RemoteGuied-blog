@@ -257,11 +257,5 @@ CREATE POLICY "Public can insert analytics events" ON analytics_events
 CREATE POLICY "Public can insert post views" ON post_views
   FOR INSERT WITH CHECK (true);
 
--- Storage bucket policies (run these in Supabase Storage section)
--- CREATE BUCKET IF NOT EXISTS 'images';
---
--- CREATE POLICY "Public can view images" ON storage.objects
---   FOR SELECT USING (bucket_id = 'images');
---
--- CREATE POLICY "Authenticated users can upload images" ON storage.objects
---   FOR INSERT WITH CHECK (bucket_id = 'images');
+-- Note: All images are now stored in Cloudinary for better SEO optimization
+-- No Supabase storage buckets needed - only store Cloudinary URLs in database

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import cloudinary from '@/lib/cloudinary';
+import cloudinary, { deleteFromCloudinary } from '@/lib/cloudinary-server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -87,9 +87,9 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Delete from Cloudinary
-    const result = await cloudinary.uploader.destroy(publicId);
+    const result = await deleteFromCloudinary(publicId);
 
-    if (result.result === 'ok') {
+    if (result) {
       return NextResponse.json({
         success: true,
         message: 'Image deleted successfully'

@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button';
 import CommentSection from '@/components/blog/CommentSection';
 import JobSidebar from '@/components/blog/JobSidebar';
 import SocialShareButtons from '@/components/blog/SocialShareButtons';
+import CloudinaryImage from '@/components/ui/CloudinaryImage';
 // ViewTracker temporarily removed - will add analytics differently
 import { getPostBySlug, getAllPosts } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
@@ -133,14 +134,18 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
                   </p>
                 </div>
 
-                {/* Featured Image with Category Badge */}
+                {/* SEO-Optimized Featured Image with Category Badge */}
                 {post.featuredImage ? (
                   <div className="mb-8">
                     <div className="relative overflow-hidden rounded-xl shadow-lg">
-                      <img
+                      <CloudinaryImage
                         src={post.featuredImage}
-                        alt={post.title}
+                        alt={`${post.title} - ${post.category} article cover image`}
+                        width={800}
+                        height={400}
                         className="w-full h-64 md:h-80 object-cover"
+                        priority={true}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
                       />
                       {/* Category Badge on Image */}
                       <div className="absolute top-4 left-4">

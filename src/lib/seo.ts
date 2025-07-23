@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { BlogPost } from '@/types/blog';
+import { getOptimizedImageUrl, getPublicIdFromUrl } from '@/lib/cloudinary';
 
 const baseUrl = 'https://remotework.com';
 const siteName = 'RemoteWork';
@@ -94,11 +95,30 @@ export function generatePageMetadata({
 }
 
 export function generateBlogPostMetadata(post: BlogPost): Metadata {
+  // Generate SEO-optimized Cloudinary image URL for Open Graph
+  let optimizedImage = '/images/og-blog.jpg'; // fallback
+
+  if (post.featuredImage && post.featuredImage.includes('cloudinary.com')) {
+    const publicId = getPublicIdFromUrl(post.featuredImage);
+
+    // Open Graph optimized image (1200x630)
+    optimizedImage = getOptimizedImageUrl(publicId, {
+      width: 1200,
+      height: 630,
+      quality: 'auto:best',
+      crop: 'fill',
+      gravity: 'auto'
+    });
+  } else if (post.featuredImage) {
+    // Use original image if not from Cloudinary
+    optimizedImage = post.featuredImage;
+  }
+
   return generatePageMetadata({
     title: post.title,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
-    image: post.featuredImage || '/images/og-blog.jpg',
+    image: optimizedImage,
     keywords: post.tags,
     publishedTime: post.publishedAt,
     authors: [post.author.name],

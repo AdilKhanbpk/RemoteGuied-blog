@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [320, 420, 768, 1024, 1200, 1920],
@@ -54,6 +60,23 @@ const nextConfig: NextConfig = {
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    serverComponentsExternalPackages: ['@supabase/supabase-js', 'cloudinary'],
+  },
+
+  // Webpack configuration to handle Node.js modules on client side
+  webpack: (config: any, { isServer }: { isServer: boolean }) => {
+    if (!isServer) {
+      // Don't resolve Node.js modules on the client to prevent build errors
+      config.resolve.fallback = {
+        fs: false,
+        path: false,
+        os: false,
+        crypto: false,
+        stream: false,
+        buffer: false,
+      };
+    }
+    return config;
   },
 
   // ISR and caching configuration
