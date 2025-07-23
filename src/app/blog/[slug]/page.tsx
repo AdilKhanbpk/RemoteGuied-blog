@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Calendar, Clock, User, ArrowLeft, Briefcase } from 'lucide-react';
@@ -10,6 +10,7 @@ import CommentSection from '@/components/blog/CommentSection';
 import JobSidebar from '@/components/blog/JobSidebar';
 import SocialShareButtons from '@/components/blog/SocialShareButtons';
 import CloudinaryImage from '@/components/ui/CloudinaryImage';
+import StreamingWrapper from '@/components/performance/StreamingWrapper';
 // ViewTracker temporarily removed - will add analytics differently
 import { getPostBySlug, getAllPosts } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
@@ -20,6 +21,30 @@ interface BlogPostPageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+// Generate static params for popular posts (PPR optimization)
+export async function generateStaticParams() {
+  try {
+    const posts = await getAllPosts();
+
+    // Pre-generate the most popular/recent posts for instant loading
+    const popularPosts = posts
+      .sort((a, b) => {
+        // Sort by view count first, then by date
+        const viewDiff = (b.view_count || 0) - (a.view_count || 0);
+        if (viewDiff !== 0) return viewDiff;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      })
+      .slice(0, 100); // Pre-generate top 100 posts for instant loading
+
+    return popularPosts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
 }
 
 // Generate metadata for SEO
@@ -284,3 +309,10 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 };
 
 export default BlogPostPage;
+
+// Enable ISR (Incremental Static Regeneration) for fresh content
+// This ensures static pages are updated with new content periodically
+export const revalidate = 3600; // Revalidate every hour
+
+// Enable PPR for this page - static content loads instantly, dynamic content streams in
+export const experimental_ppr = true;
