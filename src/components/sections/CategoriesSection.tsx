@@ -86,7 +86,6 @@ const gridStyles = `
   }
 
   .category-card:hover {
-    transform: translateY(-8px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
   }
@@ -98,9 +97,8 @@ const gridStyles = `
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  .category-card:hover .icon-container {
-    transform: scale(1.1) rotate(5deg);
-  }
+
+ 
 
   .article-count {
     background: rgba(59, 130, 246, 0.1);
@@ -186,9 +184,9 @@ const CategoriesSection = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <section className="py-5 sm:py-3 lg:py-5 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20 space-y-responsive">
+        <div className="text-center mb-8 sm:mb-8 lg:mb-9 space-y-responsive">
           <div className="inline-flex items-center space-x-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 mb-4">
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
             <span className="text-sm font-medium text-slate-600">Featured Categories</span>
@@ -208,7 +206,7 @@ const CategoriesSection = () => {
             return (
               <div
                 key={category.name}
-                className="category-card p-6 sm:p-7 lg:p-8 cursor-pointer group"
+                className="category-card p-2 sm:p-2 lg:p-3 cursor-pointer group"
                 style={{
                   animationDelay: `${index * 100}ms`,
                   animation: 'fadeInUp 0.6s ease-out forwards'
@@ -217,7 +215,7 @@ const CategoriesSection = () => {
                 <div className="relative z-10 bg-white rounded-2xl p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className={`icon-container p-3 sm:p-3.5 rounded-xl ${category.color} bg-gradient-to-br ${category.gradient} shadow-lg`}>
-                      <IconComponent className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
+                      <IconComponent className="h-3 w-3 sm:h-7 sm:w-7 text-white" />
                     </div>
                     <div className="article-count">
                       {category.postCount} articles

@@ -126,7 +126,7 @@ const FeaturedPosts = () => {
   ];
 
   return (
-    <section className="py-9 sm:py-12 lg:py-15 bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <section className="py-4 sm:py-3 lg:py-6 bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20 professional-spacing">
