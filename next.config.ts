@@ -57,29 +57,27 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Next.js 15 features for better performance
+  // Next.js 15 stable performance features
   experimental: {
     optimizePackageImports: ['lucide-react'],
     serverComponentsExternalPackages: ['@supabase/supabase-js', 'cloudinary'],
-    // Enable CSS optimization
+    // Enable CSS optimization (stable in Next.js 15)
     optimizeCss: true,
-    // Enable Partial Prerendering (PPR) - Now stable in Next.js 15!
-    ppr: true,
-    // Enable React Compiler optimizations
-    reactCompiler: true,
-    // Enable faster bundling
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
+    // Note: PPR removed - still experimental, will add when stable
   },
 
   // Enable SWC minification for faster builds
   swcMinify: true,
+
+  // Next.js 15 stable optimizations
+  bundlePagesRouterDependencies: true, // Bundle Pages Router dependencies
+  outputFileTracing: true, // Optimize output file tracing
+
+  // Optimize for production
+  productionBrowserSourceMaps: false, // Disable source maps in production for smaller bundles
+
+  // Enable static optimization
+  staticPageGenerationTimeout: 60, // Increase timeout for static generation
 
   // Webpack configuration to handle Node.js modules on client side
   webpack: (config: any, { isServer }: { isServer: boolean }) => {

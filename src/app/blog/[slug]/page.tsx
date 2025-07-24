@@ -314,5 +314,4 @@ export default BlogPostPage;
 // This ensures static pages are updated with new content periodically
 export const revalidate = 3600; // Revalidate every hour
 
-// Enable PPR for this page - static content loads instantly, dynamic content streams in
-export const experimental_ppr = true;
+// Note: PPR removed - using stable Next.js 15 optimizations instead

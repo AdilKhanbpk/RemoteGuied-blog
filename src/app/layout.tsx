@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import ClientAnalytics from "@/components/analytics/ClientAnalytics";
 import PerformanceOptimizer from "@/components/performance/PerformanceOptimizer";
+import PerformanceMonitor from "@/components/performance/PerformanceMonitor";
+import ReactLikeOptimizer from "@/components/performance/ReactLikeOptimizer";
 // import { Toaster } from "@/components/ui/toaster";
 // import { Toaster as Sonner } from "@/components/ui/sonner";
 // import { TooltipProvider } from "@/components/ui/tooltip";
@@ -123,6 +125,12 @@ export default function RootLayout({
 
         {/* Performance Optimizer */}
         <PerformanceOptimizer />
+
+        {/* React-Like Performance Optimizer */}
+        <ReactLikeOptimizer />
+
+        {/* Performance Monitor (Development Only) */}
+        <PerformanceMonitor />
 
         {/* <TooltipProvider> */}
           {/* <Toaster /> */}
