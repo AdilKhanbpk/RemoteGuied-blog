@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 // Note: generateStaticParams already defined above with optimization
 
 // Enable ISR (Incremental Static Regeneration)
-// export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600; // Revalidate every hour
 
 const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
   const { slug } = await params;
@@ -304,8 +304,5 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 
 export default BlogPostPage;
 
-// Enable ISR (Incremental Static Regeneration) for fresh content
-// This ensures static pages are updated with new content periodically
-export const revalidate = 3600; // Revalidate every hour
-
+// Note: ISR revalidate already defined above
 // Note: PPR removed - using stable Next.js 15 optimizations instead
