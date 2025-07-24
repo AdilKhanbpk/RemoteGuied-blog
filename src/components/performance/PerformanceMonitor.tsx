@@ -21,7 +21,7 @@ const PerformanceMonitor = () => {
     const measurePerformance = () => {
       // Measure Core Web Vitals
       if ('web-vital' in window) {
-        // @ts-ignore
+        // @ts-expect-error - web-vitals dynamic import
         import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
           getCLS((metric) => setMetrics(prev => ({ ...prev, cls: metric.value })));
           getFID((metric) => setMetrics(prev => ({ ...prev, fid: metric.value })));

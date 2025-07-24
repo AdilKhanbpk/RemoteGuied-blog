@@ -60,19 +60,15 @@ const nextConfig: NextConfig = {
   // Next.js 15 stable performance features
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    serverComponentsExternalPackages: ['@supabase/supabase-js', 'cloudinary'],
     // Enable CSS optimization (stable in Next.js 15)
     optimizeCss: true,
     // Note: PPR removed - still experimental, will add when stable
   },
 
-  // Enable SWC minification for faster builds
-  swcMinify: true,
+  // Moved from experimental to stable in Next.js 15
+  serverExternalPackages: ['@supabase/supabase-js', 'cloudinary'],
 
-  // Next.js 15 stable optimizations
-  bundlePagesRouterDependencies: true, // Bundle Pages Router dependencies
-  outputFileTracing: true, // Optimize output file tracing
-
+  // Next.js 15 stable optimizations (swcMinify is now default)
   // Optimize for production
   productionBrowserSourceMaps: false, // Disable source maps in production for smaller bundles
 
