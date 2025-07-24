@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useCallback } from 'react';
@@ -5,6 +6,8 @@ import { useEffect, useCallback } from 'react';
 const ReactLikeOptimizer = () => {
   // Optimize bundle loading like React
   const optimizeBundleLoading = useCallback(() => {
+
+    
     // Preload critical chunks
     const criticalChunks = [
       '/_next/static/chunks/pages/_app.js',

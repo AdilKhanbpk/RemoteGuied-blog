@@ -120,6 +120,7 @@ export function generateBlogPostMetadata(post: BlogPost): Metadata {
     path: `/blog/${post.slug}`,
     image: optimizedImage,
     keywords: post.tags,
+    
     publishedTime: post.publishedAt,
     authors: [post.author.name],
     type: 'article',

@@ -5,6 +5,7 @@ const JWT_SECRET = new TextEncoder().encode(process.env.NEXTAUTH_SECRET || 'your
 
 export interface AdminUser {
   email: string;
+  
   role: string;
 }
 

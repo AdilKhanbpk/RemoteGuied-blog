@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 
 interface SocialShareButtonsProps {
   url: string;
+  
   title: string;
 }
 

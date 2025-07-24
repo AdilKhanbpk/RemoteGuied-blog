@@ -128,6 +128,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         const style = document.createElement('style');
         style.id = styleId;
         style.textContent = buttonStyles;
+
+        
         document.head.appendChild(style);
       }
     }, []);
