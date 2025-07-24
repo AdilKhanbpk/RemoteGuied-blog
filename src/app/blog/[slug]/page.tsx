@@ -65,16 +65,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return generateBlogPostMetadata(post);
 }
 
-// Generate static params for all blog posts
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
+// Note: generateStaticParams already defined above with optimization
 
 // Enable ISR (Incremental Static Regeneration)
-export const revalidate = 3600; // Revalidate every hour
+// export const revalidate = 3600; // Revalidate every hour
 
 const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
   const { slug } = await params;
