@@ -151,7 +151,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // Set published_at if status changed to published
     if (body.status === 'published' && existingPost.status !== 'published') {
-      updateData.published_at = new Date().toISOString();
+      (updateData as any).published_at = new Date().toISOString();
     }
 
     const { data, error } = await supabaseAdmin
