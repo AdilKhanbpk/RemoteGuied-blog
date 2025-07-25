@@ -30,7 +30,7 @@ const PostsManagement: React.FC = () => {
         setPosts(data.posts || []);
 
         // Extract unique categories
-        const uniqueCategories = [...new Set(data.posts?.map((p: any) => p.category) || [])];
+        const uniqueCategories = [...new Set(data.posts?.map((p: any) => p.category).filter(Boolean) || [])] as string[];
         setCategories(['All', ...uniqueCategories.sort()]);
       }
     } catch (error) {

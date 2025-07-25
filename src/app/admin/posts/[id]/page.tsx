@@ -12,6 +12,18 @@ import ImageUpload from '@/components/ui/ImageUpload';
 import { generateSlug } from '@/lib/utils';
 import Link from 'next/link';
 
+// Define categories
+const categories = [
+  'Technology',
+  'Web Development',
+  'Programming',
+  'Design',
+  'Business',
+  'Career',
+  'Tutorial',
+  'News'
+];
+
 interface EditPostPageProps {
   params: Promise<{
     id: string;
