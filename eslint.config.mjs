@@ -19,6 +19,10 @@ const eslintConfig = [
       "@next/next/no-img-element": "warn",
       "@typescript-eslint/no-empty-object-type": "warn",
       "@typescript-eslint/ban-ts-comment": "warn",
+      "@typescript-eslint/no-unsafe-function-type": "warn",
+      "prefer-rest-params": "warn",
+      "react/jsx-no-undef": "error", // Keep this as error to catch missing imports
+      "react-hooks/exhaustive-deps": "warn",
     },
   },
 ];

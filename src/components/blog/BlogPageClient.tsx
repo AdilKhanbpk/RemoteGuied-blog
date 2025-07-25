@@ -6,6 +6,7 @@ import { Search, Clock, User, Calendar, Briefcase } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import AdvancedSearch from './AdvancedSearch';
+import JobSidebar from '@/components/blog/JobSidebar';
 import { formatDate } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { BlogPost } from '@/types/blog';

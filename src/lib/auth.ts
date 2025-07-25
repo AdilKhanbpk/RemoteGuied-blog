@@ -41,7 +41,7 @@ export async function requireAdmin(): Promise<AdminUser> {
 }
 
 // Middleware helper for API routes
-export async function withAuth(handler: Function) {
+export async function withAuth(handler: (request: Request, context?: any) => Promise<any>) {
   return async (request: Request, context?: any) => {
     try {
       await requireAdmin();
