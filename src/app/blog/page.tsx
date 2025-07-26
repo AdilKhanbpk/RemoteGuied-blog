@@ -1,15 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import { Search, Clock, User, Calendar, Briefcase } from 'lucide-react';
+import { Clock, User, Calendar, Briefcase } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
+// Card components removed as they're not used
 import Button from '@/components/ui/Button';
 import JobSidebar from '@/components/blog/JobSidebar';
 import CloudinaryImage from '@/components/ui/CloudinaryImage';
 import { getAllPosts, getCategories } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
-import { cn } from '@/lib/utils';
-import BlogPageClient from '@/components/blog/BlogPageClient';
+// cn utility and BlogPageClient removed as they're not used
 import type { Metadata } from 'next';
 
 // Generate metadata for SEO

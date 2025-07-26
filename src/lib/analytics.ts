@@ -3,8 +3,8 @@ export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (...args: unknown[]) => void;
+    dataLayer: unknown[];
   }
 }
 
@@ -13,7 +13,7 @@ export const initGA = () => {
   if (!GA_TRACKING_ID || typeof window === 'undefined') return;
 
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: any[]) {
+  window.gtag = function gtag(...args: unknown[]) {
     window.dataLayer.push(args);
   };
   window.gtag('js', new Date());
@@ -45,7 +45,12 @@ export const trackEvent = (action: string, category: string, label?: string, val
 };
 
 // Core Web Vitals monitoring
-export function reportWebVitals(metric: any) {
+export function reportWebVitals(metric: {
+  name: string;
+  value: number;
+  id: string;
+  label?: string;
+}) {
   // Log to console in development
   if (process.env.NODE_ENV === 'development') {
     console.log(metric);
@@ -110,7 +115,7 @@ export const trackPerformance = () => {
 
   try {
     observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
-  } catch (e) {
+  } catch {
     // Ignore if not supported
   }
 

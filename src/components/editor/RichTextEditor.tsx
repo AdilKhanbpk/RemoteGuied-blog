@@ -10,7 +10,7 @@ import { uploadToCloudinary } from '@/lib/cloudinary';
 import {
   Bold,
   Italic,
-  Underline,
+  // Underline removed as it's not used
   Strikethrough,
   Code,
   Heading1,

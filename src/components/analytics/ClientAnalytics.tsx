@@ -18,7 +18,7 @@ const ClientAnalytics: React.FC = () => {
     trackEngagement();
 
     // Track blog post views specifically
-    if (pathname.startsWith('/blog/') && pathname !== '/blog') {
+    if (pathname && pathname.startsWith('/blog/') && pathname !== '/blog') {
       const slug = pathname.replace('/blog/', '');
       
       // Track blog post view in database

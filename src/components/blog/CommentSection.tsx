@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { MessageCircle, Reply, User, Calendar, Send, AlertCircle, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { MessageCircle, Reply, User, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { formatRelativeDate } from '@/lib/utils';
@@ -12,6 +12,7 @@ interface Comment {
   email: string;
   content: string;
   created_at: string;
+  createdAt?: string; // For compatibility
   parent_id?: string;
   replies?: Comment[];
 }
@@ -24,18 +25,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [newComment, setNewComment] = useState({ author: '', email: '', content: '' });
+  const [newComment, setNewComment] = useState({ name: '', author: '', email: '', content: '' });
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState('');
-  const [replyForm, setReplyForm] = useState({ author: '', email: '' });
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  // Load comments on component mount
-  useEffect(() => {
-    loadComments();
-  }, [postId]);
-
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/comments?postId=${postId}`);
@@ -48,7 +43,12 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [postId]);
+
+  // Load comments on component mount
+  useEffect(() => {
+    loadComments();
+  }, [postId, loadComments]);
 
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
       if (response.ok) {
         const data = await response.json();
         setMessage({ type: 'success', text: data.message || 'Comment submitted successfully!' });
-        setNewComment({ author: '', email: '', content: '' });
+        setNewComment({ name: '', author: '', email: '', content: '' });
         // Reload comments to show the new one (if approved)
         await loadComments();
       } else {
@@ -96,11 +96,11 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
 
     const reply: Comment = {
       id: Date.now().toString(),
-      postId,
       author: 'Anonymous', // In a real app, this would come from auth
       email: 'user@example.com',
       content: replyContent,
-      createdAt: new Date().toISOString().split('T')[0],
+      created_at: new Date().toISOString(),
+      createdAt: new Date().toISOString().split('T')[0], // For compatibility
     };
 
     setComments(comments.map(comment => {
@@ -130,7 +130,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
                 <h4 className="font-semibold text-gray-900">{comment.author}</h4>
                 <div className="flex items-center gap-1 text-sm text-gray-500">
                   <Calendar className="h-3 w-3" />
-                  <span>{formatRelativeDate(comment.createdAt)}</span>
+                  <span>{formatRelativeDate(comment.createdAt || comment.created_at)}</span>
                 </div>
               </div>
               <p className="text-gray-700 mb-3 leading-relaxed">{comment.content}</p>

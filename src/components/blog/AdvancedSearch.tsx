@@ -105,7 +105,7 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
         clearTimeout(timeout);
       }
     };
-  }, [filters, performSearch]);
+  }, [filters, performSearch, searchTimeout]);
 
   const handleQueryChange = (query: string) => {
     setFilters(prev => ({ ...prev, query }));

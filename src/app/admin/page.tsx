@@ -14,7 +14,17 @@ interface DashboardStats {
   publishedPosts: number;
   draftPosts: number;
   totalAuthors: number;
-  recentPosts: any[];
+  recentPosts: {
+    id: string;
+    title: string;
+    slug: string;
+    status: string;
+    published_at: string;
+    created_at: string;
+    category: string;
+    reading_time: number;
+    view_count: number;
+  }[];
 }
 
 const AdminDashboard: React.FC = () => {
@@ -46,8 +56,8 @@ const AdminDashboard: React.FC = () => {
         const authorsData = await authorsResponse.json();
 
         const posts = postsData.posts || [];
-        const publishedCount = posts.filter((p: any) => p.status === 'published').length;
-        const draftCount = posts.filter((p: any) => p.status === 'draft').length;
+        const publishedCount = posts.filter((p: { status: string }) => p.status === 'published').length;
+        const draftCount = posts.filter((p: { status: string }) => p.status === 'draft').length;
 
         setStats({
           totalPosts: posts.length,

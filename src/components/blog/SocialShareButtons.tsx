@@ -6,12 +6,12 @@ import Button from '@/components/ui/Button';
 
 interface SocialShareButtonsProps {
   url: string;
-  
   title: string;
+  description?: string;
 }
 
-const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({ url, title }) => {
-  const shareText = `Check out this article: ${title}`;
+const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({ url, title, description }) => {
+  const shareText = description ? `${title} - ${description}` : `Check out this article: ${title}`;
 
   const handleShare = (platform: 'twitter' | 'linkedin') => {
     const urls = {

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Save, Eye, ArrowLeft, Upload, X, AlertCircle } from 'lucide-react';
+import { Save, ArrowLeft, X, AlertCircle } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
@@ -40,13 +40,13 @@ const NewPostPage: React.FC = () => {
   const [tagInput, setTagInput] = useState('');
   const [authors, setAuthors] = useState<Author[]>([]);
   const [selectedAuthor, setSelectedAuthor] = useState<string>('');
-  const [categories, setCategories] = useState<string[]>([
+  const categories = [
     'Productivity',
     'Team Management',
     'Tools & Software',
     'Work-Life Balance',
     'Career Development'
-  ]);
+  ];
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   

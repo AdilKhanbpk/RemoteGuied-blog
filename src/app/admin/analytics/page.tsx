@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { BarChart3, Eye, TrendingUp, Users, Clock, Search, Calendar } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { BarChart3, Eye, TrendingUp, Calendar } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -19,11 +19,7 @@ const AnalyticsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState(7);
 
-  useEffect(() => {
-    loadAnalytics();
-  }, [timeRange]);
-
-  const loadAnalytics = async () => {
+  const loadAnalytics = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/analytics?days=${timeRange}`, {
@@ -41,7 +37,11 @@ const AnalyticsPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [timeRange]);
+
+  useEffect(() => {
+    loadAnalytics();
+  }, [timeRange, loadAnalytics]);
 
   if (loading) {
     return (

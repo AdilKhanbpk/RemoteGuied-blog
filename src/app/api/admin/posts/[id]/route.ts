@@ -14,7 +14,19 @@ interface RouteParams {
 }
 
 // Input validation helper
-function validatePostData(data: any) {
+function validatePostData(data: {
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  category?: string;
+  author_id?: string;
+  featured_image?: string;
+  tags?: string[];
+  featured?: boolean;
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string[];
+}) {
   const errors: string[] = [];
   
   if (!data.title || data.title.trim().length < 3) {
@@ -151,7 +163,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // Set published_at if status changed to published
     if (body.status === 'published' && existingPost.status !== 'published') {
-      (updateData as any).published_at = new Date().toISOString();
+      (updateData as Record<string, unknown>).published_at = new Date().toISOString();
     }
 
     const { data, error } = await supabaseAdmin

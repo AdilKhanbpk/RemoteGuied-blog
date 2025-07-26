@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { BlogPost, Author, JobListing } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -168,7 +168,33 @@ export async function getAllCategories(): Promise<string[]> {
 }
 
 // Transform database post to application format
-function transformDatabasePost(dbPost: any): BlogPost {
+function transformDatabasePost(dbPost: {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  featured_image: string;
+  category: string;
+  tags: string[];
+  published_at: string;
+  created_at: string;
+  updated_at: string;
+  reading_time: number;
+  featured: boolean;
+  view_count: number;
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string[];
+  authors: {
+    name: string;
+    bio: string;
+    avatar: string;
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+  };
+}): BlogPost {
   return {
     id: dbPost.id,
     title: dbPost.title,
@@ -191,11 +217,90 @@ function transformDatabasePost(dbPost: any): BlogPost {
     publishedAt: dbPost.published_at,
     readingTime: dbPost.reading_time,
     featured: dbPost.featured,
+    seoTitle: dbPost.seo_title || dbPost.title,
+    seoDescription: dbPost.seo_description || dbPost.excerpt,
+    seoKeywords: dbPost.seo_keywords || [],
+    seoImage: dbPost.featured_image,
+    seoCanonicalUrl: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://remotework.blog'}/blog/${dbPost.slug}`,
+    seoRobots: 'index,follow',
+    seoStructuredData: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": dbPost.title,
+      "description": dbPost.excerpt,
+      "image": dbPost.featured_image,
+      "author": {
+        "@type": "Person",
+        "name": dbPost.authors.name
+      },
+      "datePublished": dbPost.published_at,
+      "dateModified": dbPost.updated_at
+    }),
+    seoTwitterCard: 'summary_large_image',
+    seoOpenGraph: JSON.stringify({
+      title: dbPost.title,
+      description: dbPost.excerpt,
+      image: dbPost.featured_image,
+      type: 'article'
+    }),
+    seoSchemaOrg: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": dbPost.title,
+      "description": dbPost.excerpt
+    }),
+    seoGoogleNews: '',
+    seoBing: '',
+    seoPinterest: '',
+    seoLinkedin: '',
+    seoDuckDuckGo: '',
+    seoYandex: '',
+    seoBaidu: '',
+    seoYahoo: '',
+    seoTumblr: '',
+    seoInstagram: '',
+    seoFacebook: '',
+    seoReddit: '',
+    seoVk: '',
+    seoOk: '',
+    seoQwant: '',
+    seoAsk: '',
+    seoAol: '',
+    seoBlekko: '',
+    seoDogpile: '',
+    seoMojeek: '',
+    seoSogou: '',
+    seoNaver: '',
+    seoQihoo: '',
+    seo360: '',
+    seoSo: '',
+    seoHaosou: '',
+    seoSoso: '',
+    seoYoudao: '',
+    seoYidao: '',
+    seoZhongsou: '',
+    seoHao123: '',
+    seoSohu: '',
+    seoSina: '',
+    seoMSN: '',
+    seoYahooJP: '',
+    seoRakuten: '',
+    seoExcite: '',
+    seoLycos: '',
+    seoAltaVista: '',
+    seoInfoSpace: '',
+    seoLycosUK: '',
+    seoAllTheWeb: '',
+    seoWiseNut: '',
+    seoWebcrawler: '',
+    view_count: dbPost.view_count || 0,
+    created_at: dbPost.created_at,
+    updated_at: dbPost.updated_at,
   };
 }
 
 // Cache management for better performance
-export async function getPostsWithCache(cacheKey: string, fetcher: () => Promise<BlogPost[]>): Promise<BlogPost[]> {
+export async function getPostsWithCache(_cacheKey: string, fetcher: () => Promise<BlogPost[]>): Promise<BlogPost[]> {
   // In production, you might want to use Redis or similar
   // For now, we'll rely on Next.js caching
   return fetcher();

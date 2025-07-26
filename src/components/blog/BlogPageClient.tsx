@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search, Clock, User, Calendar, Briefcase } from 'lucide-react';
+import Image from 'next/image';
+import { Clock, User, Calendar, Briefcase } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import AdvancedSearch from './AdvancedSearch';
 import JobSidebar from '@/components/blog/JobSidebar';
 import { formatDate } from '@/lib/utils';
-import { cn } from '@/lib/utils';
+// cn utility removed as it's not used
 import { BlogPost } from '@/types/blog';
 
 interface BlogPageClientProps {
@@ -73,12 +74,14 @@ const BlogPageClient: React.FC<BlogPageClientProps> = ({ posts = [], categories 
                 <Card key={post.id} className="h-full flex flex-col card-elevated">
                   <CardHeader>
                     {/* Featured Image Placeholder */}
-                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-primary/20 rounded-lg mb-4 flex items-center justify-center">
+                    <div className="relative aspect-video bg-gradient-to-br from-primary/10 to-primary/20 rounded-lg mb-4 flex items-center justify-center">
                       {post.featuredImage ? (
-                        <img 
-                          src={post.featuredImage} 
+                        <Image
+                          src={post.featuredImage}
                           alt={post.title}
-                          className="w-full h-full object-cover rounded-lg"
+                          fill
+                          className="object-cover rounded-lg"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       ) : (
                         <Briefcase className="h-12 w-12 text-primary" />

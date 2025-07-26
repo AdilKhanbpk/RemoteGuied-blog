@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Save, Eye, ArrowLeft, Upload, X, Trash2 } from 'lucide-react';
+import { Save, ArrowLeft, X, Trash2, Eye } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import RichTextEditor from '@/components/editor/RichTextEditor';
-import ImageUpload from '@/components/ui/ImageUpload';
+// ImageUpload removed as it's not used
 // Removed static data import - now using database
 import { generateSlug } from '@/lib/utils';
 import Link from 'next/link';
@@ -42,11 +42,34 @@ interface PostFormData {
   status: 'draft' | 'published';
 }
 
+interface PostData {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  featured_image: string;
+  category: string;
+  tags: string[];
+  status: string;
+  featured: boolean;
+  publishedAt?: string;
+  published_at?: string;
+  author?: {
+    name: string;
+    bio: string;
+    avatar: string;
+  };
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string[];
+}
+
 const EditPostPage: React.FC<EditPostPageProps> = ({ params }) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tagInput, setTagInput] = useState('');
-  const [post, setPost] = useState<any>(null);
+  const [post, setPost] = useState<PostData | null>(null);
   const [loading, setLoading] = useState(true);
   
   const [formData, setFormData] = useState<PostFormData>({
@@ -123,16 +146,21 @@ const EditPostPage: React.FC<EditPostPageProps> = ({ params }) => {
   };
 
   const handleSubmit = async (status: 'draft' | 'published') => {
+    if (!post) {
+      console.error('Post data not available');
+      return;
+    }
+
     setIsSubmitting(true);
-    
+
     try {
       const postData = {
         ...formData,
         status,
         id: post.id,
-        publishedAt: status === 'published' ? (post.publishedAt || new Date().toISOString().split('T')[0]) : '',
+        publishedAt: status === 'published' ? (post.publishedAt || post.published_at || new Date().toISOString().split('T')[0]) : '',
         readingTime: Math.ceil(formData.content.split(' ').length / 200),
-        author: post.author
+        author: post.author || { name: 'Unknown', bio: '', avatar: '' }
       };
 
       console.log('Updating post:', postData);
@@ -148,6 +176,11 @@ const EditPostPage: React.FC<EditPostPageProps> = ({ params }) => {
   };
 
   const handleDelete = async () => {
+    if (!post) {
+      console.error('Post data not available');
+      return;
+    }
+
     if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
       try {
         console.log('Deleting post:', post.id);

@@ -31,7 +31,10 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   // Get client IP for rate limiting
-  const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+  const ip = request.headers.get('x-forwarded-for') ||
+             request.headers.get('x-real-ip') ||
+             request.headers.get('cf-connecting-ip') ||
+             'unknown';
   
   // Apply rate limiting to API routes
   if (pathname.startsWith('/api/')) {
@@ -60,7 +63,7 @@ export async function middleware(request: NextRequest) {
       
       // Token is valid, continue
       return NextResponse.next();
-    } catch (error) {
+    } catch {
       // Invalid token, redirect to login
       const response = NextResponse.redirect(new URL('/admin/login', request.url));
       response.cookies.delete('admin-token');
@@ -88,10 +91,10 @@ export async function middleware(request: NextRequest) {
       
       // Token is valid, continue
       return NextResponse.next();
-    } catch (error) {
+    } catch {
       return new NextResponse(
         JSON.stringify({ error: 'Unauthorized' }),
-        { 
+        {
           status: 401,
           headers: { 'Content-Type': 'application/json' }
         }

@@ -14,7 +14,10 @@ export async function POST(request: NextRequest) {
     // Get client information
     const userAgent = request.headers.get('user-agent') || 'unknown';
     const referer = request.headers.get('referer') || '';
-    const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+    const ip = request.headers.get('x-forwarded-for') ||
+               request.headers.get('x-real-ip') ||
+               request.headers.get('cf-connecting-ip') ||
+               'unknown';
 
     // Store analytics data in database
     const analyticsData = {
@@ -113,13 +116,18 @@ export async function GET(request: NextRequest) {
 }
 
 // Helper functions for analytics insights
-function getTopPages(data: any[]) {
-  const pageViews = data.reduce((acc, event) => {
-    if (event.event_name === 'view_blog_post' || event.event_category === 'Blog') {
-      acc[event.page_url] = (acc[event.page_url] || 0) + 1;
+function getTopPages(data: {
+  event_name?: string;
+  event_category?: string;
+  page_url?: string;
+}[]) {
+  const pageViews: Record<string, number> = {};
+
+  data.forEach(event => {
+    if ((event.event_name === 'view_blog_post' || event.event_category === 'Blog') && event.page_url) {
+      pageViews[event.page_url] = (pageViews[event.page_url] || 0) + 1;
     }
-    return acc;
-  }, {});
+  });
 
   return Object.entries(pageViews)
     .sort(([,a], [,b]) => (b as number) - (a as number))
@@ -127,19 +135,26 @@ function getTopPages(data: any[]) {
     .map(([url, views]) => ({ url, views }));
 }
 
-function getEventsByType(data: any[]) {
-  const eventTypes = data.reduce((acc, event) => {
-    acc[event.event_name] = (acc[event.event_name] || 0) + 1;
-    return acc;
-  }, {});
+function getEventsByType(data: { event_name?: string }[]) {
+  const eventTypes: Record<string, number> = {};
+
+  data.forEach(event => {
+    if (event.event_name) {
+      eventTypes[event.event_name] = (eventTypes[event.event_name] || 0) + 1;
+    }
+  });
 
   return Object.entries(eventTypes)
-    .sort(([,a], [,b]) => (b as number) - (a as number))
-    .map(([name, count]) => ({ name, count }));
+    .sort(([,a], [,b]) => Number(b) - Number(a))
+    .map(([name, count]) => ({ name, count: Number(count) }));
 }
 
-function getDailyStats(data: any[], days: number) {
-  const dailyStats = {};
+function getDailyStats(data: {
+  created_at?: string;
+  timestamp?: string;
+  page_url?: string;
+}[], days: number) {
+  const dailyStats: { [key: string]: { date: string; events: number; uniquePages: Set<string> } } = {};
   
   // Initialize all days
   for (let i = 0; i < days; i++) {
@@ -150,15 +165,24 @@ function getDailyStats(data: any[], days: number) {
 
   // Count events per day
   data.forEach(event => {
-    const dateStr = new Date(event.timestamp).toISOString().split('T')[0];
-    if (dailyStats[dateStr]) {
-      dailyStats[dateStr].events++;
-      dailyStats[dateStr].uniquePages.add(event.page_url);
+    const timestamp = event.timestamp || event.created_at;
+    if (timestamp) {
+      const dateStr = new Date(timestamp).toISOString().split('T')[0];
+      if (dailyStats[dateStr]) {
+        dailyStats[dateStr].events++;
+        if (event.page_url) {
+          dailyStats[dateStr].uniquePages.add(event.page_url);
+        }
+      }
     }
   });
 
   // Convert sets to counts
-  return Object.values(dailyStats).map((day: any) => ({
+  return Object.values(dailyStats).map((day: {
+    date: string;
+    events: number;
+    uniquePages: Set<string>;
+  }) => ({
     date: day.date,
     events: day.events,
     uniquePages: day.uniquePages.size

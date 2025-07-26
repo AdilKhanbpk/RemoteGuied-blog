@@ -7,7 +7,7 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 // GET - Fetch all authors
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const { data, error } = await supabaseAdmin
       .from('authors')

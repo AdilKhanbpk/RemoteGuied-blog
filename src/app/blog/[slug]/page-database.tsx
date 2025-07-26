@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Calendar, Clock, User, ArrowLeft } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -120,11 +121,15 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 
               {/* Author Info */}
               <div className="flex items-center gap-4 mb-8 pb-8 border-b border-border">
-                <img
-                  src={post.author.avatar}
-                  alt={post.author.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+                <div className="relative w-12 h-12">
+                  <Image
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    fill
+                    className="rounded-full object-cover"
+                    sizes="48px"
+                  />
+                </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <User className="h-4 w-4 text-content-caption" />
@@ -140,12 +145,14 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 
               {/* Featured Image */}
               {post.featuredImage && (
-                <div className="mb-8">
-                  <img
+                <div className="mb-8 relative aspect-video">
+                  <Image
                     src={post.featuredImage}
                     alt={post.title}
-                    className="w-full h-auto rounded-lg shadow-lg"
-                    loading="eager"
+                    fill
+                    className="rounded-lg shadow-lg object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                   />
                 </div>
               )}

@@ -41,12 +41,12 @@ export async function requireAdmin(): Promise<AdminUser> {
 }
 
 // Middleware helper for API routes
-export async function withAuth(handler: (request: Request, context?: any) => Promise<any>) {
-  return async (request: Request, context?: any) => {
+export async function withAuth(handler: (request: Request, context?: unknown) => Promise<Response>) {
+  return async (request: Request, context?: unknown) => {
     try {
       await requireAdmin();
       return handler(request, context);
-    } catch (error) {
+    } catch {
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { 

@@ -16,8 +16,8 @@ export default function Error({
     console.error('Application error:', error);
     
     // Send error to analytics
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'exception', {
+    if (typeof window !== 'undefined' && (window as { gtag?: (...args: unknown[]) => void }).gtag) {
+      (window as { gtag: (...args: unknown[]) => void }).gtag('event', 'exception', {
         description: error.message,
         fatal: false,
       });

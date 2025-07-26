@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Typography from '../ui/Typography';

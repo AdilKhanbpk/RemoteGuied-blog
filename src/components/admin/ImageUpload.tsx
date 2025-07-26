@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
@@ -98,10 +99,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       {value ? (
         <div className="relative">
           <div className="relative aspect-video w-full max-w-md bg-gray-100 rounded-lg overflow-hidden">
-            <img
+            <Image
               src={value}
               alt="Uploaded image"
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-200 flex items-center justify-center">
               <Button

@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { BookOpen, Mail, Twitter, Linkedin, Github, ArrowRight, MapPin, Phone } from 'lucide-react';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import { BookOpen, Mail, Twitter, Linkedin, Github, MapPin, Phone } from 'lucide-react';
+// Button, Input, and ArrowRight removed as they're not used
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

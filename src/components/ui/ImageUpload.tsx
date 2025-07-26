@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 
@@ -92,11 +93,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   if (value) {
     return (
       <div className={`relative group ${className}`}>
-        <div className="relative overflow-hidden rounded-lg border border-gray-200">
-          <img
+        <div className="relative overflow-hidden rounded-lg border border-gray-200 h-48">
+          <Image
             src={value}
             alt="Uploaded image"
-            className="w-full h-48 object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center">
             <button

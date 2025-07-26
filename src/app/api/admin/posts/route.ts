@@ -8,7 +8,14 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 // Input validation helper
-function validatePostData(data: any) {
+function validatePostData(data: {
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  category?: string;
+  author_id?: string;
+  featured_image?: string;
+}) {
   const errors: string[] = [];
   
   if (!data.title || data.title.trim().length < 3) {

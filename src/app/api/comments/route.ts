@@ -60,7 +60,16 @@ export async function GET(request: NextRequest) {
     // Organize comments into threads (parent comments and replies)
     const comments = data || [];
     const commentMap = new Map();
-    const rootComments: any[] = [];
+    const rootComments: {
+      id: string;
+      post_id: string;
+      parent_id?: string;
+      author: string;
+      email: string;
+      content: string;
+      created_at: string;
+      replies: unknown[];
+    }[] = [];
 
     // First pass: create comment objects
     comments.forEach(comment => {
@@ -166,7 +175,10 @@ export async function POST(request: NextRequest) {
       content: content.trim(),
       parent_id: parentId || null,
       status,
-      ip_address: request.ip || request.headers.get('x-forwarded-for') || 'unknown'
+      ip_address: request.headers.get('x-forwarded-for') ||
+                  request.headers.get('x-real-ip') ||
+                  request.headers.get('cf-connecting-ip') ||
+                  'unknown'
     };
 
     const { data, error } = await supabaseAdmin

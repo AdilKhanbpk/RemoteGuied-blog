@@ -28,13 +28,20 @@ export const uploadToCloudinaryServer = async (
   options: {
     folder?: string;
     public_id?: string;
-    transformation?: any[];
+    transformation?: unknown[];
   } = {}
-): Promise<any> => {
+): Promise<{
+  secure_url: string;
+  public_id: string;
+  width: number;
+  height: number;
+  format: string;
+  bytes: number;
+}> => {
   const { folder = 'blog-images', public_id, transformation = [] } = options;
 
   return new Promise((resolve, reject) => {
-    const uploadOptions: any = {
+    const uploadOptions: Record<string, unknown> = {
       folder,
       resource_type: 'image',
       transformation: [

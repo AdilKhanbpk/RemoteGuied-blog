@@ -19,7 +19,10 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     // Get client information
     const userAgent = request.headers.get('user-agent') || 'unknown';
     const referer = request.headers.get('referer') || '';
-    const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+    const ip = request.headers.get('x-forwarded-for') ||
+               request.headers.get('x-real-ip') ||
+               request.headers.get('cf-connecting-ip') ||
+               'unknown';
 
     // Get post information
     const { data: post } = await supabaseAdmin
@@ -60,13 +63,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         }]);
 
       // Update post view count
-      await supabaseAdmin
-        .from('blog_posts')
-        .update({ 
-          view_count: supabaseAdmin.raw('view_count + 1'),
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', post.id);
+      await supabaseAdmin.rpc('increment_view_count', {
+        post_id: post.id
+      });
     }
 
     // Always track analytics event (for engagement metrics)

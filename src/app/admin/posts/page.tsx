@@ -2,18 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal, Loader2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Search, Filter, Loader2 } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { formatDate } from '@/lib/utils';
-import { cn } from '@/lib/utils';
+// cn utility removed as it's not used
 
 const PostsManagement: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<{
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    status: string;
+    category: string;
+    published_at: string;
+    created_at: string;
+    view_count: number;
+    reading_time: number;
+  }[]>([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<string[]>(['All']);
 
@@ -30,7 +41,7 @@ const PostsManagement: React.FC = () => {
         setPosts(data.posts || []);
 
         // Extract unique categories
-        const uniqueCategories = [...new Set(data.posts?.map((p: any) => p.category).filter(Boolean) || [])] as string[];
+        const uniqueCategories = [...new Set(data.posts?.map((p: { category: string }) => p.category).filter(Boolean) || [])] as string[];
         setCategories(['All', ...uniqueCategories.sort()]);
       }
     } catch (error) {
@@ -223,7 +234,7 @@ const PostsManagement: React.FC = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
-                        {formatDate(post.publishedAt)}
+                        {formatDate(post.published_at)}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
