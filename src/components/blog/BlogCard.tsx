@@ -72,16 +72,14 @@ const BlogCard = ({
 
   return (
     <article
-      className={`group card-elevated bg-card p-0 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl ${
-        featured ? 'featured-post' : ''
-      } ${className}`}
+      className={`group card-elevated bg-card p-0 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl ${featured ? 'featured-post' : ''
+        } ${className}`}
     >
       {/* Image */}
-      <div className={`relative overflow-hidden ${
-        featured
+      <div className={`relative overflow-hidden ${featured
           ? 'h-48 sm:h-56 md:h-64 lg:h-80'
           : 'h-40 sm:h-48'
-      }`}>
+        }`}>
         <CloudinaryImage
           src={imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop'}
           alt={`${title} - ${category} blog post cover image`}
@@ -105,32 +103,38 @@ const BlogCard = ({
 
       {/* Content */}
       <div className={`p-4 sm:p-5 ${featured ? 'lg:p-6 xl:p-8' : 'lg:p-6'}`}>
-        <h3 className={`font-semibold text-content-primary group-hover:text-primary transition-colors duration-300 mb-2 sm:mb-3 leading-tight`}
-            style={{
-              fontSize: featured
-                ? 'clamp(0.875rem, 2.5vw, 1rem)' // 14px to 16px
-                : 'clamp(0.75rem, 2vw, 0.875rem)', // 12px to 14px
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical' as const,
-              overflow: 'hidden'
-            }}>
+        <h4
+          className={`font-semibold text-gray-900 group-hover:text-primary transition-colors duration-300 mb-2 sm:mb-3 leading-tight ${featured
+              ? 'text-sm sm:text-[15px] lg:text-[16px]'
+              : 'text-xs sm:text-sm lg:text-base'
+            }`}
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical' as const,
+            overflow: 'hidden'
+          }}
+        >
           {title}
-        </h3>
+        </h4>
 
-        <p className={`text-content-body mb-3 sm:mb-4 leading-relaxed ${
-          featured
-            ? 'text-sm sm:text-base lg:text-lg'
-            : 'text-xs sm:text-sm'
-        }`}
-           style={{
-             display: '-webkit-box',
-             WebkitLineClamp: featured ? 4 : 3,
-             WebkitBoxOrient: 'vertical' as const,
-             overflow: 'hidden'
-           }}>
+
+        <p
+          className={`text-content-body mb-3 sm:mb-4 leading-relaxed ${featured
+              ? 'text-xs sm:text-sm lg:text-base'
+              : 'text-[11px] sm:text-xs'
+            }`}
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: featured ? 4 : 3,
+            WebkitBoxOrient: 'vertical' as const,
+            overflow: 'hidden'
+          }}
+        >
           {excerpt}
         </p>
+
+
 
         {/* Meta Information */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-content-caption text-xs">

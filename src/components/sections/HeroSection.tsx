@@ -10,42 +10,44 @@ const HeroSection = () => {
           {/* Content */}
           <div className="space-y-6 lg:space-y-8 animate-fade-in-up">
             <div className="space-y-4 lg:space-y-6">
-              <h1 className="font-bold text-content-primary leading-tight">
+              <h1 className="font-bold text-content-primary leading-tight text-[2.7rem]">
                 Remote work
                 <span className="text-primary block">made simple</span>
               </h1>
-              <p className="lead max-w-lg lg:max-w-xl">
+
+              <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-normal max-w-[90%] lg:max-w-[90%]">
                 Discover productivity strategies, team management insights, and work-life balance tips that successful remote professionals use every day.
               </p>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Button variant="default" size="lg" className="btn-lg inline-flex items-center gap-2 justify-center">
+              <Button variant="default" size="lg" className="btn-md inline-flex items-center gap-2 justify-center">
                 Explore Articles
                 <ArrowRight className="h-5 w-5" />
               </Button>
-              <Button variant="outline" size="lg" className="btn-lg inline-flex items-center gap-2 justify-center">
+              {/* <Button variant="outline" size="lg" className="btn-lg inline-flex items-center gap-2 justify-center">
                 <Play className="h-5 w-5" />
                 Watch Guide
-              </Button>
+              </Button> */}
             </div>
 
             {/* Stats */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:gap-8 pt-6 lg:pt-8 border-t border-border/50">
               <div className="text-center sm:text-left">
-                <div className="text-xl sm:text-2xl font-bold text-content-primary">50k+</div>
+                <div className="text-[1.125rem] sm:text-[1.375rem] font-bold text-content-primary">50k+</div>
                 <div className="text-content-caption text-sm">Monthly readers</div>
               </div>
               <div className="text-center sm:text-left">
-                <div className="text-xl sm:text-2xl font-bold text-content-primary">200+</div>
+                <div className="text-[1.125rem] sm:text-[1.375rem] font-bold text-content-primary">200+</div>
                 <div className="text-content-caption text-sm">Expert articles</div>
               </div>
               <div className="text-center sm:text-left">
-                <div className="text-xl sm:text-2xl font-bold text-content-primary">15k+</div>
-                <div className="text-content-caption text-sm">Newsletter subscribers</div>
+                <div className="text-[1.125rem] sm:text-[1.375rem] font-bold text-content-primary">15k+</div>
+                <div className="text-content-caption text-sm">Job Success</div>
               </div>
             </div>
+
           </div>
 
           {/* Hero Image */}
@@ -64,7 +66,7 @@ const HeroSection = () => {
             </div>
 
             {/* Floating Cards - Now visible on all screen sizes */}
-            <div className="absolute -top-4 sm:-top-6 lg:-top-10 -left-1 sm:-left-2 lg:-left-4 bg-card p-2 sm:p-3 lg:p-4 rounded-lg lg:rounded-xl shadow-lg animate-float">
+            <div className="absolute -top-3 sm:-top-5 lg:-top-8 -left-1 sm:-left-2 lg:-left-3 bg-card p-1.5 sm:p-2.5 lg:p-3 rounded lg:rounded-lg shadow-md animate-float">
               <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-success rounded-lg flex items-center justify-center bg-green-500 text-amber-50">
                   <span className="text-success-foreground font-semibold text-xs sm:text-sm lg:text-base">98%</span>
@@ -76,7 +78,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="absolute -bottom-4 sm:-bottom-6 lg:-bottom-10 -right-1 sm:-right-2 lg:-right-4 bg-card p-2 sm:p-3 lg:p-4 rounded-lg lg:rounded-xl shadow-lg animate-float" style={{ animationDelay: '1s' }}>
+            <div className="absolute -bottom-3 sm:-bottom-5 lg:-bottom-8 -right-1 sm:-right-2 lg:-right-3 bg-card p-1.5 sm:p-2.5 lg:p-3 rounded lg:rounded-lg shadow-md animate-float" style={{ animationDelay: '1s' }}>
               <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-warning rounded-lg flex items-center justify-center bg-amber-600 text-amber-50">
                   <span className="text-warning-foreground font-semibold text-xs sm:text-sm lg:text-base">4.8</span>

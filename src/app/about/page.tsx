@@ -59,7 +59,7 @@ const AboutPage: React.FC = () => {
             <h1 className="text-5xl md:text-6xl font-bold text-content-primary mb-6">
               Hi, I'm Alex Johnson
             </h1>
-            <p className="lead mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-content-secondary leading-relaxed font-normal mb-8 max-w-2xl mx-auto">
               Remote work consultant and productivity expert with 8+ years of experience helping teams transition to distributed work environments.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -82,7 +82,7 @@ const AboutPage: React.FC = () => {
               <Target className="h-8 w-8 text-primary" />
             </div>
             <h2 className="text-4xl font-bold text-content-primary mb-6">My Mission</h2>
-            <p className="lead leading-relaxed">
+            <p className="text-lg md:text-xl text-content-secondary leading-relaxed font-normal">
               I believe that remote work isn't just the future—it's the present. My mission is to help individuals and teams unlock their full potential in distributed work environments by providing practical strategies, proven methodologies, and actionable insights that drive real results.
             </p>
           </div>
@@ -94,7 +94,7 @@ const AboutPage: React.FC = () => {
         <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-content-primary mb-4">Achievements & Impact</h2>
-            <p className="lead max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-content-secondary leading-relaxed font-normal max-w-2xl mx-auto">
               Over the years, I've had the privilege of working with amazing teams and individuals to transform their remote work experience.
             </p>
           </div>

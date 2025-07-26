@@ -78,17 +78,7 @@ const typographyStyles = `
     margin-bottom: 1em;
   }
 
-  /* Lead text - larger introductory paragraphs */
-  .lead {
-    color: hsl(var(--content-secondary));
-    font-size: 0.5rem;
-    line-height: 1.6;
-    font-weight: 400;
-  }
-
-  @media (min-width: 768px) {
-    .lead { font-size: 0.5rem; }
-  }
+  /* Lead text styles removed - now using Tailwind classes directly */
 
   /* Caption and secondary text */
   .caption {

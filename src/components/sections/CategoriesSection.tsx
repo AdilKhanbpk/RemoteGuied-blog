@@ -215,7 +215,7 @@ const CategoriesSection = () => {
                 <div className="relative z-10 bg-white rounded-2xl p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className={`icon-container p-3 sm:p-3.5 rounded-xl ${category.color} bg-gradient-to-br ${category.gradient} shadow-lg`}>
-                      <IconComponent className="h-3 w-3 sm:h-7 sm:w-7 text-white" />
+                      <IconComponent className="h-2 w-2 sm:h-5 sm:w-5 text-white" />
                     </div>
                     <div className="article-count">
                       {category.postCount} articles
