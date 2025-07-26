@@ -81,13 +81,13 @@ const typographyStyles = `
   /* Lead text - larger introductory paragraphs */
   .lead {
     color: hsl(var(--content-secondary));
-    font-size: 1.125rem;
+    font-size: 0.5rem;
     line-height: 1.6;
     font-weight: 400;
   }
 
   @media (min-width: 768px) {
-    .lead { font-size: 1.25rem; }
+    .lead { font-size: 0.5rem; }
   }
 
   /* Caption and secondary text */

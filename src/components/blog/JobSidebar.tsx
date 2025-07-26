@@ -15,8 +15,7 @@ const JobSidebar: React.FC<JobSidebarProps> = ({ className = '' }) => {
 
   return (
     <div className={`space-y-6 ${className}`}>
-      {/* Latest Remote Jobs */}
-      <Card className="sticky top-24">
+      {/* <Card className="sticky top-24">
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
@@ -90,7 +89,6 @@ const JobSidebar: React.FC<JobSidebarProps> = ({ className = '' }) => {
         </CardContent>
       </Card>
 
-      {/* Newsletter Signup */}
       <Card>
         <CardContent className="pt-6">
           <div className="text-center">
@@ -118,7 +116,6 @@ const JobSidebar: React.FC<JobSidebarProps> = ({ className = '' }) => {
         </CardContent>
       </Card>
 
-      {/* Popular Categories */}
       <Card>
         <CardHeader>
           <h3 className="text-lg font-semibold text-gray-900">Popular Topics</h3>
@@ -143,7 +140,7 @@ const JobSidebar: React.FC<JobSidebarProps> = ({ className = '' }) => {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 };
