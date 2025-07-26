@@ -184,9 +184,9 @@ const CategoriesSection = () => {
   ];
 
   return (
-    <section className="py-5 sm:py-3 lg:py-5 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-8 lg:mb-9 space-y-responsive">
+    <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen flex items-center">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full">
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20 space-y-6">
           <div className="inline-flex items-center space-x-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 mb-4">
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
             <span className="text-sm font-medium text-slate-600">Featured Categories</span>
@@ -200,7 +200,7 @@ const CategoriesSection = () => {
           </p>
         </div>
 
-        <div className="responsive-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
           {categories.map((category, index) => {
             const IconComponent = category.icon;
             return (

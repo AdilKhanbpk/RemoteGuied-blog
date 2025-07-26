@@ -35,7 +35,7 @@ const BlogPage = async () => {
 
     return (
       <Layout>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-16">
             <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold text-gray-900 mb-4">
               Remote Work Blog
@@ -47,7 +47,7 @@ const BlogPage = async () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-4">
               <p className="text-gray-600 mb-6">
                 {posts.length} {posts.length === 1 ? 'article' : 'articles'} found
               </p>
