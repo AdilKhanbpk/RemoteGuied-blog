@@ -3,6 +3,30 @@ import cloudinary, { deleteFromCloudinary } from '@/lib/cloudinary-server';
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('🚀 Upload API called');
+
+    // Validate Cloudinary configuration
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+    console.log('🔧 Environment check:', {
+      cloudName: cloudName ? '✅ Set' : '❌ Missing',
+      apiKey: apiKey ? '✅ Set' : '❌ Missing',
+      apiSecret: apiSecret ? '✅ Set' : '❌ Missing'
+    });
+
+    if (!cloudName || !apiKey || !apiSecret) {
+      console.error('Missing Cloudinary configuration:', {
+        cloudName: !!cloudName,
+        apiKey: !!apiKey,
+        apiSecret: !!apiSecret
+      });
+      return NextResponse.json(
+        { error: 'Cloudinary configuration is missing. Please check your environment variables.' },
+        { status: 500 }
+      );
+    }
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const folder = formData.get('folder') as string || 'blog-images';
@@ -34,8 +58,23 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    console.log('📁 File info:', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      folder: folder
+    });
+
     // Upload to Cloudinary
-    const result = await new Promise((resolve, reject) => {
+    console.log('☁️ Starting Cloudinary upload...');
+    const result = await new Promise<{
+      secure_url: string;
+      public_id: string;
+      width: number;
+      height: number;
+      format: string;
+      bytes: number;
+    }>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
           folder: folder,
@@ -46,20 +85,25 @@ export async function POST(request: NextRequest) {
           ]
         },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error) {
+            reject(error);
+          } else if (!result) {
+            reject(new Error('Upload failed - no result returned'));
+          } else {
+            resolve({
+              secure_url: result.secure_url,
+              public_id: result.public_id,
+              width: result.width,
+              height: result.height,
+              format: result.format,
+              bytes: result.bytes,
+            });
+          }
         }
       ).end(buffer);
     });
 
-    const uploadResult = result as {
-      secure_url: string;
-      public_id: string;
-      width: number;
-      height: number;
-      format: string;
-      bytes: number;
-    };
+    const uploadResult = result;
 
     return NextResponse.json({
       success: true,
@@ -73,8 +117,18 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Upload error:', error);
+
+    // More detailed error logging
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+
     return NextResponse.json(
-      { error: 'Upload failed. Please try again.' },
+      {
+        error: 'Upload failed. Please try again.',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

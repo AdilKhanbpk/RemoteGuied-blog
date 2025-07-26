@@ -1,8 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { getOptimizedImageUrl, getResponsiveImageSrcSet, getPublicIdFromUrl } from '@/lib/cloudinary';
+import { AdvancedImage } from '@cloudinary/react';
+import { cld } from '@/lib/cloudinary-config';
+import { fill, scale, fit } from "@cloudinary/url-gen/actions/resize";
+import { quality, format } from "@cloudinary/url-gen/actions/delivery";
+import { auto } from "@cloudinary/url-gen/qualifiers/quality";
+import { auto as autoFormat } from "@cloudinary/url-gen/qualifiers/format";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
 interface CloudinaryImageProps {
   src: string;
@@ -11,15 +16,27 @@ interface CloudinaryImageProps {
   height?: number;
   className?: string;
   priority?: boolean;
-  quality?: string;
-  crop?: string;
-  gravity?: string;
-  sizes?: string;
-  fill?: boolean;
+  crop?: 'fill' | 'fit' | 'scale';
   style?: React.CSSProperties;
   onLoad?: () => void;
   onError?: () => void;
 }
+
+// Helper function to extract public ID from Cloudinary URL
+const getPublicId = (url: string): string => {
+  if (url.includes('cloudinary.com')) {
+    const parts = url.split('/');
+    const uploadIndex = parts.findIndex(part => part === 'upload');
+    if (uploadIndex !== -1 && uploadIndex < parts.length - 1) {
+      const publicIdParts = parts.slice(uploadIndex + 1);
+      const lastPart = publicIdParts[publicIdParts.length - 1];
+      const withoutExtension = lastPart.replace(/\.[^/.]+$/, '');
+      publicIdParts[publicIdParts.length - 1] = withoutExtension;
+      return publicIdParts.join('/');
+    }
+  }
+  return url.replace(/\.[^/.]+$/, '');
+};
 
 const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
   src,
@@ -28,11 +45,7 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
   height,
   className = '',
   priority = false,
-  quality = 'auto:best',
   crop = 'fill',
-  gravity = 'auto',
-  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
-  fill = false,
   style,
   onLoad,
   onError,
@@ -40,19 +53,14 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Handle non-Cloudinary URLs (fallback)
-  if (!src.includes('cloudinary.com')) {
+  // Handle non-Cloudinary URLs (fallback to regular img)
+  if (!src.includes('cloudinary.com') && !process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
     return (
-      <Image
+      <img
         src={src}
         alt={alt}
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
         className={className}
-        priority={priority}
-        fill={fill}
-        sizes={sizes}
-        style={style}
+        style={{ width, height, ...style }}
         onLoad={() => {
           setIsLoading(false);
           onLoad?.();
@@ -66,29 +74,31 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
     );
   }
 
-  const publicId = getPublicIdFromUrl(src);
-  
-  // Generate optimized URLs
-  const optimizedSrc = getOptimizedImageUrl(publicId, {
-    width,
-    height,
-    quality,
-    crop,
-    gravity,
-  });
+  const publicId = getPublicId(src);
 
-  const srcSet = getResponsiveImageSrcSet(publicId, width);
+  // Create Cloudinary image with transformations
+  const myImage = cld.image(publicId);
+
+  // Apply transformations
+  myImage
+    .delivery(quality(auto()))
+    .delivery(format(autoFormat()));
+
+  // Apply resize based on crop type
+  if (crop === 'fill' && width && height) {
+    myImage.resize(fill().width(width).height(height).gravity(autoGravity()));
+  } else if (crop === 'fit' && width && height) {
+    myImage.resize(fit().width(width).height(height));
+  } else if (width) {
+    myImage.resize(scale().width(width));
+  }
 
   // Error fallback
   if (imageError) {
     return (
-      <div 
+      <div
         className={`bg-gray-200 flex items-center justify-center ${className}`}
-        style={{ 
-          width: fill ? '100%' : width, 
-          height: fill ? '100%' : height,
-          ...style 
-        }}
+        style={{ width, height, ...style }}
       >
         <div className="text-center text-gray-500">
           <svg className="mx-auto h-12 w-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,31 +111,18 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
   }
 
   return (
-    <div className="relative">
+    <div className="relative" style={style}>
       {isLoading && (
-        <div 
+        <div
           className={`absolute inset-0 bg-gray-200 animate-pulse ${className}`}
-          style={{ 
-            width: fill ? '100%' : width, 
-            height: fill ? '100%' : height 
-          }}
+          style={{ width, height }}
         />
       )}
-      
-      <Image
-        src={optimizedSrc}
-        srcSet={srcSet}
-        alt={alt}
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
+
+      <AdvancedImage
+        cldImg={myImage}
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-        priority={priority}
-        fill={fill}
-        sizes={sizes}
-        style={style}
-        quality={75} // Let Cloudinary handle quality optimization
-        placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+        style={{ width, height }}
         onLoad={() => {
           setIsLoading(false);
           onLoad?.();

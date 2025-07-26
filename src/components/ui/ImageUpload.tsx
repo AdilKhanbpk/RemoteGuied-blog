@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
-import { uploadToCloudinary } from '@/lib/cloudinary';
+// Using server-side upload API instead of direct client upload
 
 interface ImageUploadProps {
   value?: string;
@@ -41,8 +41,22 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
     setIsUploading(true);
     try {
-      const imageUrl = await uploadToCloudinary(file, folder);
-      onChange(imageUrl);
+      // Upload via server-side API
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', folder);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+      onChange(data.url);
     } catch (error) {
       console.error('Upload failed:', error);
       alert('Failed to upload image. Please try again.');

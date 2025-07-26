@@ -9,7 +9,7 @@ export const uploadToCloudinary = async (file: File, folder: string = 'blog-imag
 
   try {
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
       {
         method: 'POST',
         body: formData,
@@ -58,7 +58,7 @@ export const getOptimizedImageUrl = (
   // Add SEO optimizations
   transformation += ',fl_progressive,fl_immutable_cache';
 
-  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${transformation}/${publicId}`;
+  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${transformation}/${publicId}`;
 };
 
 // Generate responsive image srcset for SEO

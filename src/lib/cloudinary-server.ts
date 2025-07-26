@@ -4,10 +4,21 @@ import { v2 as cloudinary } from 'cloudinary';
 
 // Configure Cloudinary (server-side only)
 cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
-  api_key: process.env.NEXT_PUBLIC_CLAUDINARY_API_KEY,
-  api_secret: process.env.NEXT_PUBLIC_CLAUDINARY_API_SECRET,
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Debug logging (remove in production)
+if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME && !process.env.CLOUDINARY_CLOUD_NAME) {
+  console.error('❌ Cloudinary cloud_name not found in environment variables');
+}
+if (!process.env.CLOUDINARY_API_KEY) {
+  console.error('❌ Cloudinary API key not found in environment variables');
+}
+if (!process.env.CLOUDINARY_API_SECRET) {
+  console.error('❌ Cloudinary API secret not found in environment variables');
+}
 
 export default cloudinary;
 
@@ -58,8 +69,20 @@ export const uploadToCloudinaryServer = async (
     cloudinary.uploader.upload_stream(
       uploadOptions,
       (error, result) => {
-        if (error) reject(error);
-        else resolve(result);
+        if (error) {
+          reject(error);
+        } else if (!result) {
+          reject(new Error('Upload failed - no result returned'));
+        } else {
+          resolve({
+            secure_url: result.secure_url,
+            public_id: result.public_id,
+            width: result.width,
+            height: result.height,
+            format: result.format,
+            bytes: result.bytes,
+          });
+        }
       }
     ).end(buffer);
   });

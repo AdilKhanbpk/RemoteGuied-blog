@@ -6,7 +6,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
-import { uploadToCloudinary } from '@/lib/cloudinary';
+// Removed direct Cloudinary import - using server API instead
 import {
   Bold,
   Italic,
@@ -63,6 +63,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
+    immediatelyRender: false,
   });
 
   // Custom image handler for Cloudinary upload
@@ -90,8 +91,22 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
       setIsLoading(true);
       try {
-        // Upload to Cloudinary
-        const imageUrl = await uploadToCloudinary(file, 'blog-content');
+        // Upload to Cloudinary via server API
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', 'blog-content');
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+
+        const data = await response.json();
+        const imageUrl = data.url;
 
         // Insert image into editor
         if (editor) {

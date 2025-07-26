@@ -1,11 +1,32 @@
 import { Metadata } from 'next';
 import { BlogPost } from '@/types/blog';
-import { getOptimizedImageUrl, getPublicIdFromUrl } from '@/lib/cloudinary';
+import { cld } from '@/lib/cloudinary-config';
+import { fill } from "@cloudinary/url-gen/actions/resize";
+import { quality, format } from "@cloudinary/url-gen/actions/delivery";
+import { auto } from "@cloudinary/url-gen/qualifiers/quality";
+import { auto as autoFormat } from "@cloudinary/url-gen/qualifiers/format";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
 const baseUrl = 'https://remotework.com';
 const siteName = 'RemoteWork';
 const defaultTitle = 'RemoteWork - Remote work made simple';
 const defaultDescription = 'Your trusted resource for remote work tips, productivity strategies, and the latest opportunities in the distributed work landscape.';
+
+// Helper function to extract public ID from Cloudinary URL
+const getPublicIdFromUrl = (url: string): string => {
+  if (url.includes('cloudinary.com')) {
+    const parts = url.split('/');
+    const uploadIndex = parts.findIndex(part => part === 'upload');
+    if (uploadIndex !== -1 && uploadIndex < parts.length - 1) {
+      const publicIdParts = parts.slice(uploadIndex + 1);
+      const lastPart = publicIdParts[publicIdParts.length - 1];
+      const withoutExtension = lastPart.replace(/\.[^/.]+$/, '');
+      publicIdParts[publicIdParts.length - 1] = withoutExtension;
+      return publicIdParts.join('/');
+    }
+  }
+  return url.replace(/\.[^/.]+$/, '');
+};
 
 export function generatePageMetadata({
   title,
@@ -101,14 +122,14 @@ export function generateBlogPostMetadata(post: BlogPost): Metadata {
   if (post.featuredImage && post.featuredImage.includes('cloudinary.com')) {
     const publicId = getPublicIdFromUrl(post.featuredImage);
 
-    // Open Graph optimized image (1200x630)
-    optimizedImage = getOptimizedImageUrl(publicId, {
-      width: 1200,
-      height: 630,
-      quality: 'auto:best',
-      crop: 'fill',
-      gravity: 'auto'
-    });
+    // Create optimized Open Graph image (1200x630) using new SDK
+    const ogImage = cld.image(publicId);
+    ogImage
+      .resize(fill().width(1200).height(630).gravity(autoGravity()))
+      .delivery(quality(auto()))
+      .delivery(format(autoFormat()));
+
+    optimizedImage = ogImage.toURL();
   } else if (post.featuredImage) {
     // Use original image if not from Cloudinary
     optimizedImage = post.featuredImage;
