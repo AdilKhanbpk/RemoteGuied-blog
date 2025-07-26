@@ -100,21 +100,21 @@ const utilityClasses = `
   margin-left: auto;
   margin-right: auto;
   max-width: 82rem;
-  padding-left: 1.125rem;  /* 18px (was 48px - 30px = 18px) */
-  padding-right: 1.125rem;
+  padding-left: 1.5rem;  /* 24px - Better padding for mobile */
+  padding-right: 1.5rem;
 }
 
 @media (min-width: 640px) {
   .container-content {
-    padding-left: 0.75rem;  /* 12px (was 24px - 12px = 12px) */
-    padding-right: 0.75rem;
+    padding-left: 2rem;  /* 32px - Better padding for small screens */
+    padding-right: 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container-content {
-    padding-left: 1rem;  /* 16px (was 32px - 16px = 16px) */
-    padding-right: 1rem;
+    padding-left: 2.5rem;  /* 40px - Better padding for large screens */
+    padding-right: 2.5rem;
   }
 }
 `;

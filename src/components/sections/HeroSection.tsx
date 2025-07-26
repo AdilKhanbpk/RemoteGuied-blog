@@ -63,27 +63,27 @@ const HeroSection = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent" />
             </div>
 
-            {/* Floating Cards - Hidden on mobile for cleaner look */}
-            <div className="hidden sm:block absolute -top-6 lg:-top-10 -left-2 lg:-left-4 bg-card p-3 lg:p-4 rounded-lg lg:rounded-xl shadow-lg animate-float">
-              <div className="flex items-center gap-2 lg:gap-3">
-                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-success rounded-lg flex items-center justify-center bg-green-500 text-amber-50">
-                  <span className="text-success-foreground font-semibold text-sm lg:text-base">98%</span>
+            {/* Floating Cards - Now visible on all screen sizes */}
+            <div className="absolute -top-4 sm:-top-6 lg:-top-10 -left-1 sm:-left-2 lg:-left-4 bg-card p-2 sm:p-3 lg:p-4 rounded-lg lg:rounded-xl shadow-lg animate-float">
+              <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-success rounded-lg flex items-center justify-center bg-green-500 text-amber-50">
+                  <span className="text-success-foreground font-semibold text-xs sm:text-sm lg:text-base">98%</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-content-primary text-sm lg:text-base">Productivity</div>
-                  <div className="text-content-caption text-xs lg:text-sm">Increase</div>
+                  <div className="font-semibold text-content-primary text-xs sm:text-sm lg:text-base">Productivity</div>
+                  <div className="text-content-caption text-xs sm:text-xs lg:text-sm">Increase</div>
                 </div>
               </div>
             </div>
 
-            <div className="hidden sm:block absolute -bottom-6 lg:-bottom-10 -right-2 lg:-right-4 bg-card p-3 lg:p-4 rounded-lg lg:rounded-xl shadow-lg animate-float" style={{ animationDelay: '1s' }}>
-              <div className="flex items-center gap-2 lg:gap-3">
-                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-warning rounded-lg flex items-center justify-center bg-amber-600 text-amber-50">
-                  <span className="text-warning-foreground font-semibold text-sm lg:text-base">4.8</span>
+            <div className="absolute -bottom-4 sm:-bottom-6 lg:-bottom-10 -right-1 sm:-right-2 lg:-right-4 bg-card p-2 sm:p-3 lg:p-4 rounded-lg lg:rounded-xl shadow-lg animate-float" style={{ animationDelay: '1s' }}>
+              <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-warning rounded-lg flex items-center justify-center bg-amber-600 text-amber-50">
+                  <span className="text-warning-foreground font-semibold text-xs sm:text-sm lg:text-base">4.8</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-content-primary text-sm lg:text-base">Rating</div>
-                  <div className="text-content-caption text-xs lg:text-sm">From readers</div>
+                  <div className="font-semibold text-content-primary text-xs sm:text-sm lg:text-base">Rating</div>
+                  <div className="text-content-caption text-xs sm:text-xs lg:text-sm">From readers</div>
                 </div>
               </div>
             </div>

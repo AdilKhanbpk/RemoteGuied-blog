@@ -10,6 +10,13 @@ interface PerformanceMetrics {
   ttfb: number; // Time to First Byte
 }
 
+interface WebVitalMetric {
+  name: string;
+  value: number;
+  id: string;
+  delta: number;
+}
+
 const PerformanceMonitor = () => {
   const [metrics, setMetrics] = useState<Partial<PerformanceMetrics>>({});
   const [isVisible, setIsVisible] = useState(false);
@@ -23,11 +30,11 @@ const PerformanceMonitor = () => {
       if ('web-vital' in window) {
         // @ts-expect-error - web-vitals dynamic import
         import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-          getCLS((metric) => setMetrics(prev => ({ ...prev, cls: metric.value })));
-          getFID((metric) => setMetrics(prev => ({ ...prev, fid: metric.value })));
-          getFCP((metric) => setMetrics(prev => ({ ...prev, fcp: metric.value })));
-          getLCP((metric) => setMetrics(prev => ({ ...prev, lcp: metric.value })));
-          getTTFB((metric) => setMetrics(prev => ({ ...prev, ttfb: metric.value })));
+          getCLS((metric: WebVitalMetric) => setMetrics(prev => ({ ...prev, cls: metric.value })));
+          getFID((metric: WebVitalMetric) => setMetrics(prev => ({ ...prev, fid: metric.value })));
+          getFCP((metric: WebVitalMetric) => setMetrics(prev => ({ ...prev, fcp: metric.value })));
+          getLCP((metric: WebVitalMetric) => setMetrics(prev => ({ ...prev, lcp: metric.value })));
+          getTTFB((metric: WebVitalMetric) => setMetrics(prev => ({ ...prev, ttfb: metric.value })));
         });
       }
 
