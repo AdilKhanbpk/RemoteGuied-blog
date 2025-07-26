@@ -11,7 +11,7 @@ export default function CategoriesPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container-content py-16">
+      <main className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 py-16">
         <h1 className="text-4xl font-bold mb-8">Categories</h1>
         <p className="mb-8">Browse articles by category. (Implement dynamic category listing as needed.)</p>
       </main>

@@ -50,8 +50,8 @@ const AboutPage: React.FC = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="gradient-hero section-padding">
-        <div className="container-content">
+      <section className="gradient-hero py-12 sm:py-16 lg:py-24">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="max-w-4xl mx-auto text-center">
             <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto mb-8">
               <User className="h-16 w-16 text-primary-foreground" />
@@ -75,8 +75,8 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* Mission Statement */}
-      <section className="section-padding bg-background">
-        <div className="container-content">
+      <section className="py-12 sm:py-16 lg:py-24 bg-background">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mx-auto mb-6">
               <Target className="h-8 w-8 text-primary" />
@@ -90,8 +90,8 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* Achievements */}
-      <section className="section-padding bg-background-alt">
-        <div className="container-content">
+      <section className="py-12 sm:py-16 lg:py-24 bg-background-alt">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-content-primary mb-4">Achievements & Impact</h2>
             <p className="lead max-w-2xl mx-auto">
@@ -120,8 +120,8 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* Background & Experience */}
-      <section className="section-padding bg-background">
-        <div className="container-content">
+      <section className="py-12 sm:py-16 lg:py-24 bg-background">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -158,8 +158,8 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* Personal Touch */}
-      <section className="section-padding bg-background-alt">
-        <div className="container-content">
+      <section className="py-12 sm:py-16 lg:py-24 bg-background-alt">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="max-w-3xl mx-auto">
             <Card className="card-elevated">
               <CardHeader>
@@ -202,8 +202,8 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-primary">
-        <div className="container-content">
+      <section className="py-12 sm:py-16 lg:py-24 bg-primary">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-4xl font-bold text-primary-foreground mb-4">
               Ready to Transform Your Remote Work Experience?
