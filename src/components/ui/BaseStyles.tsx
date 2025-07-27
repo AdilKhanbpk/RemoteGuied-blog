@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import React from 'react';
 
 // Base styles moved from globals.css
 const baseStyles = `
@@ -9,34 +9,34 @@ const baseStyles = `
   border-color: hsl(var(--border));
 }
 
-/* Root font size - responsive base */
+/* Root font size - responsive base (reduced by 5%) */
 html {
-  font-size: 16px; /* Base 16px for desktop */
+  font-size: 15.2px; /* Base 16px reduced by 5% = 15.2px */
 }
 
 /* Mobile-first responsive font sizing */
 @media (max-width: 320px) {
-  html { font-size: 14px; }
+  html { font-size: 13.3px; } /* 14px reduced by 5% = 13.3px */
 }
 
 @media (min-width: 321px) and (max-width: 767px) {
-  html { font-size: 16px; }
+  html { font-size: 15.2px; } /* 16px reduced by 5% = 15.2px */
 }
 
 @media (min-width: 768px) {
-  html { font-size: 17px; }
+  html { font-size: 16.15px; } /* 17px reduced by 5% = 16.15px */
 }
 
 @media (min-width: 1024px) {
-  html { font-size: 18px; }
+  html { font-size: 17.1px; } /* 18px reduced by 5% = 17.1px */
 }
 
 @media (min-width: 1280px) {
-  html { font-size: 18px; }
+  html { font-size: 17.1px; } /* 18px reduced by 5% = 17.1px */
 }
 
 @media (min-width: 1920px) {
-  html { font-size: 20px; }
+  html { font-size: 19px; } /* 20px reduced by 5% = 19px */
 }
 
 body {
@@ -53,17 +53,12 @@ body {
 `;
 
 const BaseStyles: React.FC = () => {
-  useEffect(() => {
-    const styleId = 'base-styles';
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.textContent = baseStyles;
-      document.head.appendChild(style);
-    }
-  }, []);
-
-  return null; // This component doesn't render anything
+  return (
+    <style
+      id="base-styles"
+      dangerouslySetInnerHTML={{ __html: baseStyles }}
+    />
+  );
 };
 
 export default BaseStyles;

@@ -83,19 +83,20 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <Layout>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Header Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/5 to-teal-600/10"></div>
-        <div className="relative px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-32">
+        <div className="relative px-4 sm:px-6 lg:px-8 pt-10 pb-13 sm:pt-10 sm:pb-10 lg:pt-12 lg:pb-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 mb-6 lg:mb-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 mb-6 lg:mb-8">
               Let's Start a
               <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
                 Conversation
               </span>
             </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
               Have questions, ideas, or want to collaborate? I'd love to hear from you and help bring your vision to life.
             </p>
           </div>
@@ -103,10 +104,10 @@ const ContactPage = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24">
+      <section className="px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24 mt-5">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/50 overflow-hidden">
-            <div className="p-6 sm:p-8 lg:p-12">
+            <div className="px-6 py-4 sm:px-8 sm:py-6 lg:px-12 lg:py-8 ">
               {/* Status Messages */}
               {submitStatus === 'success' && (
                 <div className="mb-8 p-4 sm:p-6 bg-emerald-50 border border-emerald-200 rounded-xl sm:rounded-2xl">
@@ -133,8 +134,8 @@ const ContactPage = () => {
               )}
 
               {/* Form Header */}
-              <div className="text-center mb-8 sm:mb-12">
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4">Send Message</h2>
+              <div className="text-center mb-6 sm:mb-7">
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 ">Send Message</h2>
                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                   Fill out the form below and I'll respond as quickly as possible.
                 </p>
@@ -144,15 +145,15 @@ const ContactPage = () => {
               <div className="space-y-6 sm:space-y-8">
                 {/* Name Field */}
                 <div>
-                  <label htmlFor="name" className="block text-sm sm:text-base font-semibold text-slate-900 mb-2 sm:mb-3">
-                    Full Name *
+                  <label htmlFor="name" className="block text-sm sm:text-base font-semibold text-slate-900 mb-1 sm:mb-1">
+                    Full Name :
                   </label>
                   <input
                     type="text"
                     id="name"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
-                    className={`w-full px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base border-2 rounded-xl sm:rounded-2xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 ease-out bg-slate-50/50 text-slate-900 hover:bg-white hover:border-slate-300 ${errors.name ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30' : 'border-slate-200'}`}
+                    className={`w-full px-4 sm:px-6 py-2 sm:py-2 text-sm sm:text-base border-2 rounded-xl sm:rounded-2xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 ease-out bg-slate-50/50 text-slate-900 hover:bg-white hover:border-slate-300 ${errors.name ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30' : 'border-slate-200'}`}
                     placeholder="Enter your full name"
                   />
                   {errors.name && (
@@ -162,15 +163,15 @@ const ContactPage = () => {
 
                 {/* Email Field */}
                 <div>
-                  <label htmlFor="email" className="block text-sm sm:text-base font-semibold text-slate-900 mb-2 sm:mb-3">
-                    Email Address *
+                  <label htmlFor="email" className="block text-sm sm:text-base font-semibold text-slate-900 mb-1 sm:mb-1">
+                    Email Address :
                   </label>
                   <input
                     type="email"
                     id="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className={`w-full px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base border-2 rounded-xl sm:rounded-2xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 ease-out bg-slate-50/50 text-slate-900 hover:bg-white hover:border-slate-300 ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30' : 'border-slate-200'}`}
+                    className={`w-full px-4 sm:px-6 py-2 sm:py-2 text-sm sm:text-base border-2 rounded-xl sm:rounded-2xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 ease-out bg-slate-50/50 text-slate-900 hover:bg-white hover:border-slate-300 ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30' : 'border-slate-200'}`}
                     placeholder="your.email@example.com"
                   />
                   {errors.email && (
@@ -180,14 +181,14 @@ const ContactPage = () => {
 
                 {/* Message Field */}
                 <div>
-                  <label htmlFor="message" className="block text-sm sm:text-base font-semibold text-slate-900 mb-2 sm:mb-3">
-                    Your Message *
+                  <label htmlFor="message" className="block text-sm sm:text-base font-semibold text-slate-900 mb-1 sm:mb-1">
+                    Your Message :
                   </label>
                   <textarea
                     id="message"
                     value={formData.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
-                    className={`w-full px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base border-2 rounded-xl sm:rounded-2xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 ease-out bg-slate-50/50 text-slate-900 hover:bg-white hover:border-slate-300 resize-none min-h-[120px] sm:min-h-[140px] ${errors.message ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30' : 'border-slate-200'}`}
+                    className={`w-full px-4 sm:px-6 py-2 sm:py-2 text-sm sm:text-base border-2 rounded-xl sm:rounded-2xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 ease-out bg-slate-50/50 text-slate-900 hover:bg-white hover:border-slate-300 resize-none min-h-[120px] sm:min-h-[140px] ${errors.message ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30' : 'border-slate-200'}`}
                     rows={6}
                     placeholder="Tell me about your project, questions, or how I can help you..."
                   />
@@ -230,7 +231,8 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </Layout>
   );
 };
 

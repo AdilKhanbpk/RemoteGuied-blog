@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import React from 'react';
 
 // Utility classes moved from globals.css
 const utilityClasses = `
@@ -120,17 +120,12 @@ const utilityClasses = `
 `;
 
 const UtilityClasses: React.FC = () => {
-  useEffect(() => {
-    const styleId = 'utility-classes';
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.textContent = utilityClasses;
-      document.head.appendChild(style);
-    }
-  }, []);
-
-  return null; // This component doesn't render anything
+  return (
+    <style
+      id="utility-classes"
+      dangerouslySetInnerHTML={{ __html: utilityClasses }}
+    />
+  );
 };
 
 export default UtilityClasses;

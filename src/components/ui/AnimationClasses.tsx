@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import React from 'react';
 
 // Animation classes moved from globals.css
 const animationClasses = `
@@ -48,17 +48,12 @@ const animationClasses = `
 `;
 
 const AnimationClasses: React.FC = () => {
-  useEffect(() => {
-    const styleId = 'animation-classes';
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.textContent = animationClasses;
-      document.head.appendChild(style);
-    }
-  }, []);
-
-  return null; // This component doesn't render anything
+  return (
+    <style
+      id="animation-classes"
+      dangerouslySetInnerHTML={{ __html: animationClasses }}
+    />
+  );
 };
 
 export default AnimationClasses;

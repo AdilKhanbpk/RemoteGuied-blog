@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import React from 'react';
 
 // CSS Variables moved from globals.css
 const cssVariables = `
@@ -165,17 +165,12 @@ const cssVariables = `
 `;
 
 const CSSVariables: React.FC = () => {
-  useEffect(() => {
-    const styleId = 'css-variables';
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.textContent = cssVariables;
-      document.head.appendChild(style);
-    }
-  }, []);
-
-  return null; // This component doesn't render anything
+  return (
+    <style
+      id="css-variables"
+      dangerouslySetInnerHTML={{ __html: cssVariables }}
+    />
+  );
 };
 
 export default CSSVariables;
