@@ -20,9 +20,9 @@ const Header: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50 bg-white backdrop-blur-md border-b border-border">
       <nav className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-        <div className="flex items-center justify-between h-14 sm:h-16">
+        <div className="flex items-center justify-between h-12 sm:h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <div className="p-1.5 sm:p-2 bg-primary rounded-lg">

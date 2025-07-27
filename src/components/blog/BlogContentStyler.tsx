@@ -64,15 +64,15 @@ const BlogContentStyler = () => {
       }
     });
 
-    // Professional list styling - clean and readable
+    // Professional list styling - clean and readable with reduced spacing
     const ulElements = blogContent.querySelectorAll('ul');
     ulElements.forEach((ul) => {
-      ul.className = 'space-y-2 mb-6 pl-6';
+      ul.className = 'space-y-1 mb-4 pl-6';
     });
 
     const olElements = blogContent.querySelectorAll('ol');
     olElements.forEach((ol) => {
-      ol.className = 'space-y-2 mb-6 pl-6 list-decimal';
+      ol.className = 'space-y-1 mb-4 pl-6 list-decimal';
     });
 
     const liElements = blogContent.querySelectorAll('li');
