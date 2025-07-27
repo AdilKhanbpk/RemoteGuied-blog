@@ -1,14 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import cloudinary, { deleteFromCloudinary } from '@/lib/cloudinary-server';
+import { v2 as cloudinary } from 'cloudinary';
+
+// Configure Cloudinary directly in the route
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dd7kxabqo',
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || process.env.CLOUDINARY_API_KEY || '565322172817273',
+  api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET || process.env.CLOUDINARY_API_SECRET || '7_kgJIXcORg8PNykNwy5NT_GKMQ',
+});
+
+// Delete function
+const deleteFromCloudinary = async (publicId: string): Promise<boolean> => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    return result.result === 'ok';
+  } catch (error) {
+    console.error('Cloudinary delete error:', error);
+    return false;
+  }
+};
 
 export async function POST(request: NextRequest) {
   try {
     console.log('🚀 Upload API called');
 
     // Validate Cloudinary configuration
-    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME;
-    const apiKey = process.env.CLOUDINARY_API_KEY;
-    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME || 'dd7kxabqo';
+    const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || process.env.CLOUDINARY_API_KEY || '565322172817273';
+    const apiSecret = process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET || process.env.CLOUDINARY_API_SECRET || '7_kgJIXcORg8PNykNwy5NT_GKMQ';
 
     console.log('🔧 Environment check:', {
       cloudName: cloudName ? '✅ Set' : '❌ Missing',

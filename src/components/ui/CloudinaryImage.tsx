@@ -9,7 +9,7 @@ import { auto } from "@cloudinary/url-gen/qualifiers/quality";
 import { auto as autoFormat } from "@cloudinary/url-gen/qualifiers/format";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 
-interface CloudinaryImageProps {
+export interface CloudinaryImageProps {
   src: string;
   alt: string;
   width?: number;
@@ -17,6 +17,7 @@ interface CloudinaryImageProps {
   className?: string;
   priority?: boolean;
   crop?: 'fill' | 'fit' | 'scale';
+  sizes?: string; // For responsive images compatibility
   style?: React.CSSProperties;
   onLoad?: () => void;
   onError?: () => void;
@@ -46,6 +47,7 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({
   className = '',
   priority = false,
   crop = 'fill',
+  sizes,
   style,
   onLoad,
   onError,

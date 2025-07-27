@@ -1,22 +1,21 @@
-'use server';
-
+// Server-side Cloudinary configuration
 import { v2 as cloudinary } from 'cloudinary';
 
 // Configure Cloudinary (server-side only)
 cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME || 'dd7kxabqo',
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || process.env.CLOUDINARY_API_KEY || '565322172817273',
+  api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET || process.env.CLOUDINARY_API_SECRET || '7_kgJIXcORg8PNykNwy5NT_GKMQ',
 });
 
 // Debug logging (remove in production)
-if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME && !process.env.CLOUDINARY_CLOUD_NAME) {
+if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME && !process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
   console.error('❌ Cloudinary cloud_name not found in environment variables');
 }
-if (!process.env.CLOUDINARY_API_KEY) {
+if (!process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY) {
   console.error('❌ Cloudinary API key not found in environment variables');
 }
-if (!process.env.CLOUDINARY_API_SECRET) {
+if (!process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET) {
   console.error('❌ Cloudinary API secret not found in environment variables');
 }
 
