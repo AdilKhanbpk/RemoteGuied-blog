@@ -1,7 +1,8 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { Card, CardContent } from '@/components/ui/Card';
-import { Shield, FileText, Calendar, Mail, MapPin, Scale, Users, Lock } from 'lucide-react';
+import { Shield, FileText, Calendar, Mail, MapPin, Scale, Users, Lock, Briefcase } from 'lucide-react';
+import TermsNavigation from '@/components/terms/TermsNavigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -15,7 +16,8 @@ const TermsPage: React.FC = () => {
     { id: 'service', title: 'Description of Service', icon: Users },
     { id: 'accounts', title: 'User Accounts', icon: Lock },
     { id: 'acceptable-use', title: 'Acceptable Use', icon: Shield },
-    { id: 'content', title: 'Content', icon: FileText },
+    { id: 'content', title: 'Content & Articles', icon: FileText },
+    { id: 'jobs', title: 'Job Listings', icon: Briefcase },
     { id: 'comments', title: 'Comments & Guidelines', icon: Users },
     { id: 'privacy', title: 'Privacy Policy', icon: Lock },
     { id: 'prohibited', title: 'Prohibited Uses', icon: Shield },
@@ -69,32 +71,8 @@ const TermsPage: React.FC = () => {
             <div className="lg:grid lg:grid-cols-4 lg:gap-8">
               
               {/* Table of Contents - Desktop Sidebar */}
-              <div className="hidden lg:block lg:col-span-1">
-                <div className="sticky top-8">
-                  <Card className="shadow-lg border-0">
-                    <CardContent className="p-6">
-                      <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <FileText className="h-5 w-5 text-blue-600" />
-                        Quick Navigation
-                      </h3>
-                      <nav className="space-y-2">
-                        {sections.map((section) => {
-                          const Icon = section.icon;
-                          return (
-                            <a
-                              key={section.id}
-                              href={`#${section.id}`}
-                              className="flex items-center gap-3 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-all duration-200 group"
-                            >
-                              <Icon className="h-4 w-4 group-hover:text-blue-600" />
-                              <span>{section.title}</span>
-                            </a>
-                          );
-                        })}
-                      </nav>
-                    </CardContent>
-                  </Card>
-                </div>
+              <div className="hidden lg:block">
+                <TermsNavigation sections={sections} />
               </div>
 
               {/* Main Content */}
@@ -129,10 +107,10 @@ const TermsPage: React.FC = () => {
                       
                       <section id="agreement" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-blue-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                             <FileText className="h-6 w-6 text-blue-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Agreement to Terms</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Agreement to Terms</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           By accessing and using RemoteWork ("the Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to abide by the above, please do not use this service.
@@ -141,22 +119,22 @@ const TermsPage: React.FC = () => {
 
                       <section id="service" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-green-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                             <Users className="h-6 w-6 text-green-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Description of Service</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Description of Service</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
-                          RemoteWork is a blog and resource platform that provides information, tips, and insights about remote work, productivity, and distributed team management. We offer articles, guides, and other content to help individuals and teams succeed in remote work environments.
+                          RemoteWork is a comprehensive platform that provides remote work articles, job listings, and career resources. Our services include publishing expert-written blog posts about remote work strategies, curating remote job opportunities, and providing tools and insights to help professionals excel in distributed work environments.
                         </p>
                       </section>
 
                       <section id="accounts" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-purple-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                             <Lock className="h-6 w-6 text-purple-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">User Accounts</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">User Accounts</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           When you create an account with us, you must provide information that is accurate, complete, and current at all times. You are responsible for safeguarding the password and for all activities that occur under your account.
@@ -165,10 +143,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="acceptable-use" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-orange-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                             <Shield className="h-6 w-6 text-orange-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Acceptable Use</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Acceptable Use</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed mb-4 text-sm">You agree not to use the Service:</p>
                         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -207,40 +185,66 @@ const TermsPage: React.FC = () => {
 
                       <section id="content" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-blue-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                             <FileText className="h-6 w-6 text-blue-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Content</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Content & Articles</h2>
                         </div>
 
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                          <h3 className="text-base font-semibold text-blue-900 mb-2">Our Content</h3>
+                          <h3 className="text-base font-semibold text-blue-900 mb-2">Our Articles & Content</h3>
                           <p className="text-blue-800 m-0 text-sm">
-                            The Service and its original content, features, and functionality are and will remain the exclusive property of RemoteWork and its licensors. The Service is protected by copyright, trademark, and other laws.
+                            All blog articles, guides, tips, and educational content published on RemoteWork are the exclusive property of RemoteWork and its contributors. This content is protected by copyright and intellectual property laws. You may read, share links to our articles, but may not reproduce, distribute, or republish our content without written permission.
                           </p>
                         </div>
 
                         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                          <h3 className="text-base font-semibold text-green-900 mb-2">User Content</h3>
+                          <h3 className="text-base font-semibold text-green-900 mb-2">User Comments & Contributions</h3>
                           <p className="text-green-800 mb-3 text-sm">
-                            Our Service may allow you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post to the Service, including its legality, reliability, and appropriateness.
+                            When you post comments, feedback, or other content on our platform, you retain ownership of your content but grant us a license to display, moderate, and manage such content. You are responsible for ensuring your contributions are accurate, respectful, and comply with our community guidelines.
                           </p>
                           <p className="text-green-800 m-0 text-sm">
-                            By posting Content to the Service, you grant us the right and license to use, modify, publicly perform, publicly display, reproduce, and distribute such Content on and through the Service.
+                            We reserve the right to moderate, edit, or remove user-generated content that violates our terms or community standards.
+                          </p>
+                        </div>
+                      </section>
+
+                      <section id="jobs" className="scroll-mt-8">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <Briefcase className="h-6 w-6 text-indigo-600" />
+                          </div>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Job Listings</h2>
+                        </div>
+
+                        <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
+                          <h3 className="text-base font-semibold text-indigo-900 mb-2">Job Posting Accuracy</h3>
+                          <p className="text-indigo-800 m-0 text-sm">
+                            We curate and display remote job opportunities from various sources. While we strive to ensure accuracy, we do not guarantee the completeness, accuracy, or availability of job listings. Job seekers should verify all details directly with employers before applying.
+                          </p>
+                        </div>
+
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                          <h3 className="text-base font-semibold text-yellow-900 mb-2">Third-Party Job Listings</h3>
+                          <p className="text-yellow-800 m-0 text-sm">
+                            Many job listings are provided by third-party employers and job boards. RemoteWork is not responsible for the hiring practices, employment terms, or workplace conditions of these external companies. Any employment relationships are solely between job seekers and the hiring companies.
                           </p>
                         </div>
                       </section>
 
                       <section id="comments" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-green-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                             <Users className="h-6 w-6 text-green-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Comments and Community Guidelines</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Comments & Community Guidelines</h2>
                         </div>
                         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                          <p className="text-yellow-800 mb-3 text-sm">
+                            We encourage respectful discussion and engagement in our article comment sections. All comments are moderated to ensure a positive community experience.
+                          </p>
                           <p className="text-yellow-800 m-0 text-sm">
-                            We encourage respectful discussion and engagement in our comment sections. Comments that are spam, abusive, harassing, or otherwise inappropriate will be removed. We reserve the right to moderate and remove comments at our discretion.
+                            Comments that are spam, abusive, harassing, off-topic, or otherwise inappropriate will be removed. We reserve the right to moderate, edit, or remove comments at our discretion and may ban users who repeatedly violate our community guidelines.
                           </p>
                         </div>
                       </section>
@@ -248,10 +252,10 @@ const TermsPage: React.FC = () => {
                       {/* Continue with remaining sections in similar style */}
                       <section id="privacy" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-purple-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                             <Lock className="h-6 w-6 text-purple-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Privacy Policy</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Privacy Policy</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           Your privacy is important to us. Please review our Privacy Policy, which also governs your use of the Service, to understand our practices.
@@ -260,10 +264,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="disclaimer" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-red-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                             <Scale className="h-6 w-6 text-red-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Disclaimer</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Disclaimer</h2>
                         </div>
                         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                           <p className="text-red-800 m-0 text-sm">
@@ -274,10 +278,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="limitation" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-red-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                             <Scale className="h-6 w-6 text-red-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Limitation of Liability</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Limitation of Liability</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           In no event shall RemoteWork, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the Service.
@@ -286,10 +290,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="termination" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-orange-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                             <FileText className="h-6 w-6 text-orange-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Termination</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Termination</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.
@@ -298,10 +302,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="governing" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-indigo-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
                             <Scale className="h-6 w-6 text-indigo-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Governing Law</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Governing Law</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           These Terms shall be interpreted and governed by the laws of the State of California, United States, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.
@@ -310,10 +314,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="changes" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-yellow-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                             <Calendar className="h-6 w-6 text-yellow-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Changes to Terms</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Changes to Terms</h2>
                         </div>
                         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                           <p className="text-yellow-800 m-0 text-sm">
@@ -324,10 +328,10 @@ const TermsPage: React.FC = () => {
 
                       <section id="contact" className="scroll-mt-8">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="p-3 bg-green-100 rounded-lg flex items-center justify-center min-w-[3rem] min-h-[3rem]">
+                          <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                             <Mail className="h-6 w-6 text-green-600" />
                           </div>
-                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">Contact Information</h2>
+                          <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight flex-1">Contact Information</h2>
                         </div>
                         <p className="text-gray-700 leading-relaxed mb-4 text-sm">
                           If you have any questions about these Terms of Service, please contact us at:
