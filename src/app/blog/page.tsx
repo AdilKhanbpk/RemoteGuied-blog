@@ -89,7 +89,7 @@ const BlogPage = async () => {
                       </div>
 
                       <div className="p-5 flex flex-col flex-1">
-                        <h2 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors">
+                        <h2 className="text-md font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors">
                           <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                         </h2>
 

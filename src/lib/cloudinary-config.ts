@@ -1,5 +1,3 @@
-'use client';
-
 import { Cloudinary } from "@cloudinary/url-gen";
 
 // Create and configure the Cloudinary instance
