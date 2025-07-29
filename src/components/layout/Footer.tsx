@@ -13,20 +13,20 @@ const Footer: React.FC = () => {
       { name: 'About Us', href: '/about' },
       { name: 'Contact', href: '/contact' },
     ],
-    'Company': [
-      { name: 'Our Story', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Press Kit', href: '/press' },
-      { name: 'Partners', href: '/partners' },
-    ],
-    'Resources': [
-      { name: 'Remote Work Guide', href: '/guide' },
-      { name: 'Templates & Tools', href: '/templates' },
-      { name: 'Community Forum', href: '/community' },
-      { name: 'Success Stories', href: '/stories' },
-    ],
+    // 'Company': [
+      // { name: 'Our Story', href: '/about' },
+      // { name: 'Careers', href: '/careers' },
+      // { name: 'Press Kit', href: '/press' },
+      // { name: 'Partners', href: '/partners' },
+    // ],
+    // 'Resources': [
+    //   { name: 'Remote Work Guide', href: '/guide' },
+    //   { name: 'Templates & Tools', href: '/templates' },
+    //   { name: 'Community Forum', href: '/community' },
+    //   { name: 'Success Stories', href: '/stories' },
+    // ],
     'Support': [
-      { name: 'Help Center', href: '/help' },
+      // { name: 'Help Center', href: '/help' },
       { name: 'Privacy Policy', href: '/privacy' },
       { name: 'Terms of Service', href: '/terms' },
       { name: 'Cookie Policy', href: '/cookies' },
@@ -34,10 +34,10 @@ const Footer: React.FC = () => {
   };
 
   const socialLinks = [
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', color: 'hover:bg-blue-500 hover:text-white' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn', color: 'hover:bg-blue-600 hover:text-white' },
-    { icon: Github, href: 'https://github.com', label: 'GitHub', color: 'hover:bg-gray-800 hover:text-white' },
-    { icon: Mail, href: 'mailto:hello@remotework.com', label: 'Email', color: 'hover:bg-green-500 hover:text-white' },
+    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', color: 'hover:bg-blue-500 hover:text-white hover:border-blue-500' },
+    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn', color: 'hover:bg-blue-600 hover:text-white hover:border-blue-600' },
+    { icon: Github, href: 'https://github.com', label: 'GitHub', color: 'hover:bg-gray-700 hover:text-white hover:border-gray-700' },
+    { icon: Mail, href: 'mailto:hello@remotework.com', label: 'Email', color: 'hover:bg-emerald-500 hover:text-white hover:border-emerald-500' },
   ];
 
   return (
@@ -85,52 +85,61 @@ const Footer: React.FC = () => {
       </div> */}
 
       {/* Main Footer Content */}
-      <div className="relative border-t border-white/10">
+      <div className="relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             
-            {/* Brand Section */}
-            <div className="lg:col-span-1">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg">
-                  <BookOpen className="h-6 w-6 text-white" />
+            {/* Brand Section - Enhanced */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center space-x-3 mb-8">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl blur opacity-20"></div>
+                  <div className="relative p-3 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-xl">
+                    <BookOpen className="h-7 w-7 text-white" />
+                  </div>
                 </div>
                 <div>
-                  <span className="font-bold text-xl text-white">RemoteWork</span>
-                  <span className="block text-sm text-gray-400 font-medium">Insights</span>
+                  <span className="font-bold  text-2xl text-white tracking-tight">RemoteWork</span>
+                  <span className="block text-base text-gray-300 font-medium">Insights</span>
                 </div>
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                Empowering remote professionals with cutting-edge insights, proven strategies, and actionable advice.
+              
+              <p className="text-gray-300 text-base leading-relaxed mb-6 max-w-md">
+                Empowering remote professionals with cutting-edge insights, proven strategies, and actionable advice for the future of work.
               </p>
-              <div className="space-y-2">
+              
+              <div className="space-y-3">
                 <div className="flex items-center text-gray-400 text-sm">
-                  <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>Global Remote Community</span>
+                  <div className="p-2 bg-white/10 rounded-lg mr-3">
+                    <MapPin className="w-4 h-4 text-gray-300" />
+                  </div>
+                  <span className="font-medium">Global Remote Community</span>
                 </div>
                 <div className="flex items-center text-gray-400 text-sm">
-                  <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>Available 24/7 Online</span>
+                  <div className="p-2 bg-white/10 rounded-lg mr-3">
+                    <Phone className="w-4 h-4 text-gray-300" />
+                  </div>
+                  <span className="font-medium">Available 24/7 Online</span>
                 </div>
               </div>
             </div>
 
-            {/* Footer Links */}
+            {/* Footer Links - Improved Layout */}
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category} className="lg:col-span-1">
-                <h4 className="font-semibold text-white text-base mb-6 relative">
+                <h3 className="font-bold text-white text-lg mb-4 relative">
                   {category}
-                  <div className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-transparent"></div>
-                </h4>
+                  <div className="absolute -bottom-1 left-0 w-12 h-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full"></div>
+                </h3>
                 <ul className="space-y-3">
                   {links.map((link) => (
                     <li key={link.name}>
                       <Link
                         href={link.href}
-                        className="text-gray-300 hover:text-white text-sm transition-all duration-300 hover:translate-x-1 inline-block relative group"
+                        className="text-gray-300 hover:text-white text-sm font-medium transition-all duration-200 hover:translate-x-1 inline-block relative group"
                       >
                         {link.name}
-                        <span className="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+                        <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-400 transition-all duration-200 group-hover:w-full"></span>
                       </Link>
                     </li>
                   ))}
@@ -141,14 +150,14 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Footer */}
+      {/* Bottom Footer - Professional Layout */}
       <div className="relative border-t border-white/10 bg-black/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             
             {/* Copyright */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 text-center lg:text-left">
-              <p className="text-gray-400 mt-2 text-sm">
+            <div className="flex items-center text-center lg:text-left">
+              <p className="text-gray-400 text-sm font-medium pt-2">
                 © {currentYear} RemoteWork Insights. All rights reserved.
               </p>
               {/* <div className="flex items-center gap-4 text-xs text-gray-500">
@@ -159,21 +168,24 @@ const Footer: React.FC = () => {
               </div> */}
             </div>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-3">
-              <span className="text-gray-400 text-sm mr-2">Follow us:</span>
-              {socialLinks.map(({ icon: Icon, href, label, color }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`p-3 text-gray-400 bg-white/5 border border-white/10 rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-lg ${color} backdrop-blur-sm`}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+            {/* Social Links - Premium Design */}
+            <div className="flex items-center gap-4">
+              <span className="text-gray-400 text-sm font-medium">Connect with us</span>
+              <div className="flex items-center gap-3">
+                {socialLinks.map(({ icon: Icon, href, label, color }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group relative p-3 text-gray-400 bg-white/5 border border-white/10 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:-translate-y-0.5 ${color} backdrop-blur-sm`}
+                  >
+                    <Icon className="h-4 w-4 relative z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

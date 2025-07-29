@@ -233,14 +233,14 @@ const TermsPage: React.FC = () => {
                           <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Content & Articles</h3>
                         </div>
 
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                           <h3 className="text-base font-semibold text-blue-900 mb-2">Our Content</h3>
                           <p className="text-blue-800 m-0 text-sm">
                             The Service and its original content, features, and functionality are and will remain the exclusive property of RemoteWork and its licensors. The Service is protected by copyright, trademark, and other laws.
                           </p>
                         </div>
 
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-2">
                           <h4 className="text-base font-semibold text-green-900 mb-2">User Content</h4>
                           <p className="text-green-800 mb-3 text-sm">
                             Our Service may allow you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post to the Service, including its legality, reliability, and appropriateness.
@@ -258,7 +258,7 @@ const TermsPage: React.FC = () => {
                           </div>
                           <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Comments & Community Guidelines</h3>
                         </div>
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-2">
                           <p className="text-yellow-800 m-0 text-sm">
                             We encourage respectful discussion and engagement in our comment sections. Comments that are spam, abusive, harassing, or otherwise inappropriate will be removed. We reserve the right to moderate and remove comments at our discretion.
                           </p>
@@ -335,7 +335,7 @@ const TermsPage: React.FC = () => {
                           </div>
                           <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Changes to Terms</h3>
                         </div>
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-2">
                           <p className="text-yellow-800 m-0 text-sm">
                             We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days notice prior to any new terms taking effect.
                           </p>

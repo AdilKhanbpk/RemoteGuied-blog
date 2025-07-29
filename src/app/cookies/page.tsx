@@ -22,25 +22,33 @@ const CookiePolicyPage: React.FC = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 lg:py-24">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 py-10 sm:py-14 overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+        
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='53' cy='7' r='1'/%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3Ccircle cx='7' cy='53' r='1'/%3E%3Ccircle cx='53' cy='53' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}></div>
+        </div>
+
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 text-sm font-semibold uppercase tracking-wider mb-6 shadow-sm">
-              <Cookie className="w-4 h-4 mr-2" />
-              Cookie Policy
+            <div className="flex justify-center mb-6">
+              <div className="p-4 bg-white/10 backdrop-blur-sm rounded-2xl">
+                <Cookie className="h-12 w-12 text-white" />
+              </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               Cookie Policy
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl sm:text-2xl text-blue-100 mb-8 leading-relaxed">
               Learn how RemoteWork uses cookies to enhance your browsing experience, analyze site usage, and provide personalized content.
             </p>
-            <div className="mt-8 text-sm text-gray-500">
-              <span className="inline-flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                Last updated: January 15, 2024
-              </span>
+            <div className="flex items-center justify-center gap-2 text-blue-200">
+              <Calendar className="h-5 w-5" />
+              <span className="text-lg">Last updated: January 15, 2024</span>
             </div>
           </div>
         </div>
@@ -95,7 +103,7 @@ const CookiePolicyPage: React.FC = () => {
 
               {/* Main Content */}
               <div className="lg:col-span-3">
-                <Card className="shadow-lg border-0 bg-white">
+                <Card className="shadow-xl border-0 overflow-hidden">
                   <CardContent className="p-0">
                     
                     {/* Mobile TOC */}
@@ -136,13 +144,13 @@ const CookiePolicyPage: React.FC = () => {
                     <div className="prose prose-lg max-w-none p-6 sm:p-8 lg:p-12">
                       
                       <section id="overview" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                             <Cookie className="h-4 w-4 text-blue-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">What Are Cookies</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">What Are Cookies</h3>
                         </div>
-                        <p className="text-gray-700 leading-relaxed text-sm mb-4">
+                        <p className="text-gray-700 leading-relaxed text-sm">
                           Cookies are small text files that are placed on your computer or mobile device when you visit our website. They are widely used to make websites work more efficiently and provide information to website owners.
                         </p>
                         <p className="text-gray-700 leading-relaxed text-sm">
@@ -151,16 +159,16 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="types" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                             <Settings className="h-4 w-4 text-green-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Types of Cookies We Use</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Types of Cookies We Use</h3>
                         </div>
-                        <p className="text-gray-700 leading-relaxed text-sm mb-4">
+                        <p className="text-gray-700 leading-relaxed text-sm">
                           We use different types of cookies for various purposes:
                         </p>
-                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-2">
                           <ul className="space-y-2 text-gray-700 m-0">
                             <li className="flex items-start gap-2 text-sm">
                               <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></span>
@@ -183,20 +191,20 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="essential" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
                             <Shield className="h-4 w-4 text-orange-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Essential Cookies</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Essential Cookies</h3>
                         </div>
-                        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
-                          <h3 className="text-base font-semibold text-orange-900 mb-2">Strictly Necessary</h3>
+                        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                          <h4 className="text-base font-semibold text-orange-900 mb-2">Strictly Necessary</h4>
                           <p className="text-orange-800 m-0 text-sm">
                             These cookies are essential for the website to function properly. They enable basic functions like page navigation, access to secure areas, and remember your cookie preferences. The website cannot function properly without these cookies.
                           </p>
                         </div>
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                          <h3 className="text-base font-semibold text-blue-900 mb-2">Examples Include:</h3>
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4 mb-2">
+                          <h4 className="text-base font-semibold text-blue-900 mb-2">Examples Include:</h4>
                           <ul className="text-blue-800 text-sm space-y-1 m-0">
                             <li>• Authentication and security cookies</li>
                             <li>• Session management cookies</li>
@@ -207,17 +215,17 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="analytics" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                             <BarChart className="h-4 w-4 text-purple-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Analytics Cookies</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Analytics Cookies</h3>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm mb-4">
                           These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.
                         </p>
                         <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                          <h3 className="text-base font-semibold text-purple-900 mb-2">We Use Analytics For:</h3>
+                          <h4 className="text-base font-semibold text-purple-900 mb-2">We Use Analytics For:</h4>
                           <ul className="text-purple-800 text-sm space-y-1 m-0">
                             <li>• Measuring website traffic and usage patterns</li>
                             <li>• Understanding which pages are most popular</li>
@@ -228,17 +236,17 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="functional" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                             <Users className="h-4 w-4 text-green-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Functional Cookies</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Functional Cookies</h3>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm mb-4">
                           These cookies enable enhanced functionality and personalization, such as remembering your preferences and settings.
                         </p>
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                          <h3 className="text-base font-semibold text-green-900 mb-2">Functional Features:</h3>
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-2">
+                          <h4 className="text-base font-semibold text-green-900 mb-2">Functional Features:</h4>
                           <ul className="text-green-800 text-sm space-y-1 m-0">
                             <li>• Remembering your language preferences</li>
                             <li>• Saving your theme settings (light/dark mode)</li>
@@ -249,17 +257,17 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="third-party" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
                             <Eye className="h-4 w-4 text-indigo-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Third-Party Cookies</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Third-Party Cookies</h3>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm mb-4">
                           We use trusted third-party services that may set their own cookies to provide functionality and analyze usage.
                         </p>
                         <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
-                          <h3 className="text-base font-semibold text-indigo-900 mb-2">Third-Party Services:</h3>
+                          <h4 className="text-base font-semibold text-indigo-900 mb-2">Third-Party Services:</h4>
                           <ul className="text-indigo-800 text-sm space-y-1 m-0">
                             <li>• <strong>Google Analytics:</strong> Website traffic analysis</li>
                             <li>• <strong>Cloudinary:</strong> Image optimization and delivery</li>
@@ -267,7 +275,7 @@ const CookiePolicyPage: React.FC = () => {
                             <li>• <strong>CDN Services:</strong> Fast content delivery</li>
                           </ul>
                         </div>
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-2">
                           <p className="text-yellow-800 m-0 text-sm">
                             <strong>Note:</strong> These third-party services have their own privacy policies and cookie practices. We recommend reviewing their policies for more information.
                           </p>
@@ -275,25 +283,23 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="management" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                             <Settings className="h-4 w-4 text-blue-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Managing Cookies</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Managing Cookies</h3>
                         </div>
                         <p className="text-gray-700 leading-relaxed text-sm mb-4">
                           You have control over cookies and can manage them through your browser settings or our cookie preferences.
                         </p>
-
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                          <h3 className="text-base font-semibold text-blue-900 mb-2">Browser Settings</h3>
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                          <h4 className="text-base font-semibold text-blue-900 mb-2">Browser Settings</h4>
                           <p className="text-blue-800 m-0 text-sm">
                             Most browsers allow you to control cookies through their settings. You can block, delete, or receive notifications about cookies. However, disabling certain cookies may affect website functionality.
                           </p>
                         </div>
-
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                          <h3 className="text-base font-semibold text-green-900 mb-2">Cookie Preferences</h3>
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-2">
+                          <h4 className="text-base font-semibold text-green-900 mb-2">Cookie Preferences</h4>
                           <p className="text-green-800 m-0 text-sm">
                             You can manage your cookie preferences at any time by clicking the "Cookie Settings" link in our website footer or by revisiting our cookie consent banner.
                           </p>
@@ -301,13 +307,13 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="consent" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                             <FileText className="h-4 w-4 text-green-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Your Consent</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Your Consent</h3>
                         </div>
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-2">
                           <p className="text-green-800 mb-3 text-sm">
                             By continuing to use our website, you consent to our use of cookies as described in this policy. You can withdraw your consent at any time by adjusting your browser settings or cookie preferences.
                           </p>
@@ -318,13 +324,13 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="updates" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
                             <Calendar className="h-4 w-4 text-yellow-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Policy Updates</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Policy Updates</h3>
                         </div>
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-2">
                           <p className="text-yellow-800 m-0 text-sm">
                             We may update this Cookie Policy from time to time to reflect changes in our practices or for legal and regulatory reasons. We will notify you of any significant changes by posting the updated policy on our website with a new effective date.
                           </p>
@@ -332,41 +338,37 @@ const CookiePolicyPage: React.FC = () => {
                       </section>
 
                       <section id="contact" className="scroll-mt-20">
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-3 mb-0">
                           <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                             <Mail className="h-4 w-4 text-blue-600" />
                           </div>
-                          <h2 className="text-lg font-semibold text-gray-900 m-0 leading-tight flex-1">Contact Us</h2>
+                          <h3 className="text-lg font-semibold text-gray-900 m-0 mt-3 leading-tight flex-1">Contact Us</h3>
                         </div>
-                        <p className="text-gray-700 leading-relaxed mb-4 text-sm">
+                        <p className="text-gray-700 leading-relaxed text-sm mb-4">
                           If you have any questions about our use of cookies, please contact us:
                         </p>
-
                         <div className="grid sm:grid-cols-2 gap-4">
                           <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
                             <div className="flex items-center gap-3 mb-2">
                               <Mail className="h-5 w-5 text-blue-600" />
-                              <h4 className="font-semibold text-blue-900 text-sm">Email</h4>
+                              <h5 className="font-semibold text-blue-900 mt-2 text-sm">Email</h5>
                             </div>
                             <p className="text-blue-800 m-0 text-sm">privacy@remotework.com</p>
                           </div>
-
                           <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
                             <div className="flex items-center gap-3 mb-2">
                               <FileText className="h-5 w-5 text-green-600" />
-                              <h4 className="font-semibold text-green-900 text-sm">Privacy Policy</h4>
+                              <h5 className="font-semibold text-green-900 mt-2 text-sm">Privacy Policy</h5>
                             </div>
                             <p className="text-green-800 m-0 text-sm">View our full Privacy Policy</p>
                           </div>
                         </div>
-
                         <div className="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
                           <p className="text-gray-600 text-xs m-0">
                             <em>This cookie policy is effective as of January 15, 2024.</em>
                           </p>
                         </div>
                       </section>
-
                     </div>
                   </CardContent>
                 </Card>
