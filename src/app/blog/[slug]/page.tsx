@@ -64,55 +64,64 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),transparent)] opacity-20"></div>
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-gradient-to-tr from-white/5 to-transparent shadow-xl shadow-indigo-600/10 ring-1 ring-inset ring-white/10"></div>
-        
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-5">
           {/* Back Button */}
           <div className="mb-3">
-            <Button variant="ghost" size="sm" asChild className="text-white/80 hover:text-white hover:bg-white/10 border border-white/20">
+            {/* <Button variant="ghost" size="sm" asChild className="text-white/80 hover:text-white hover:bg-white/10 border border-white/20">
               <Link href="/blog">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Blog
               </Link>
-            </Button>
+            </Button> */}
           </div>
 
           <div className="max-w-4xl mx-auto">
-            {/* Category Badge */}
-            <div className="mb-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg backdrop-blur-sm">
-                {post.category}
-              </span>
+            <div className='flex flex-row gap-3'>
+              <Button variant="ghost" size="sm" asChild className="text-white/80 hover:text-white hover:bg-white/10 border border-white/20">
+                <Link href="/blog">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Blog
+                </Link>
+              </Button>
+              {/* Category Badge */}
+              <div className="mb-5">
+                <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg backdrop-blur-sm">
+                  {post.category}
+                </span>
+              </div>
+
             </div>
 
             {/* Title with Modern Typography */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-8 leading-tight tracking-tight">
+            <h1 className="text-2xl sm:text-2xl lg:text-3xl font-black text-white mb-5 leading-tight tracking-tight">
               <span className="bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">
                 {post.title}
               </span>
             </h1>
 
             {/* Excerpt */}
-            <div className="mb-10">
-              <p className="text-xl text-gray-300 leading-relaxed font-light max-w-3xl">
+            <div className="mb-6">
+              <p className="text-xl text-gray-100 leading-relaxed font-medium max-w-3xl">
                 {post.excerpt}
               </p>
             </div>
 
             {/* Author & Meta Information */}
-            <div className="flex flex-wrap items-center gap-8 text-gray-300 mb-8">
+            <div className="flex flex-wrap items-center gap-8 text-gray-300 mb-12">
               <div className="flex items-center gap-4">
                 <div className="relative">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl">
                     <User className="h-6 w-6 text-white" />
                   </div>
                   <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-25"></div>
                 </div>
                 <div>
                   <div className="font-semibold text-white text-lg">{post.author.name}</div>
-                  <div className="text-sm text-gray-400">{post.author.bio}</div>
+                  <div className="text-sm text-gray-400">Remote Work Consultant</div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-6 text-sm">
                 <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
                   <Calendar className="h-4 w-4" />
@@ -135,14 +144,14 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
 
       {/* Featured Image with Modern Treatment */}
       {post.featuredImage && (
-        <div className="relative -mt-8 mb-16">
+        <div className="relative -mt-8 mb-16 flex justify-center w-full item-center">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-xl opacity-20"></div>
+            <div className="relative flex justify-center w-full">
+              <div className=" -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-xl opacity-20"></div>
               <img
                 src={post.featuredImage}
                 alt={post.title}
-                className="relative w-full h-64 sm:h-80 lg:h-[32rem] object-cover rounded-2xl shadow-2xl"
+                className="relative w-[100%]  h-64 sm:h-80 lg:h-[32rem] object-cover rounded-2xl shadow-2xl"
               />
             </div>
           </div>
@@ -201,7 +210,7 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Continue Reading</h2>
               <p className="text-lg text-gray-600">Explore more articles in this category</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
                 <div key={relatedPost.id} className="group relative">
@@ -213,17 +222,17 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
                           {relatedPost.category}
                         </span>
                       </div>
-                      
+
                       <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">
                         <Link href={`/blog/${relatedPost.slug}`} className="stretched-link">
                           {relatedPost.title}
                         </Link>
                       </h3>
-                      
+
                       <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
                         {relatedPost.excerpt}
                       </p>
-                      
+
                       <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
                         <span className="font-medium">{formatDate(relatedPost.publishedAt)}</span>
                         <span className="bg-gray-50 px-2 py-1 rounded-md">{relatedPost.readingTime} min</span>
