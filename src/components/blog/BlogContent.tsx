@@ -227,6 +227,9 @@ const BlogContent: React.FC<BlogContentProps> = ({ content, className = '' }) =>
         copyButton.setAttribute('aria-label', 'Copy code');
         pre.appendChild(copyButton);
         
+
+
+        
         // Add copy functionality
         copyButton.addEventListener('click', () => {
           const codeText = code?.textContent || '';
