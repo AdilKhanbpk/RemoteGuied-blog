@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import CommentSection from '@/components/blog/CommentSection';
 import SocialShareButtons from '@/components/blog/SocialShareButtons';
-import CloudinaryImage from '@/components/ui/CloudinaryImage';
+import BlogContent from '@/components/blog/BlogContent';
 import { getPostBySlug, getAllPosts } from '@/lib/database';
 import { formatDate } from '@/lib/utils';
 import { generateBlogPostMetadata, generateStructuredData } from '@/lib/seo';
@@ -137,8 +137,8 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
               </div>
 
               {/* Article Content */}
-              <div className="blog-content prose prose-lg max-w-none mb-12">
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              <div className="mb-12">
+                <BlogContent content={post.content} />
               </div>
 
               {/* Tags */}
