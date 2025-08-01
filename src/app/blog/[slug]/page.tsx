@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Calendar, Clock, User, ArrowLeft, Briefcase } from 'lucide-react';
+import { Calendar, Clock, User, ArrowLeft, Share2 } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import { Card, CardContent } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -59,108 +59,133 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
         }}
       />
 
-      {/* Back Button */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/blog">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Blog
-            </Link>
-          </Button>
+      {/* Modern Header with Gradient Background */}
+      <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),transparent)] opacity-20"></div>
+        <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-gradient-to-tr from-white/5 to-transparent shadow-xl shadow-indigo-600/10 ring-1 ring-inset ring-white/10"></div>
+        
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+          {/* Back Button */}
+          <div className="mb-3">
+            <Button variant="ghost" size="sm" asChild className="text-white/80 hover:text-white hover:bg-white/10 border border-white/20">
+              <Link href="/blog">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Blog
+              </Link>
+            </Button>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            {/* Category Badge */}
+            <div className="mb-6">
+              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg backdrop-blur-sm">
+                {post.category}
+              </span>
+            </div>
+
+            {/* Title with Modern Typography */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-8 leading-tight tracking-tight">
+              <span className="bg-gradient-to-r from-white via-white to-gray-300 bg-clip-text text-transparent">
+                {post.title}
+              </span>
+            </h1>
+
+            {/* Excerpt */}
+            <div className="mb-10">
+              <p className="text-xl text-gray-300 leading-relaxed font-light max-w-3xl">
+                {post.excerpt}
+              </p>
+            </div>
+
+            {/* Author & Meta Information */}
+            <div className="flex flex-wrap items-center gap-8 text-gray-300 mb-8">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl">
+                    <User className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-25"></div>
+                </div>
+                <div>
+                  <div className="font-semibold text-white text-lg">{post.author.name}</div>
+                  <div className="text-sm text-gray-400">{post.author.bio}</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-6 text-sm">
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
+                  <Calendar className="h-4 w-4" />
+                  <span>{formatDate(post.publishedAt)}</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
+                  <Clock className="h-4 w-4" />
+                  <span>{post.readingTime} min read</span>
+                </div>
+                {post.featured && (
+                  <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg">
+                    Featured
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Article */}
+      {/* Featured Image with Modern Treatment */}
+      {post.featuredImage && (
+        <div className="relative -mt-8 mb-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-xl opacity-20"></div>
+              <img
+                src={post.featuredImage}
+                alt={post.title}
+                className="relative w-full h-64 sm:h-80 lg:h-[32rem] object-cover rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Article Content */}
       <article className="py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-            <div className="max-w-4xl mx-auto">
-              
-              {/* Article Header */}
-              <div className="mb-8">
-                {/* Category Badge */}
-                <div className="mb-6">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                    {post.category}
+          <div className="max-w-4xl mx-auto">
+            {/* Content */}
+            <div className="mb-16">
+              <BlogContent content={post.content} />
+            </div>
+
+            {/* Tags with Modern Styling */}
+            <div className="mb-12 pt-8 border-t border-gray-200">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Topics</h3>
+              <div className="flex flex-wrap gap-3">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="group relative overflow-hidden bg-gradient-to-r from-gray-100 to-gray-50 hover:from-blue-50 hover:to-purple-50 text-gray-700 hover:text-gray-900 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer border border-gray-200 hover:border-blue-200 shadow-sm hover:shadow-md"
+                  >
+                    <span className="relative z-10">#{tag}</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-300"></div>
                   </span>
-                </div>
-
-                {/* Title */}
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
-                  {post.title}
-                </h1>
-
-                {/* Meta Information */}
-                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 mb-6 pb-6 border-b border-gray-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <User className="h-5 w-5 text-gray-600" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-900">{post.author.name}</div>
-                      <div className="text-xs text-gray-500">{post.author.bio}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{formatDate(post.publishedAt)}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{post.readingTime} min read</span>
-                  </div>
-                  {post.featured && (
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                      Featured
-                    </span>
-                  )}
-                </div>
-
-                {/* Excerpt */}
-                <div className="mb-8">
-                  <p className="text-lg text-gray-700 leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                </div>
-
-                {/* Featured Image */}
-                {post.featuredImage && (
-                  <div className="mb-8">
-                    <img
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg"
-                    />
-                  </div>
-                )}
+                ))}
               </div>
+            </div>
 
-              {/* Article Content */}
-              <div className="mb-12">
-                <BlogContent content={post.content} />
-              </div>
-
-              {/* Tags */}
-              <div className="mb-8 pt-6 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm transition-colors cursor-pointer"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Social Share */}
-              <div className="mb-8 pt-6 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900">Share this article</h3>
-                  <SocialShareButtons url={shareUrl} title={post.title} />
+            {/* Social Share with Modern Design */}
+            <div className="mb-12 pt-8 border-t border-gray-200">
+              <div className="bg-gradient-to-r from-gray-50 to-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Share this article</h3>
+                    <p className="text-gray-600">Help others discover this content</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Share2 className="h-5 w-5 text-gray-400" />
+                    <SocialShareButtons url={shareUrl} title={post.title} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -168,25 +193,42 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
         </div>
       </article>
 
-      {/* Related Posts */}
-      <section className="py-12 bg-gray-50 border-t border-gray-200">
+      {/* Related Posts with Modern Cards */}
+      <section className="pb-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Related Articles</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Continue Reading</h2>
+              <p className="text-lg text-gray-600">Explore more articles in this category</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
-                <div key={relatedPost.id} className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 leading-tight">
-                    <a href={`/blog/${relatedPost.slug}`} className="hover:text-blue-600 transition-colors">
-                      {relatedPost.title}
-                    </a>
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {relatedPost.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between text-sm text-gray-500">
-                    <span>{formatDate(relatedPost.publishedAt)}</span>
-                    <span>{relatedPost.readingTime} min read</span>
+                <div key={relatedPost.id} className="group relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-0 group-hover:opacity-20 transition-all duration-300"></div>
+                  <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden h-full">
+                    <div className="p-8">
+                      <div className="mb-4">
+                        <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded-full">
+                          {relatedPost.category}
+                        </span>
+                      </div>
+                      
+                      <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">
+                        <Link href={`/blog/${relatedPost.slug}`} className="stretched-link">
+                          {relatedPost.title}
+                        </Link>
+                      </h3>
+                      
+                      <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
+                        {relatedPost.excerpt}
+                      </p>
+                      
+                      <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
+                        <span className="font-medium">{formatDate(relatedPost.publishedAt)}</span>
+                        <span className="bg-gray-50 px-2 py-1 rounded-md">{relatedPost.readingTime} min</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -194,8 +236,6 @@ const BlogPostPage: React.FC<BlogPostPageProps> = async ({ params }) => {
           </div>
         </div>
       </section>
-
-
 
       <CommentSection postId={post.id} />
     </Layout>
