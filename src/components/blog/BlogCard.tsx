@@ -1,38 +1,22 @@
 'use client';
 
-import { Clock, User, ArrowRight } from 'lucide-react';
+import { Clock, User } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import CloudinaryImage from '@/components/ui/CloudinaryImage';
 import { useEffect } from 'react';
 
-// Card styles moved from globals.css
+// Professional card styles
 const cardStyles = `
-  .card-elevated {
-    border-radius: 0.75rem;
-    border: 1px solid;
-    background: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 14% 98%) 100%);
-    border-color: hsl(var(--border));
-    box-shadow: 0 4px 20px -2px hsl(221 83% 53% / 0.08);
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  .card-professional {
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   }
 
-  .card-elevated:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px hsl(220 13% 91% / 0.1), 0 10px 10px -5px hsl(220 13% 91% / 0.04);
-  }
-
-  .focus-ring {
-    outline: none;
-    ring: 2px solid;
-    ring-offset: 2px;
-    ring-color: hsl(var(--ring));
-  }
-
-  @media (max-width: 767px) {
-    .focus-ring {
-      ring-width: 3px;
-      ring-offset-width: 3px;
-    }
+  .card-professional:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 `;
 
@@ -61,7 +45,7 @@ const BlogCard = ({
 }: BlogCardProps) => {
   // Inject styles on first render
   useEffect(() => {
-    const styleId = 'card-styles';
+    const styleId = 'professional-card-styles';
     if (!document.getElementById(styleId)) {
       const style = document.createElement('style');
       style.id = styleId;
@@ -72,41 +56,39 @@ const BlogCard = ({
 
   return (
     <article
-      className={`group card-elevated bg-card p-0 overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl ${featured ? 'featured-post' : ''
-        } ${className}`}
+      className={`card-professional bg-white overflow-hidden cursor-pointer ${featured ? 'featured-post' : ''} ${className}`}
     >
       {/* Image */}
       <div className={`relative overflow-hidden ${featured
-          ? 'h-48 sm:h-56 md:h-64 lg:h-80'
-          : 'h-40 sm:h-48'
+          ? 'h-48 sm:h-56 md:h-64 lg:h-72'
+          : 'h-40 sm:h-44'
         }`}>
         <CloudinaryImage
           src={imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop'}
           alt={`${title} - ${category} blog post cover image`}
           width={featured ? 800 : 400}
           height={featured ? 500 : 225}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover"
           priority={featured}
           sizes={featured
             ? "(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
             : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
           }
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <Badge
           variant="default"
-          className="absolute top-3 left-3 sm:top-4 sm:left-4 text-xs sm:text-sm"
+          className="absolute top-4 left-4 text-xs font-medium bg-white text-gray-800 border border-gray-200"
         >
           {category}
         </Badge>
       </div>
 
       {/* Content */}
-      <div className={`p-4 sm:p-5 ${featured ? 'lg:p-6 xl:p-8' : 'lg:p-6'}`}>
-        <h4
-          className={`font-semibold text-gray-900 group-hover:text-primary transition-colors duration-300 mb-2 sm:mb-3 leading-tight ${featured
-              ? 'text-sm sm:text-[15px] lg:text-[16px]'
-              : 'text-xs sm:text-sm lg:text-base'
+      <div className={`p-5 ${featured ? 'lg:p-6' : ''}`}>
+        <h3
+          className={`font-semibold text-gray-900 mb-3 leading-snug ${featured
+              ? 'text-lg sm:text-xl lg:text-2xl'
+              : 'text-base sm:text-lg'
             }`}
           style={{
             display: '-webkit-box',
@@ -116,17 +98,16 @@ const BlogCard = ({
           }}
         >
           {title}
-        </h4>
-
+        </h3>
 
         <p
-          className={`text-content-body mb-3 sm:mb-4 leading-relaxed ${featured
-              ? 'text-xs sm:text-sm lg:text-base'
-              : 'text-[11px] sm:text-xs'
+          className={`text-gray-600 mb-4 leading-relaxed ${featured
+              ? 'text-sm sm:text-base'
+              : 'text-sm'
             }`}
           style={{
             display: '-webkit-box',
-            WebkitLineClamp: featured ? 4 : 3,
+            WebkitLineClamp: featured ? 3 : 2,
             WebkitBoxOrient: 'vertical' as const,
             overflow: 'hidden'
           }}
@@ -134,27 +115,19 @@ const BlogCard = ({
           {excerpt}
         </p>
 
-
-
         {/* Meta Information */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-content-caption text-xs">
-          <div className="flex items-center space-x-3 sm:space-x-4">
+        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+          <div className="flex items-center space-x-4 text-sm text-gray-500">
             <div className="flex items-center space-x-1">
-              <User className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="truncate max-w-24 sm:max-w-none">{author}</span>
+              <User className="h-4 w-4" />
+              <span className="font-medium">{author}</span>
             </div>
             <div className="flex items-center space-x-1">
-              <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+              <Clock className="h-4 w-4" />
               <span>{readTime}</span>
             </div>
           </div>
-          <span className="text-xs">{publishDate}</span>
-        </div>
-
-        {/* Read More CTA */}
-        <div className="flex items-center text-primary font-medium mt-3 sm:mt-4 group-hover:gap-2 transition-all duration-300 text-sm">
-          <span>Read Article</span>
-          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          <span className="text-sm text-gray-500 font-medium">{publishDate}</span>
         </div>
       </div>
     </article>

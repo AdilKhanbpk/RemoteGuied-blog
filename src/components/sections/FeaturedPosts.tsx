@@ -144,7 +144,7 @@ const FeaturedPosts = () => {
         </div>
 
         {/* Blog Grid */}
-        <div className="blog-grid mb-12 sm:mb-16 lg:mb-20">
+        <div className="blog-grid  mb-12 sm:mb-16 lg:mb-20">
           {featuredPosts.map((post) => (
             <div key={post.id} className="fade-in-up">
               <BlogCard

@@ -73,6 +73,8 @@ const NewPostPage: React.FC = () => {
         if (response.ok) {
           const authorsData = await response.json();
           setAuthors(authorsData);
+          console.log("Authors fetched successfully" , authorsData);
+          
           if (authorsData.length > 0) {
             setSelectedAuthor(authorsData[0].id);
           }
@@ -164,7 +166,7 @@ const NewPostPage: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create post');
+        throw new Error(errorData.error );
       }
 
       const createdPost = await response.json();
@@ -173,7 +175,7 @@ const NewPostPage: React.FC = () => {
       router.push('/admin/posts');
     } catch (error) {
       console.error('Error creating post:', error);
-      setErrors([error instanceof Error ? error.message : 'Failed to create post']);
+      setErrors([error instanceof Error ? error.message : ""]);
     } finally {
       setIsSubmitting(false);
     }

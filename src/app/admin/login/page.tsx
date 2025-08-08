@@ -156,14 +156,7 @@ const LoginPage = () => {
               </Button>
             </form>
 
-            {/* Demo Credentials */}
-            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
-              <p className="text-sm text-blue-700">
-                Email: admin@remotework.com<br />
-                Password: admin123
-              </p>
-            </div>
+            
           </CardContent>
         </Card>
 
