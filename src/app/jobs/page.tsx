@@ -95,7 +95,7 @@ const JobsPage = () => {
         <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h1 className="text-4xl font-bold mb-4 !text-white">Federal Remote Jobs</h1>
+              <h1 className="text-4xl font-bold mb-0 !text-white">Federal Remote Jobs</h1>
               {/* <p className="text-xl max-w-2xl mx-auto !text-white/90">
                 Discover remote opportunities in the federal government through USAJOBS
               </p> */}
