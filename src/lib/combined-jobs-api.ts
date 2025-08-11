@@ -1,7 +1,8 @@
 import { USAJobsAPI } from './usajobs-api';
 import { JobicyAPI } from './jobicy-api';
 import { JoinriseAPI } from './joinrise-api';
-import { UnifiedJob, CombinedJobsResponse, USAJob, JobicyJob, JoinriseJob } from '@/types/usajobs';
+import { AdzunaAPI } from './adzuna-api';
+import { UnifiedJob, CombinedJobsResponse, USAJob, JobicyJob, JoinriseJob, AdzunaJob } from '@/types/usajobs';
 
 export class CombinedJobsAPI {
   // Transform USAJOBS job to unified format
@@ -72,25 +73,52 @@ export class CombinedJobsAPI {
     };
   }
 
-  // Search all three APIs simultaneously
+  // Transform Adzuna job to unified format
+  private static transformAdzunaJob(job: AdzunaJob): UnifiedJob {
+    const formatSalary = () => {
+      if (job.salary_min && job.salary_max) {
+        return `$${job.salary_min.toLocaleString()} - $${job.salary_max.toLocaleString()}`;
+      } else if (job.salary_min) {
+        return `$${job.salary_min.toLocaleString()}+`;
+      }
+      return undefined;
+    };
+
+    return {
+      id: `adzuna-${job.id}`,
+      title: job.title,
+      company: job.company.display_name,
+      location: job.location.display_name,
+      salary: formatSalary(),
+      type: job.contract_type || 'Full-time',
+      remote: job.location.display_name?.toLowerCase().includes('remote') || false,
+      applyUrl: job.redirect_url,
+      postedDate: job.created,
+      summary: job.description,
+      source: 'adzuna',
+      category: job.category.label,
+    };
+  }
+
+  // Search all four APIs simultaneously
   public static async searchAllAPIs(params: {
     keyword?: string;
     location?: string;
     remote?: boolean;
     limit?: number;
   }): Promise<CombinedJobsResponse> {
-    const { keyword, location, remote, limit = 30 } = params;
+    const { keyword, location, remote, limit = 40 } = params;
 
     try {
-      // Search all three APIs in parallel
-      const [usajobsPromise, jobicyPromise, joinrisePromise] = await Promise.allSettled([
+      // Search all four APIs in parallel
+      const [usajobsPromise, jobicyPromise, joinrisePromise, adzunaPromise] = await Promise.allSettled([
         // USAJOBS search
         keyword
           ? USAJobsAPI.searchJobs({
               Keyword: keyword,
               ...(location && { LocationName: location }),
               ...(remote && { RemoteIndicator: true }),
-              ResultsPerPage: Math.min(Math.floor(limit / 3), 15),
+              ResultsPerPage: Math.min(Math.floor(limit / 4), 12),
               WhoMayApply: 'public',
               DatePosted: 30,
               SortField: 'DatePosted',
@@ -107,12 +135,18 @@ export class CombinedJobsAPI {
         keyword
           ? JoinriseAPI.searchByKeyword(keyword, location)
           : JoinriseAPI.getRemoteTechJobs(),
+
+        // Adzuna search
+        keyword
+          ? AdzunaAPI.searchByKeyword(keyword, location)
+          : AdzunaAPI.getRemoteTechJobs(),
       ]);
 
       // Process results
       let usajobsJobs: USAJob[] = [];
       let jobicyJobs: JobicyJob[] = [];
       let joinriseJobs: JoinriseJob[] = [];
+      let adzunaJobs: AdzunaJob[] = [];
 
       if (usajobsPromise.status === 'fulfilled') {
         usajobsJobs = usajobsPromise.value.jobs || [];
@@ -132,13 +166,20 @@ export class CombinedJobsAPI {
         console.error('Joinrise API error:', joinrisePromise.reason);
       }
 
+      if (adzunaPromise.status === 'fulfilled') {
+        adzunaJobs = adzunaPromise.value.results || [];
+      } else {
+        console.error('Adzuna API error:', adzunaPromise.reason);
+      }
+
       // Transform and combine results
       const transformedUSAJobs = usajobsJobs.map(this.transformUSAJob);
       const transformedJobicyJobs = jobicyJobs.map(this.transformJobicyJob);
       const transformedJoinriseJobs = joinriseJobs.map(this.transformJoinriseJob);
+      const transformedAdzunaJobs = adzunaJobs.map(this.transformAdzunaJob);
 
       // Combine and sort by date (newest first)
-      const allJobs = [...transformedUSAJobs, ...transformedJobicyJobs, ...transformedJoinriseJobs]
+      const allJobs = [...transformedUSAJobs, ...transformedJobicyJobs, ...transformedJoinriseJobs, ...transformedAdzunaJobs]
         .sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime())
         .slice(0, limit);
 
@@ -150,8 +191,9 @@ export class CombinedJobsAPI {
         usajobsCount: transformedUSAJobs.length,
         jobicyCount: transformedJobicyJobs.length,
         joinriseCount: transformedJoinriseJobs.length,
+        adzunaCount: transformedAdzunaJobs.length,
         totalCount: filteredJobs.length,
-        error: (usajobsPromise.status === 'rejected' && jobicyPromise.status === 'rejected' && joinrisePromise.status === 'rejected')
+        error: (usajobsPromise.status === 'rejected' && jobicyPromise.status === 'rejected' && joinrisePromise.status === 'rejected' && adzunaPromise.status === 'rejected')
           ? 'Failed to fetch jobs from all sources'
           : undefined,
       };
@@ -162,59 +204,67 @@ export class CombinedJobsAPI {
         usajobsCount: 0,
         jobicyCount: 0,
         joinriseCount: 0,
+        adzunaCount: 0,
         totalCount: 0,
         error: 'Failed to search jobs',
       };
     }
   }
 
-  // Predefined combined searches across all three APIs
+  // Predefined combined searches across all four APIs
   public static async getTechJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       keyword: 'software developer engineer programmer',
-      limit: 45,
+      limit: 60,
     });
   }
 
   public static async getRemoteJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       remote: true,
-      limit: 45,
+      limit: 60,
     });
   }
 
   public static async getDesignJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       keyword: 'designer ui ux graphic web design',
-      limit: 36,
+      limit: 48,
     });
   }
 
   public static async getMarketingJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       keyword: 'marketing manager social media content',
-      limit: 36,
+      limit: 48,
     });
   }
 
   public static async getWritingJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       keyword: 'writer content copywriter editor technical writing',
-      limit: 36,
+      limit: 48,
     });
   }
 
   public static async getDataJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       keyword: 'data scientist analyst machine learning AI',
-      limit: 36,
+      limit: 48,
     });
   }
 
   public static async getSalesJobs(): Promise<CombinedJobsResponse> {
     return this.searchAllAPIs({
       keyword: 'sales manager account executive business development',
-      limit: 36,
+      limit: 48,
+    });
+  }
+
+  public static async getHighPayingJobs(): Promise<CombinedJobsResponse> {
+    return this.searchAllAPIs({
+      keyword: 'senior manager director executive',
+      limit: 48,
     });
   }
 }

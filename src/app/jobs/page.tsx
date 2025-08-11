@@ -15,6 +15,7 @@ const JobsPage = () => {
   const [usajobsCount, setUsajobsCount] = useState(0);
   const [jobicyCount, setJobicyCount] = useState(0);
   const [joinriseCount, setJoinriseCount] = useState(0);
+  const [adzunaCount, setAdzunaCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [positionTitle, setPositionTitle] = useState('');
   const [location, setLocation] = useState('');
@@ -69,6 +70,7 @@ const JobsPage = () => {
       setUsajobsCount(data.usajobsCount || 0);
       setJobicyCount(data.jobicyCount || 0);
       setJoinriseCount(data.joinriseCount || 0);
+      setAdzunaCount(data.adzunaCount || 0);
     } catch (err) {
       console.error('Error fetching jobs:', err);
       setError(err instanceof Error ? err.message : 'Failed to load jobs');
@@ -370,6 +372,18 @@ const JobsPage = () => {
                     >
                       💼 Sales Jobs
                     </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setJobType('combined-high-paying');
+                        setSearchTerm('senior manager director');
+                        fetchJobs({ type: 'combined-high-paying' });
+                      }}
+                    >
+                      💰 High-Paying Jobs
+                    </Button>
                   </div>
                 </div>
               </form>
@@ -424,8 +438,8 @@ const JobsPage = () => {
                   <p className="text-gray-600">
                     Found {jobs.length} job{jobs.length !== 1 ? 's' : ''}
                   </p>
-                  {(usajobsCount > 0 || jobicyCount > 0 || joinriseCount > 0) && (
-                    <div className="flex gap-4 text-sm text-gray-500">
+                  {(usajobsCount > 0 || jobicyCount > 0 || joinriseCount > 0 || adzunaCount > 0) && (
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                       {usajobsCount > 0 && (
                         <span className="flex items-center gap-1">
                           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
@@ -442,6 +456,12 @@ const JobsPage = () => {
                         <span className="flex items-center gap-1">
                           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                           {joinriseCount} Global
+                        </span>
+                      )}
+                      {adzunaCount > 0 && (
+                        <span className="flex items-center gap-1">
+                          <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                          {adzunaCount} Worldwide
                         </span>
                       )}
                     </div>
@@ -494,9 +514,17 @@ const JobsPage = () => {
                                 ? 'bg-blue-100 text-blue-800'
                                 : job.source === 'jobicy'
                                 ? 'bg-purple-100 text-purple-800'
-                                : 'bg-green-100 text-green-800'
+                                : job.source === 'joinrise'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-orange-100 text-orange-800'
                             }`}>
-                              {job.source === 'usajobs' ? 'Government' : job.source === 'jobicy' ? 'Remote-focused' : 'Global'}
+                              {job.source === 'usajobs'
+                                ? 'Government'
+                                : job.source === 'jobicy'
+                                ? 'Remote-focused'
+                                : job.source === 'joinrise'
+                                ? 'Global'
+                                : 'Worldwide'}
                             </span>
                           )}
 

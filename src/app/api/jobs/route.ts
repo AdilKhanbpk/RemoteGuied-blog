@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { USAJobsAPI } from '@/lib/usajobs-api';
 import { JobicyAPI } from '@/lib/jobicy-api';
 import { JoinriseAPI } from '@/lib/joinrise-api';
+import { AdzunaAPI } from '@/lib/adzuna-api';
 import { CombinedJobsAPI } from '@/lib/combined-jobs-api';
 
 export async function GET(request: NextRequest) {
@@ -27,12 +28,12 @@ export async function GET(request: NextRequest) {
     const sortDirection = searchParams.get('sortDirection') as 'Asc' | 'Desc';
 
     // Search source preference
-    const source = searchParams.get('source'); // 'usajobs', 'jobicy', 'joinrise', or 'all' (default)
+    const source = searchParams.get('source'); // 'usajobs', 'jobicy', 'joinrise', 'adzuna', or 'all' (default)
     const type = searchParams.get('type');
 
     let result;
 
-    // Handle combined searches (default behavior - all three APIs)
+    // Handle combined searches (default behavior - all four APIs)
     if (!source || source === 'all') {
       if (type === 'combined-tech') {
         result = await CombinedJobsAPI.getTechJobs();
@@ -48,13 +49,15 @@ export async function GET(request: NextRequest) {
         result = await CombinedJobsAPI.getDataJobs();
       } else if (type === 'combined-sales') {
         result = await CombinedJobsAPI.getSalesJobs();
+      } else if (type === 'combined-high-paying') {
+        result = await CombinedJobsAPI.getHighPayingJobs();
       } else {
         // Default combined search across all APIs
         result = await CombinedJobsAPI.searchAllAPIs({
           keyword,
           location,
           remote,
-          limit: Math.min(limit, 60),
+          limit: Math.min(limit, 80),
         });
       }
     }
@@ -141,15 +144,42 @@ export async function GET(request: NextRequest) {
         result = await JoinriseAPI.searchByKeyword(keyword || '', location);
       }
     }
+    // Handle Adzuna-only searches
+    else if (source === 'adzuna') {
+      if (type === 'tech') {
+        result = await AdzunaAPI.getTechJobs();
+      } else if (type === 'remote') {
+        result = await AdzunaAPI.getRemoteJobs();
+      } else if (type === 'design') {
+        result = await AdzunaAPI.getDesignJobs();
+      } else if (type === 'marketing') {
+        result = await AdzunaAPI.getMarketingJobs();
+      } else if (type === 'data') {
+        result = await AdzunaAPI.getDataJobs();
+      } else if (type === 'sales') {
+        result = await AdzunaAPI.getSalesJobs();
+      } else if (type === 'high-paying') {
+        result = await AdzunaAPI.getHighPayingJobs(80000);
+      } else if (location && type === 'by-location') {
+        result = await AdzunaAPI.getJobsByLocation(location);
+      } else {
+        // Custom Adzuna search
+        result = await AdzunaAPI.searchByKeyword(keyword || '', location);
+      }
+    }
 
     // Additional client-side filtering for USAJOBS results
-    if (source === 'usajobs' && remote && !type) {
-      result.jobs = result.jobs.filter(job => job.remote || job.teleworkEligible);
+    if (result && source === 'usajobs' && remote && !type && 'jobs' in result) {
+      (result as any).jobs = (result as any).jobs.filter((job: any) => job.remote || job.teleworkEligible);
     }
 
     // Limit results for single-source searches
-    if (source !== 'both' && result.jobs && result.jobs.length > limit) {
-      result.jobs = result.jobs.slice(0, limit);
+    if (result && source !== 'all') {
+      if ('jobs' in result && (result as any).jobs && (result as any).jobs.length > limit) {
+        (result as any).jobs = (result as any).jobs.slice(0, limit);
+      } else if ('results' in result && (result as any).results && (result as any).results.length > limit) {
+        (result as any).results = (result as any).results.slice(0, limit);
+      }
     }
 
     // Set cache headers

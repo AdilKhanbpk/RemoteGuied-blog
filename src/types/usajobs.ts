@@ -222,6 +222,48 @@ export interface JoinriseApiResponse {
   limit: number;
 }
 
+// Adzuna API Types
+export interface AdzunaSearchParams {
+  what?: string; // Keyword search
+  where?: string; // Location
+  salary_min?: number;
+  salary_max?: number;
+  category?: string;
+  contract_type?: 'permanent' | 'contract' | 'part_time' | 'temporary';
+  results_per_page?: number; // Max 50
+  sort_by?: 'date' | 'relevance' | 'salary';
+  page?: number;
+}
+
+export interface AdzunaJob {
+  id: string;
+  title: string;
+  company: {
+    display_name: string;
+  };
+  location: {
+    display_name: string;
+    area?: string[];
+  };
+  salary_min?: number;
+  salary_max?: number;
+  salary_is_predicted?: boolean;
+  description: string;
+  redirect_url: string;
+  created: string;
+  contract_type?: string;
+  category: {
+    label: string;
+    tag: string;
+  };
+}
+
+export interface AdzunaApiResponse {
+  results: AdzunaJob[];
+  count: number;
+  mean?: number;
+}
+
 // Unified job interface for displaying results from all APIs
 export interface UnifiedJob {
   id: string;
@@ -234,10 +276,11 @@ export interface UnifiedJob {
   applyUrl: string;
   postedDate: string;
   summary: string;
-  source: 'usajobs' | 'jobicy' | 'joinrise';
+  source: 'usajobs' | 'jobicy' | 'joinrise' | 'adzuna';
   logo?: string;
   industry?: string;
   experience?: string;
+  category?: string;
 }
 
 // Combined API response
@@ -246,6 +289,7 @@ export interface CombinedJobsResponse {
   usajobsCount: number;
   jobicyCount: number;
   joinriseCount: number;
+  adzunaCount: number;
   totalCount: number;
   error?: string;
 }

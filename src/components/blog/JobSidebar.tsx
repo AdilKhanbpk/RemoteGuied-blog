@@ -168,9 +168,17 @@ const JobSidebar: React.FC<JobSidebarProps> = ({ className = '' }) => {
                               ? 'bg-blue-100 text-blue-700'
                               : job.source === 'jobicy'
                               ? 'bg-purple-100 text-purple-700'
-                              : 'bg-green-100 text-green-700'
+                              : job.source === 'joinrise'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-orange-100 text-orange-700'
                           }`}>
-                            {job.source === 'usajobs' ? 'Gov' : job.source === 'jobicy' ? 'Remote' : 'Global'}
+                            {job.source === 'usajobs'
+                              ? 'Gov'
+                              : job.source === 'jobicy'
+                              ? 'Remote'
+                              : job.source === 'joinrise'
+                              ? 'Global'
+                              : 'Worldwide'}
                           </span>
                         )}
                       </div>
