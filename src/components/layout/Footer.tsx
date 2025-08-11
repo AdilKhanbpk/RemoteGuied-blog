@@ -169,7 +169,7 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Social Links - Premium Design */}
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               <span className="text-gray-400 text-sm font-medium">Connect with us</span>
               <div className="flex items-center gap-3">
                 {socialLinks.map(({ icon: Icon, href, label, color }) => (
@@ -186,7 +186,7 @@ const Footer: React.FC = () => {
                   </a>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -90,11 +90,11 @@ const BlogPage = async () => {
               )}
             </div>
 
-            <aside className="lg:col-span-1">
+            {/* <aside className="lg:col-span-1">
               <div className="sticky top-8">
                 <JobSidebar />
               </div>
-            </aside>
+            </aside> */}
           </div>
         </div>
       </Layout>

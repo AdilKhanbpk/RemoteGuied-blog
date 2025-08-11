@@ -160,7 +160,7 @@ const AboutPage = () => {
               </div>
 
               {/* Social Links */}
-              <div className="flex justify-center space-x-4">
+              {/* <div className="flex justify-center space-x-4">
                 <a
                   href="https://twitter.com/alexjohnson"
                   target="_blank"
@@ -183,14 +183,14 @@ const AboutPage = () => {
                 >
                   <Mail className="h-5 w-5" />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
+      {/* <section className="py-12 sm:py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
@@ -209,7 +209,7 @@ const AboutPage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Trust Indicators */}
       <section className="py-8 bg-white border-t border-gray-200">
