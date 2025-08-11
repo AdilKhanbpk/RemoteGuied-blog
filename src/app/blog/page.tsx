@@ -33,22 +33,22 @@ const BlogPage = async () => {
 
     return (
       <Layout>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="text-center mb-16">
-            <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold text-gray-900 mb-4">
+            {/* <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold text-gray-900 mb-4">
               Remote Work Blog
-            </h1>
-            <p className="text-[clamp(1rem,2.5vw,1.25rem)] text-gray-600 max-w-2xl mx-auto">
+            </h1> */}
+            {/* <p className="text-[clamp(1rem,2.5vw,1.25rem)] text-gray-600 max-w-2xl mx-auto">
               Discover insights, tips, and tools to excel in the world of remote work.
               From productivity hacks to team management strategies.
-            </p>
+            </p> */}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <div className="lg:col-span-4">
-              <p className="text-gray-600 mb-6">
+              {/* <p className="text-gray-600 mb-6">
                 {posts.length} {posts.length === 1 ? 'article' : 'articles'} found
-              </p>
+              </p> */}
 
               {posts.length > 0 ? (
                 <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

@@ -59,36 +59,41 @@ const BlogCard = ({
       className={`card-professional bg-white overflow-hidden cursor-pointer ${featured ? 'featured-post' : ''} ${className}`}
     >
       {/* Image */}
-      <div className={`relative overflow-hidden ${featured
-          ? 'h-48 sm:h-56 md:h-64 lg:h-72'
-          : 'h-40 sm:h-44'
-        }`}>
+      <div className="relative flex justify-center overflow-hidden">
         <CloudinaryImage
           src={imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop'}
           alt={`${title} - ${category} blog post cover image`}
           width={featured ? 800 : 400}
           height={featured ? 500 : 225}
-          className="w-full h-full object-cover"
+          className={`object-cover ${featured
+            ? 'h-40 sm:h-48 md:h-54 lg:h-60'
+            : 'h-32 sm:h-36'
+          }`}
           priority={featured}
           sizes={featured
             ? "(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
             : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
           }
         />
-        <Badge
-          variant="default"
-          className="absolute top-4 left-4 text-xs font-medium bg-white text-gray-800 border border-gray-200"
-        >
-          {category}
-        </Badge>
       </div>
 
       {/* Content */}
-      <div className={`p-5 ${featured ? 'lg:p-6' : ''}`}>
+      <div className={`p-4 ${featured ? 'lg:p-5' : ''}`}>
+        {/* Category Badge */}
+        <div className="mb-3">
+          <Badge
+            variant="default"
+            size="sm"
+            className="text-xs"
+          >
+            {category}
+          </Badge>
+        </div>
+
         <h3
-          className={`font-semibold text-gray-900 mb-3 leading-snug ${featured
-              ? 'text-lg sm:text-xl lg:text-2xl'
-              : 'text-base sm:text-lg'
+          className={`font-semibold text-gray-900 mb-2 leading-snug ${featured
+              ? 'text-base sm:text-lg lg:text-xl'
+              : 'text-sm sm:text-base'
             }`}
           style={{
             display: '-webkit-box',
